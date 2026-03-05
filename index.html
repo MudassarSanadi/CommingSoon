@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogicShell - Coming Soon</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin-bottom: 2em;
+            font-style: italic;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 20px;
+            font-size: 2em;
+        }
+
+        .countdown div {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 15px;
+            border-radius: 10px;
+            min-width: 80px;
+        }
+
+        .countdown div span {
+            display: block;
+            font-size: 0.6em;
+            margin-top: 5px;
+            color: #ffd700;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9em;
+            color: #aaaaaa;
+        }
+    </style>
+</head>
+<body>
+    <h1>LogicShell</h1>
+    <p>When precision meets performance</p>
+
+    <div class="countdown">
+        <div><span id="days">0</span>Days</div>
+        <div><span id="hours">0</span>Hours</div>
+        <div><span id="minutes">0</span>Minutes</div>
+        <div><span id="seconds">0</span>Seconds</div>
+    </div>
+
+    <footer>Launching on 1st April 2026</footer>
+
+    <script>
+        const countdown = () => {
+            const launchDate = new Date("April 1, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const gap = launchDate - now;
+
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const days = Math.floor(gap / day);
+            const hours = Math.floor((gap % day) / hour);
+            const minutes = Math.floor((gap % hour) / minute);
+            const seconds = Math.floor((gap % minute) / second);
+
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
+
+            if (gap <= 0) {
+                clearInterval(timer);
+                document.querySelector(".countdown").innerHTML = "<h2>We Are Live!</h2>";
+            }
+        };
+
+        const timer = setInterval(countdown, 1000);
+        countdown();
+    </script>
+</body>
+</html>
