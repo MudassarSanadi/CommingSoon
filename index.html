@@ -58,6 +58,8 @@
     </style>
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <h1>LogicShell</h1>
     <p>When precision meets performance</p>
 
@@ -100,5 +102,55 @@
         const timer = setInterval(countdown, 1000);
         countdown();
     </script>
+	<script>
+function randomFirework(power = 0.2) {
+    confetti({
+        particleCount: 80 * power,
+        spread: 70,
+        origin: {
+            x: Math.random(),
+            y: Math.random() * 0.6
+        }
+    });
+}
+
+function launchCelebration() {
+    const duration = 1500;
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 70,
+            origin: { x: 0 }
+        });
+        confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 100,
+            origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
+setInterval(() => {
+    const now = new Date();
+    const month = now.getMonth(); 
+    const date = now.getDate();
+
+    // March 31 or April 1 = CRAZY fireworks
+    if ((month === 2 && date === 31) || (month === 3 && date === 1)) {
+        launchCelebration();
+    } else {
+        randomFirework(0.3); // small sparkles before launch
+    }
+
+}, 5000);
+</script>
 </body>
 </html>
