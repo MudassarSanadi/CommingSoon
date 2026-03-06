@@ -55,14 +55,25 @@
             font-size: 0.9em;
             color: #aaaaaa;
         }
+		
+		 #comingSoon {
+    position: absolute;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: all 1.5s ease;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+}
     </style>
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <h1>LogicShell</h1>
-    <p>When precision meets performance</p>
-
+    <p>Where precision meets performance</p>
+<div id="comingSoon">🚀 Coming Soon 🚀</div>
     <div class="countdown">
         <div><span id="days">0</span>Days</div>
         <div><span id="hours">0</span>Hours</div>
@@ -151,6 +162,39 @@ setInterval(() => {
     }
 
 }, 5000);
+</script>
+<script>
+const text = document.getElementById("comingSoon");
+
+function randomMove() {
+
+    const maxX = window.innerWidth - 200;
+    const maxY = window.innerHeight - 100;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    const colors = [
+        "#ff4d4d",
+        "#00ffff",
+        "#ffd700",
+        "#00ff7f",
+        "#ff00ff",
+        "#ffffff"
+    ];
+
+    const randomColor = colors[Math.floor(Math.random()*colors.length)];
+
+    const sizes = ["1.5em","2em","2.5em","3em"];
+    const randomSize = sizes[Math.floor(Math.random()*sizes.length)];
+
+    text.style.left = randomX + "px";
+    text.style.top = randomY + "px";
+    text.style.color = randomColor;
+    text.style.fontSize = randomSize;
+}
+
+setInterval(randomMove, 2000);
 </script>
 </body>
 </html>
