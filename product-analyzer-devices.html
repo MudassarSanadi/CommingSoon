@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Milk Analyzer Devices — Logic Shell</title>
+  <link rel="stylesheet" href="style.css" /><link rel="stylesheet" href="product.css" />
+  <style>
+    .devices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+    .device-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem; text-align: center;
+      transition: all var(--transition);
+    }
+    .device-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: var(--shadow); }
+    .device-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .device-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .device-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+    .device-specs { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .device-spec { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 4px 0; border-bottom: 1px solid var(--border); }
+    .device-spec:last-child { border-bottom: none; }
+    .device-spec span:first-child { color: var(--text3); }
+    .device-spec span:last-child { color: var(--text); font-weight: 600; }
+    @media(max-width:768px) { .devices-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo"><div class="logo-icon">🐄</div>Logic<span>Shell</span></a>
+  <ul class="nav-links"><li><a href="index.html#about">About</a></li><li><a href="index.html#products">Products</a></li><li><a href="index.html#contact">Contact</a></li></ul>
+  <div class="nav-right"><button class="theme-toggle" id="themeToggle"></button><a href="index.html#contact" class="btn btn-primary">Get Quote</a><div class="hamburger" id="hamburger"><span></span><span></span><span></span></div></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu"><a href="index.html#about">About</a><a href="index.html#products">Products</a><a href="index.html#contact">Contact</a></div>
+
+<section class="product-hero">
+  <div class="product-hero-bg" style="background: radial-gradient(ellipse 70% 60% at 60% 50%, rgba(255,200,50,0.18) 0%, transparent 70%);"></div>
+  <div class="container">
+    <a href="index.html#products" class="back-link">← Back to Products</a>
+    <div class="product-hero-grid">
+      <div>
+        <div class="product-hero-badge"><span class="tag">Hardware</span></div>
+        <h1>Milk Analyzer <span>Devices</span></h1>
+        <p class="product-hero-desc">Logic Shell supplies, installs, and provides after-sales support for leading milk analyzer brands. From portable Bluetooth analyzers to full-automatic lab-grade instruments — we have the right device for your dairy.</p>
+        <div class="product-hero-btns"><a href="index.html#contact" class="btn btn-primary">Get a Quote →</a><a href="index.html#contact" class="btn btn-outline">Talk to Expert</a></div>
+      </div>
+      <div class="product-hero-visual">
+        <div class="product-mockup"><div class="product-mockup-icon">📡</div><div class="product-mockup-label">Milk Analyzer Devices</div><div class="badge">🏆 Multi-Brand</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEVICES CATALOG -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-label animate">Devices We Supply</div>
+    <h2 class="section-title animate animate-delay-1">Leading Milk Analyzer <span>Brands</span></h2>
+    <div class="devices-grid">
+      <div class="device-card animate animate-delay-1">
+        <div class="device-icon">🔬</div>
+        <h3>Lactoscan SC / SP</h3>
+        <p>Advanced ultrasonic milk analyzer for cow, buffalo, goat, and mixed milk. Fast 60-second analysis.</p>
+        <div class="device-specs">
+          <div class="device-spec"><span>Type</span><span>Automatic</span></div>
+          <div class="device-spec"><span>Parameters</span><span>8+</span></div>
+          <div class="device-spec"><span>Speed</span><span>60 sec/sample</span></div>
+          <div class="device-spec"><span>Connection</span><span>USB / RS232</span></div>
+        </div>
+      </div>
+      <div class="device-card animate animate-delay-2">
+        <div class="device-icon">📡</div>
+        <h3>MCC Milk Analyzer</h3>
+        <p>Popular choice for Indian dairy centers. Durable, accurate, and built for rural conditions.</p>
+        <div class="device-specs">
+          <div class="device-spec"><span>Type</span><span>Semi-Automatic</span></div>
+          <div class="device-spec"><span>Parameters</span><span>Fat, SNF, Water</span></div>
+          <div class="device-spec"><span>Speed</span><span>90 sec/sample</span></div>
+          <div class="device-spec"><span>Connection</span><span>USB / Bluetooth</span></div>
+        </div>
+      </div>
+      <div class="device-card animate animate-delay-3">
+        <div class="device-icon">🧪</div>
+        <h3>Milkotronic Master</h3>
+        <p>European-grade milk analyzer known for precision. Ideal for quality-conscious dairy businesses.</p>
+        <div class="device-specs">
+          <div class="device-spec"><span>Type</span><span>Automatic</span></div>
+          <div class="device-spec"><span>Parameters</span><span>6+</span></div>
+          <div class="device-spec"><span>Speed</span><span>45 sec/sample</span></div>
+          <div class="device-spec"><span>Connection</span><span>RS232 / LAN</span></div>
+        </div>
+      </div>
+      <div class="device-card animate animate-delay-1">
+        <div class="device-icon">📲</div>
+        <h3>BTscan Bluetooth Analyzer</h3>
+        <p>Portable Bluetooth milk analyzer for on-site and field testing. Connects directly to mobile app.</p>
+        <div class="device-specs">
+          <div class="device-spec"><span>Type</span><span>Portable</span></div>
+          <div class="device-spec"><span>Parameters</span><span>Fat, SNF, Water</span></div>
+          <div class="device-spec"><span>Speed</span><span>30 sec/sample</span></div>
+          <div class="device-spec"><span>Connection</span><span>Bluetooth</span></div>
+        </div>
+      </div>
+      <div class="device-card animate animate-delay-2">
+        <div class="device-icon">🏭</div>
+        <h3>Foss MilkoScan</h3>
+        <p>Lab-grade milk analyzer for processing units and dairy cooperatives requiring high-precision testing.</p>
+        <div class="device-specs">
+          <div class="device-spec"><span>Type</span><span>Full Automatic</span></div>
+          <div class="device-spec"><span>Parameters</span><span>12+</span></div>
+          <div class="device-spec"><span>Speed</span><span>30 sec/sample</span></div>
+          <div class="device-spec"><span>Connection</span><span>LAN / USB</span></div>
+        </div>
+      </div>
+      <div class="device-card animate animate-delay-3">
+        <div class="device-icon">⚙️</div>
+        <h3>Custom / Other Brands</h3>
+        <p>Need a specific brand or model? We source, supply, and integrate with other brands on request.</p>
+        <div class="device-specs">
+          <div class="device-spec"><span>Brands</span><span>On Request</span></div>
+          <div class="device-spec"><span>Integration</span><span>Custom Available</span></div>
+          <div class="device-spec"><span>Support</span><span>Full After-Sales</span></div>
+          <div class="device-spec"><span>Warranty</span><span>1 Year</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY BUY FROM US -->
+<section class="benefits-section">
+  <div class="container">
+    <div class="benefits-grid">
+      <div><div class="section-label animate">Why Buy From Us</div><h2 class="section-title animate animate-delay-1">More Than Just <span>Hardware</span></h2>
+        <div class="benefit-list animate animate-delay-2">
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Bundled software included</strong> — buy the device and get our analyzer integration software included.</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>On-site installation</strong> — our team installs and configures the device at your location.</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Staff training provided</strong> — we train your staff to operate the analyzer correctly.</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>1-year warranty support</strong> — hardware warranty with quick repair or replacement service.</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>AMC plans available</strong> — Annual Maintenance Contracts for uninterrupted operations.</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Genuine products</strong> — all devices are sourced directly from authorized distributors.</p></div>
+        </div>
+      </div>
+      <div class="animate animate-delay-2"><div class="benefits-visual"><div class="big-icon">📡</div><h3>Genuine Devices + Expert Support</h3><p>Buy hardware and software from one trusted partner for seamless dairy technology</p><div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.8rem;">
+        <span class="badge">🏆 Authorized Reseller</span>
+        <span class="badge">🔧 Installation Included</span>
+        <span class="badge">📞 After-Sales Support</span>
+      </div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="specs-section">
+  <div class="container">
+    <div class="section-label animate">What's Included</div>
+    <h2 class="section-title animate animate-delay-1">Every Device Purchase <span>Includes</span></h2>
+    <div class="specs-grid animate">
+      <div class="spec-row"><span class="spec-label">Hardware Device</span><span class="spec-value">✅ Brand New</span></div>
+      <div class="spec-row"><span class="spec-label">Integration Software</span><span class="spec-value">✅ Included Free</span></div>
+      <div class="spec-row"><span class="spec-label">On-site Installation</span><span class="spec-value">✅ Available</span></div>
+      <div class="spec-row"><span class="spec-label">Staff Training</span><span class="spec-value">✅ 1-Day Training</span></div>
+      <div class="spec-row"><span class="spec-label">Warranty</span><span class="spec-value">1 Year Hardware</span></div>
+      <div class="spec-row"><span class="spec-label">Technical Support</span><span class="spec-value">Phone / Remote / On-Site</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section animate">
+  <div class="container">
+    <h2>Get the Right <span style="color:var(--primary)">Milk Analyzer</span> for Your Dairy</h2>
+    <p>Not sure which analyzer to choose? Talk to our experts for a free consultation and best-fit recommendation.</p>
+    <div class="cta-btns"><a href="index.html#contact" class="btn btn-primary">Get Free Consultation →</a><a href="index.html#contact" class="btn btn-outline">Request Quote</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="index.html" class="nav-logo" style="margin-bottom:1rem; display:inline-flex;"><div class="logo-icon">🐄</div>Logic<span>Shell</span></a><p>Complete digital solutions for the dairy industry.</p></div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="product-dairy-management.html">Dairy Management</a></li><li><a href="product-mobile-app.html">Mobile App</a></li><li><a href="product-cloud-portal.html">Cloud Portal</a></li><li><a href="product-pos.html">POS Billing</a></li><li><a href="product-analyzer-software.html">Analyzer Software</a></li><li><a href="product-analyzer-devices.html">Analyzer Devices</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="index.html#about">About</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+919876543210">+91 98765 43210</a></li><li><a href="mailto:info@logicshell.in">info@logicshell.in</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Logic Shell. All rights reserved.</span><span>Made with ❤️ for the Dairy Industry</span></div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>

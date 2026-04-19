@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Milk Analyzer Integration Software — Logic Shell</title>
+  <link rel="stylesheet" href="style.css" /><link rel="stylesheet" href="product.css" />
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo"><div class="logo-icon">🐄</div>Logic<span>Shell</span></a>
+  <ul class="nav-links"><li><a href="index.html#about">About</a></li><li><a href="index.html#products">Products</a></li><li><a href="index.html#contact">Contact</a></li></ul>
+  <div class="nav-right"><button class="theme-toggle" id="themeToggle"></button><a href="index.html#contact" class="btn btn-primary">Get Started</a><div class="hamburger" id="hamburger"><span></span><span></span><span></span></div></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu"><a href="index.html#about">About</a><a href="index.html#products">Products</a><a href="index.html#contact">Contact</a></div>
+
+<section class="product-hero">
+  <div class="product-hero-bg" style="background: radial-gradient(ellipse 70% 60% at 60% 50%, rgba(46,204,138,0.22) 0%, transparent 70%);"></div>
+  <div class="container">
+    <a href="index.html#products" class="back-link">← Back to Products</a>
+    <div class="product-hero-grid">
+      <div>
+        <div class="product-hero-badge"><span class="tag tag-green">Integration</span></div>
+        <h1>Milk Analyzer <span>Integration Software</span></h1>
+        <p class="product-hero-desc">Specialized software that connects your milk analyzers directly to your dairy management system. Automatically captures fat, SNF, protein, lactose, and water readings — eliminating all manual data entry.</p>
+        <div class="product-hero-btns"><a href="index.html#contact" class="btn btn-accent">Request Demo →</a><a href="index.html#contact" class="btn btn-outline">Get Pricing</a></div>
+      </div>
+      <div class="product-hero-visual">
+        <div class="product-mockup"><div class="product-mockup-icon">🔬</div><div class="product-mockup-label">Analyzer Integration</div><div class="badge">⚡ Auto-Read</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="container">
+    <div class="section-label animate">Features</div>
+    <h2 class="section-title animate animate-delay-1">Precision Integration for <span>Milk Testing</span></h2>
+    <div class="features-grid">
+      <div class="feature-item animate animate-delay-1"><div class="feature-icon">⚡</div><h3>Auto-Read Values</h3><p>Automatically reads Fat%, SNF%, Protein%, Lactose%, Added Water%, and Temperature from the analyzer the moment testing is done.</p></div>
+      <div class="feature-item animate animate-delay-2"><div class="feature-icon">🔌</div><h3>Multi-Port Support</h3><p>Supports COM port (RS232), USB, and Bluetooth connections. Compatible with virtually all modern and legacy analyzer hardware.</p></div>
+      <div class="feature-item animate animate-delay-3"><div class="feature-icon">📋</div><h3>Automatic Logging</h3><p>Every reading is automatically logged with timestamp, farmer ID, session info, and operator details for complete traceability.</p></div>
+      <div class="feature-item animate animate-delay-1"><div class="feature-icon">🎯</div><h3>Zero Manual Entry</h3><p>Eliminate human error in fat/SNF recording. The system captures exact values directly from the analyzer hardware.</p></div>
+      <div class="feature-item animate animate-delay-2"><div class="feature-icon">🔁</div><h3>Real-Time Sync</h3><p>All analyzer readings sync instantly to the dairy management database and cloud portal for real-time visibility.</p></div>
+      <div class="feature-item animate animate-delay-3"><div class="feature-icon">📟</div><h3>Display on Screen</h3><p>Large, clear reading display on screen for both operator and farmer to see results simultaneously.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits-section">
+  <div class="container">
+    <div class="benefits-grid">
+      <div><div class="section-label animate">Supported Brands</div><h2 class="section-title animate animate-delay-1">Works With <span>All Major Analyzers</span></h2>
+        <div class="benefit-list animate animate-delay-2">
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Lactoscan</strong> — SC, SP, MC, Alpha, SCC series</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>MCC Analyzer</strong> — All MCC milk analyzer models</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Milkotronic</strong> — Master, Lacto Star, and Mini series</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Foss</strong> — MilkoScan and related instruments</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Akku / BTscan</strong> — Bluetooth portable analyzers</p></div>
+          <div class="benefit-item"><div class="benefit-dot"></div><p><strong>Other brands</strong> — Custom integration available on request</p></div>
+        </div>
+      </div>
+      <div class="animate animate-delay-2"><div class="benefits-visual"><div class="big-icon">🔬</div><h3>100% Accuracy Guaranteed</h3><p>Direct hardware reading eliminates human error in fat and SNF entry</p><div style="margin-top:1.5rem;"><span class="tag tag-green" style="font-size:0.9rem; padding:8px 20px;">15+ Brands Supported</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="specs-section">
+  <div class="container">
+    <div class="section-label animate">Technical Details</div>
+    <h2 class="section-title animate animate-delay-1">Integration <span>Specifications</span></h2>
+    <div class="specs-grid animate">
+      <div class="spec-row"><span class="spec-label">Connection Types</span><span class="spec-value">COM/RS232, USB, Bluetooth</span></div>
+      <div class="spec-row"><span class="spec-label">Parameters Read</span><span class="spec-value">Fat, SNF, Protein, Lactose, Water, Temp</span></div>
+      <div class="spec-row"><span class="spec-label">OS</span><span class="spec-value">Windows, Android</span></div>
+      <div class="spec-row"><span class="spec-label">Integration Mode</span><span class="spec-value">Real-time / Manual trigger</span></div>
+      <div class="spec-row"><span class="spec-label">Response Time</span><span class="spec-value">&lt; 1 second</span></div>
+      <div class="spec-row"><span class="spec-label">Custom Integration</span><span class="spec-value">✅ Available on Request</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section animate">
+  <div class="container">
+    <h2>Connect Your <span style="color:var(--accent)">Milk Analyzer</span> Today</h2>
+    <p>Stop entering fat values manually. Let the software read directly from your analyzer — accurately, every time.</p>
+    <div class="cta-btns"><a href="index.html#contact" class="btn btn-accent">Get Integration →</a><a href="index.html#contact" class="btn btn-outline">Check Compatibility</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="index.html" class="nav-logo" style="margin-bottom:1rem; display:inline-flex;"><div class="logo-icon">🐄</div>Logic<span>Shell</span></a><p>Complete digital solutions for the dairy industry.</p></div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="product-dairy-management.html">Dairy Management</a></li><li><a href="product-mobile-app.html">Mobile App</a></li><li><a href="product-cloud-portal.html">Cloud Portal</a></li><li><a href="product-pos.html">POS Billing</a></li><li><a href="product-analyzer-software.html">Analyzer Software</a></li><li><a href="product-analyzer-devices.html">Analyzer Devices</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="index.html#about">About</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+919876543210">+91 98765 43210</a></li><li><a href="mailto:info@logicshell.in">info@logicshell.in</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Logic Shell. All rights reserved.</span><span>Made with ❤️ for the Dairy Industry</span></div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>

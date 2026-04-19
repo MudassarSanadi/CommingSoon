@@ -1,200 +1,936 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LogicShell - Coming Soon</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #ffffff;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logic Shell — Where Precision Meets Perfection</title>
+  <meta name="description" content="Logic Shell provides complete digital solutions for the dairy industry — software, mobile apps, cloud portals, POS systems, and milk analyzer devices." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding-top: 70px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(61,111,255,0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 50% at 20% 80%, rgba(46,204,138,0.12) 0%, transparent 60%),
+                  var(--bg);
+    }
+    .hero-grid-lines {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 700px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(46,204,138,0.1);
+      border: 1px solid rgba(46,204,138,0.25);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent); border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.7s 0.1s ease both;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.15rem; color: var(--text2);
+      max-width: 540px; line-height: 1.8;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 0.7s 0.2s ease both;
+    }
+    .hero-tagline {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text3);
+      margin-bottom: 0.8rem;
+      animation: fadeInUp 0.7s 0.05s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeInUp 0.7s 0.3s ease both;
+    }
+    .hero-btns .btn { font-size: 1rem; padding: 14px 28px; }
 
-        h1 {
-            font-size: 3em;
-            margin-bottom: 0.5em;
-        }
+    .hero-visual {
+      position: absolute; right: -40px; top: 50%;
+      transform: translateY(-50%);
+      width: 520px; height: 520px;
+      animation: fadeIn 1s 0.4s ease both;
+    }
+    .hero-orb {
+      position: absolute; width: 100%; height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, rgba(61,111,255,0.25), rgba(46,204,138,0.15), transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+    .hero-illustration {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14rem; opacity: 0.12;
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero-stats {
+      display: flex; gap: 3rem; margin-top: 3rem;
+      animation: fadeInUp 0.7s 0.4s ease both;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+      color: var(--text);
+    }
+    .stat-num span { color: var(--primary); }
+    .stat-label { font-size: 0.85rem; color: var(--text3); }
 
-        p {
-            font-size: 1.5em;
-            margin-bottom: 2em;
-            font-style: italic;
-        }
+    /* ABOUT */
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-visual {
+      position: relative; height: 440px;
+      border-radius: 20px; overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .about-visual-inner {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
+    }
+    .about-icon-row { display: flex; gap: 1.5rem; align-items: center; }
+    .about-icon-box {
+      width: 80px; height: 80px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      animation: float 4s ease-in-out infinite;
+    }
+    .about-icon-box:nth-child(2) { animation-delay: -1.5s; }
+    .about-icon-box:nth-child(3) { animation-delay: -3s; }
+    .about-glow {
+      position: absolute; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(61,111,255,0.2), transparent 70%);
+      border-radius: 50%;
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+    .about-points { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+    .about-point {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1rem 1.2rem;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .about-point-icon {
+      font-size: 1.4rem; line-height: 1;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .about-point h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .about-point p { font-size: 0.85rem; color: var(--text2); }
 
-        .countdown {
-            display: flex;
-            gap: 20px;
-            font-size: 2em;
-        }
+    /* SERVICES */
+    #services { background: var(--bg); }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: all var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0; transition: opacity var(--transition);
+    }
+    .service-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--shadow); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .service-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .service-card p { font-size: 0.88rem; color: var(--text2); line-height: 1.6; }
 
-        .countdown div {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px 15px;
-            border-radius: 10px;
-            min-width: 80px;
-        }
+    /* PRODUCTS */
+    #products { background: var(--bg2); }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: pointer;
+      text-decoration: none; color: inherit;
+      display: block;
+    }
+    .product-card:hover { border-color: var(--primary); transform: translateY(-6px); box-shadow: var(--shadow); }
+    .product-thumb {
+      height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      position: relative; overflow: hidden;
+    }
+    .product-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(10,14,26,0.6));
+    }
+    .product-body { padding: 1.5rem; }
+    .product-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .product-body p { font-size: 0.88rem; color: var(--text2); line-height: 1.6; margin-bottom: 1rem; }
+    .product-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; font-weight: 600; color: var(--primary);
+      transition: gap var(--transition);
+    }
+    .product-card:hover .product-link { gap: 10px; }
 
-        .countdown div span {
-            display: block;
-            font-size: 0.6em;
-            margin-top: 5px;
-            color: #ffd700;
-        }
+    /* SOLUTIONS */
+    #solutions { background: var(--bg); }
+    .solution-flow {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; margin-top: 3rem;
+      position: relative;
+    }
+    .solution-flow::before {
+      content: '';
+      position: absolute;
+      top: 40px; left: 10%; right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      z-index: 0;
+    }
+    .flow-step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 0 1rem;
+      position: relative; z-index: 1;
+    }
+    .flow-icon {
+      width: 80px; height: 80px;
+      background: var(--surface);
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin-bottom: 1.2rem;
+    }
+    .flow-step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .flow-step p { font-size: 0.82rem; color: var(--text2); }
+    .solutions-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+    .sol-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.8rem;
+      transition: all var(--transition);
+    }
+    .sol-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .sol-card .sol-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .sol-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .sol-card p { font-size: 0.88rem; color: var(--text2); }
 
-        footer {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.9em;
-            color: #aaaaaa;
-        }
-		
-		 #comingSoon {
-    position: absolute;
-    font-size: 2em;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 10px;
-    transition: all 1.5s ease;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(5px);
-}
-    </style>
+    /* WHY US */
+    #why { background: var(--bg2); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+    .why-list { display: flex; flex-direction: column; gap: 1.2rem; }
+    .why-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.2rem 1.5rem;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; transition: all var(--transition);
+    }
+    .why-item:hover { border-color: var(--primary); transform: translateX(6px); }
+    .why-check {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(46,204,138,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; color: var(--accent); flex-shrink: 0;
+    }
+    .why-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .why-item p { font-size: 0.85rem; color: var(--text2); }
+    .why-visual {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2.5rem; text-align: center;
+    }
+    .why-big-num {
+      font-family: 'Syne', sans-serif; font-size: 5rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1;
+    }
+    .why-visual p { color: var(--text2); margin-top: 0.5rem; }
+    .why-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    .metric { text-align: center; padding: 1.2rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; }
+    .metric-num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text); }
+    .metric-num span { color: var(--primary); }
+    .metric-label { font-size: 0.8rem; color: var(--text3); margin-top: 0.2rem; }
+
+    /* INDUSTRIES */
+    #industries { background: var(--bg); }
+    .industry-scroll { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .industry-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem 1.2rem;
+      text-align: center; transition: all var(--transition);
+    }
+    .industry-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+    .industry-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .industry-card h4 { font-size: 0.9rem; font-weight: 700; }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.2rem; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .contact-item-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(61,111,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-item h4 { font-size: 0.85rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+    .contact-item p { font-size: 0.9rem; color: var(--text); }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text2); }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 12px 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text); font-family: inherit; font-size: 0.9rem;
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--primary); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .whatsapp-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #25d366; color: #fff;
+      padding: 14px 28px; border-radius: 8px;
+      font-weight: 600; font-size: 1rem;
+      transition: all var(--transition); cursor: pointer;
+      border: none;
+    }
+    .whatsapp-btn:hover { background: #1ebe57; transform: translateY(-2px); }
+  </style>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <h1>LogicShell</h1>
-    <p>Where precision meets performance</p>
-<div id="comingSoon">🚀 Coming Soon 🚀</div>
-    <div class="countdown">
-        <div><span id="days">0</span>Days</div>
-        <div><span id="hours">0</span>Hours</div>
-        <div><span id="minutes">0</span>Minutes</div>
-        <div><span id="seconds">0</span>Seconds</div>
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">🐄</div>
+    Logic<span>Shell</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme"></button>
+    <a href="#contact" class="btn btn-primary">Get Started</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#products">Products</a>
+  <a href="#solutions">Solutions</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="container">
+    <div class="hero-content">
+       
+      <p class="hero-tagline">where precision meets perfection</p>
+      <h1>
+        Digital Solutions for the<br/>
+        <span class="highlight">Dairy Industry</span>
+      </h1>
+      <p class="hero-sub">
+        Logic Shell delivers complete software, mobile apps, cloud portals, and milk analyzer integration — everything your dairy business needs to thrive in the digital age.
+      </p>
+      <div class="hero-btns">
+        <a href="#products" class="btn btn-primary">View Products →</a>
+        <a href="#services" class="btn btn-outline">Our Services</a>
+        <a href="#contact" class="btn btn-accent">Contact Us</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">500<span>+</span></div>
+          <div class="stat-label">Dairy Businesses</div>
+        </div>
+        <div>
+          <div class="stat-num">10<span>+</span></div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div>
+          <div class="stat-num">99<span>%</span></div>
+          <div class="stat-label">Uptime Guarantee</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-orb"></div>
+    <div class="hero-illustration">🐄</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual animate">
+        <div class="about-glow"></div>
+        <div class="about-visual-inner">
+          <div class="about-icon-row">
+            <div class="about-icon-box">🐄</div>
+            <div class="about-icon-box">💻</div>
+            <div class="about-icon-box">☁️</div>
+          </div>
+          <div class="about-icon-row">
+            <div class="about-icon-box">📱</div>
+            <div class="about-icon-box">🔬</div>
+          </div>
+          <div style="text-align:center; margin-top:1.5rem;">
+            <div class="badge"> Complete Dairy Tech Stack</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label animate">About Logic Shell</div>
+        <h2 class="section-title animate animate-delay-1">Transforming Dairy with <span>Smart Technology</span></h2>
+        <p class="section-sub animate animate-delay-2">
+          Logic Shell is a technology company focused on building software and digital tools for dairy farms, milk collection centers, and dairy businesses across India.
+        </p>
+        <div class="about-points animate animate-delay-3">
+          <div class="about-point">
+            <div class="about-point-icon">🏗️</div>
+            <div>
+              <h4>End-to-End Solutions</h4>
+              <p>From milk collection to billing — we cover every step of your dairy operations digitally.</p>
+            </div>
+          </div>
+          <div class="about-point">
+            <div class="about-point-icon">🔗</div>
+            <div>
+              <h4>Hardware + Software Integration</h4>
+              <p>Seamless integration with milk analyzers, fat testers, and dairy hardware devices.</p>
+            </div>
+          </div>
+          <div class="about-point">
+            <div class="about-point-icon">📊</div>
+            <div>
+              <h4>Data-Driven Dairy Management</h4>
+              <p>Real-time dashboards, reports, and cloud analytics for smarter business decisions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div style="max-width:600px;">
+      <div class="section-label animate">What We Do</div>
+      <h2 class="section-title animate animate-delay-1">Our <span>Services</span></h2>
+      <p class="section-sub animate animate-delay-2">Comprehensive technology services tailored for dairy businesses and other industries.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card animate animate-delay-1">
+        <div class="service-icon">🌐</div>
+        <h3>Website Design & Development</h3>
+        <p>Modern, responsive websites built for dairy businesses and enterprises. Fast, SEO-friendly, and professionally designed.</p>
+      </div>
+      <div class="service-card animate animate-delay-2">
+        <div class="service-icon">📱</div>
+        <h3>Mobile App Development</h3>
+        <p>Native and cross-platform mobile apps for Android & iOS. Farmer apps, collection apps, and management solutions.</p>
+      </div>
+      <div class="service-card animate animate-delay-3">
+        <div class="service-icon">💻</div>
+        <h3>Custom Software Development</h3>
+        <p>Bespoke software tailored to your unique business requirements. Scalable, secure, and built to last.</p>
+      </div>
+      <div class="service-card animate animate-delay-1">
+        <div class="service-icon">🐄</div>
+        <h3>Dairy Management Software</h3>
+        <p>Complete dairy ERP solutions covering milk collection, fat testing, payment management, and reporting.</p>
+      </div>
+      <div class="service-card animate animate-delay-2">
+        <div class="service-icon">☁️</div>
+        <h3>Cloud-Based Dairy Portals</h3>
+        <p>Centralized cloud platforms for real-time monitoring, data storage, and multi-branch dairy management.</p>
+      </div>
+      <div class="service-card animate animate-delay-3">
+        <div class="service-icon">🖥️</div>
+        <h3>POS Billing Systems</h3>
+        <p>Point-of-sale systems with dairy-specific billing, inventory management, and daily transaction tracking.</p>
+      </div>
+      <div class="service-card animate animate-delay-1">
+        <div class="service-icon">🔬</div>
+        <h3>Milk Analyzer Integration</h3>
+        <p>Software integration with leading milk analyzer brands — automatic fat, SNF, protein reading and logging.</p>
+      </div>
+      <div class="service-card animate animate-delay-2">
+        <div class="service-icon">📡</div>
+        <h3>Milk Analyzer Sales & Supply</h3>
+        <p>Supply and installation of various brands of milk analyzers with technical support and warranty.</p>
+      </div>
+      <div class="service-card animate animate-delay-3">
+        <div class="service-icon">🛠️</div>
+        <h3>Technical Support</h3>
+        <p>Dedicated 24/7 technical support for all dairy systems, software, and hardware devices we supply.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <div class="section-label animate">Our Products</div>
+        <h2 class="section-title animate animate-delay-1">Dairy <span>Software Suite</span></h2>
+        <p class="section-sub animate animate-delay-2">Purpose-built products for every stage of dairy operations.</p>
+      </div>
+    </div>
+    <div class="products-grid">
+
+      <a href="product-dairy-management.html" class="product-card animate animate-delay-1">
+        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(61,111,255,0.3), rgba(46,204,138,0.2));">
+          <span>🐄</span>
+        </div>
+        <div class="product-body">
+          <span class="tag">Flagship</span>
+          <h3>Dairy Management Software</h3>
+          <p>Complete dairy ERP — milk collection, fat testing, farmer payments, and advanced reporting in one platform.</p>
+          <div class="product-link">View Details →</div>
+        </div>
+      </a>
+
+      <a href="product-mobile-app.html" class="product-card animate animate-delay-2">
+        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(46,204,138,0.3), rgba(0,100,200,0.2));">
+          <span>📱</span>
+        </div>
+        <div class="product-body">
+          <span class="tag-green tag">Mobile</span>
+          <h3>Milk Collection Mobile App</h3>
+          <p>Android app for milk collection centers — offline-capable, fast, and integrated with analyzers.</p>
+          <div class="product-link">View Details →</div>
+        </div>
+      </a>
+
+      <a href="product-cloud-portal.html" class="product-card animate animate-delay-3">
+        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(100,60,255,0.3), rgba(61,111,255,0.2));">
+          <span>☁️</span>
+        </div>
+        <div class="product-body">
+          <span class="tag">Cloud</span>
+          <h3>Dairy Cloud Portal</h3>
+          <p>Web-based portal for managing multiple collection centers, generating reports, and monitoring operations.</p>
+          <div class="product-link">View Details →</div>
+        </div>
+      </a>
+
+      <a href="product-pos.html" class="product-card animate animate-delay-1">
+        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(255,120,60,0.25), rgba(255,60,120,0.2));">
+          <span>🖥️</span>
+        </div>
+        <div class="product-body">
+          <span class="tag">Billing</span>
+          <h3>POS Billing Software</h3>
+          <p>Point-of-sale system with dairy billing, inventory, customer management, and daily reports.</p>
+          <div class="product-link">View Details →</div>
+        </div>
+      </a>
+
+      <a href="product-analyzer-software.html" class="product-card animate animate-delay-2">
+        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(46,204,138,0.3), rgba(0,180,100,0.2));">
+          <span>🔬</span>
+        </div>
+        <div class="product-body">
+          <span class="tag-green tag">Integration</span>
+          <h3>Milk Analyzer Integration</h3>
+          <p>Software that connects directly to milk analyzers to auto-read fat, SNF, protein, and water values.</p>
+          <div class="product-link">View Details →</div>
+        </div>
+      </a>
+
+      <a href="product-analyzer-devices.html" class="product-card animate animate-delay-3">
+        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(255,200,50,0.2), rgba(255,120,20,0.2));">
+          <span>📡</span>
+        </div>
+        <div class="product-body">
+          <span class="tag">Hardware</span>
+          <h3>Milk Analyzer Devices</h3>
+          <p>Supply and installation of leading milk analyzer brands — automatic and semi-automatic models available.</p>
+          <div class="product-link">View Details →</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOLUTIONS -->
+<section id="solutions">
+  <div class="container">
+    <div style="text-align:center; max-width:600px; margin: 0 auto 1rem;">
+      <div class="section-label animate" style="justify-content:center;">End-to-End Solutions</div>
+      <h2 class="section-title animate animate-delay-1">Complete <span>Dairy Ecosystem</span></h2>
+      <p class="section-sub animate animate-delay-2" style="margin: 0 auto;">From farm to consumer — Logic Shell covers every touchpoint of your dairy supply chain.</p>
     </div>
 
-    <footer>Launching on 1st April 2026</footer>
+    <div class="solution-flow animate">
+      <div class="flow-step">
+        <div class="flow-icon">🐄</div>
+        <h4>Farmer / Farm</h4>
+        <p>Farmer registration & milk production tracking</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">🔬</div>
+        <h4>Milk Testing</h4>
+        <p>Analyzer integration for automated quality reading</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">📊</div>
+        <h4>Data & Billing</h4>
+        <p>Digital records, POS billing, and payment management</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">☁️</div>
+        <h4>Cloud & Reports</h4>
+        <p>Real-time dashboards and cloud data management</p>
+      </div>
+    </div>
 
-    <script>
-        const countdown = () => {
-            const launchDate = new Date("April 1, 2026 00:00:00").getTime();
-            const now = new Date().getTime();
-            const gap = launchDate - now;
+    <div class="solutions-cards">
+      <div class="sol-card animate animate-delay-1">
+        <div class="sol-icon">🏢</div>
+        <h3>Milk Collection Centers</h3>
+        <p>Complete digital setup for BMC & village collection centers with analyzer integration and daily reporting.</p>
+      </div>
+      <div class="sol-card animate animate-delay-2">
+        <div class="sol-icon">🌾</div>
+        <h3>Dairy Farms</h3>
+        <p>Farm management software, cattle tracking, health records, and production analytics for dairy farms.</p>
+      </div>
+      <div class="sol-card animate animate-delay-3">
+        <div class="sol-icon">💰</div>
+        <h3>Farmer Payment Management</h3>
+        <p>Automated farmer payment calculation based on fat/SNF with bank integration and payment slips.</p>
+      </div>
+      <div class="sol-card animate animate-delay-1">
+        <div class="sol-icon">☁️</div>
+        <h3>Cloud Data Management</h3>
+        <p>Secure cloud storage with multi-branch access, data backup, and synchronized reporting across locations.</p>
+      </div>
+      <div class="sol-card animate animate-delay-2">
+        <div class="sol-icon">📱</div>
+        <h3>Mobile Monitoring Apps</h3>
+        <p>Owner and manager apps to monitor operations, view reports, and manage business from anywhere.</p>
+      </div>
+      <div class="sol-card animate animate-delay-3">
+        <div class="sol-icon">🔗</div>
+        <h3>Hardware Integration</h3>
+        <p>Plug-and-play integration with Lactoscan, MCC, Milkotronic, and other leading analyzer brands.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-            const second = 1000;
-            const minute = second * 60;
-            const hour = minute * 60;
-            const day = hour * 24;
+<div class="divider"></div>
 
-            const days = Math.floor(gap / day);
-            const hours = Math.floor((gap % day) / hour);
-            const minutes = Math.floor((gap % hour) / minute);
-            const seconds = Math.floor((gap % minute) / second);
+<!-- WHY US -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div>
+        <div class="section-label animate">Why Logic Shell</div>
+        <h2 class="section-title animate animate-delay-1">The Smarter Choice for <span>Dairy Tech</span></h2>
+        <div class="why-list animate animate-delay-2">
+          <div class="why-item">
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Dairy Industry Expertise</h4>
+              <p>Years of hands-on experience building technology specifically for the dairy sector.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Hardware + Software Bundle</h4>
+              <p>One vendor for both milk analyzer devices and the software to manage them — less hassle, better integration.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Cloud-Based & Scalable</h4>
+              <p>Start small and grow — our systems scale from single centers to hundreds of collection points.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Dedicated Customer Support</h4>
+              <p>Responsive technical support with fast resolution for any software or hardware issues.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-check">✓</div>
+            <div>
+              <h4>Affordable Pricing</h4>
+              <p>Enterprise-grade solutions at pricing suited for dairy cooperatives and small businesses alike.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="animate animate-delay-2">
+        <div class="why-visual">
+          <div class="why-big-num">500+</div>
+          <p>Dairy businesses trust Logic Shell</p>
+          <div class="why-metrics">
+            <div class="metric">
+              <div class="metric-num">10<span>+</span></div>
+              <div class="metric-label">Years in Dairy Tech</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num">15<span>+</span></div>
+              <div class="metric-label">Analyzer Brands</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num">99<span>%</span></div>
+              <div class="metric-label">System Uptime</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num">24<span>/7</span></div>
+              <div class="metric-label">Support Available</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            document.getElementById("days").innerText = days;
-            document.getElementById("hours").innerText = hours;
-            document.getElementById("minutes").innerText = minutes;
-            document.getElementById("seconds").innerText = seconds;
+<div class="divider"></div>
 
-            if (gap <= 0) {
-                clearInterval(timer);
-                document.querySelector(".countdown").innerHTML = "<h2>We Are Live!</h2>";
-            }
-        };
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="container">
+    <div style="text-align:center; max-width:600px; margin:0 auto 3rem;">
+      <div class="section-label animate" style="justify-content:center;">Industries We Serve</div>
+      <h2 class="section-title animate animate-delay-1">Built for the <span>Dairy Ecosystem</span></h2>
+    </div>
+    <div class="industry-scroll animate">
+      <div class="industry-card">
+        <div class="industry-icon">🐄</div>
+        <h4>Dairy Farms</h4>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🏭</div>
+        <h4>Milk Collection Centers</h4>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🤝</div>
+        <h4>Dairy Cooperatives</h4>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🏗️</div>
+        <h4>Milk Processing Units</h4>
+      </div>
+      <div class="industry-card">
+        <div class="industry-icon">🌾</div>
+        <h4>Agriculture Businesses</h4>
+      </div>
+    </div>
+  </div>
+</section>
 
-        const timer = setInterval(countdown, 1000);
-        countdown();
-    </script>
-	<script>
-function randomFirework(power = 0.2) {
-    confetti({
-        particleCount: 80 * power,
-        spread: 70,
-        origin: {
-            x: Math.random(),
-            y: Math.random() * 0.6
-        }
-    });
-}
+<div class="divider"></div>
 
-function launchCelebration() {
-    const duration = 1500;
-    const end = Date.now() + duration;
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div style="text-align:center; max-width:600px; margin:0 auto 3rem;">
+      <div class="section-label animate" style="justify-content:center;">Get In Touch</div>
+      <h2 class="section-title animate animate-delay-1">Start Your <span>Dairy Digital Journey</span></h2>
+      <p class="section-sub animate animate-delay-2" style="margin:0 auto;">Ready to digitize your dairy operations? Talk to our experts today.</p>
+    </div>
+    <div class="contact-grid animate">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+91 98765 43210</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div>
+            <h4>Email</h4>
+            <p>info@logicshell.in</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p>Maharashtra, India</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div>
+            <h4>Business Hours</h4>
+            <p>Mon–Sat: 9:00 AM – 6:00 PM</p>
+          </div>
+        </div>
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/919876543210','_blank')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="John Doe" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 98765 43210" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Interested In</label>
+          <select>
+            <option>Select a product/service</option>
+            <option>Dairy Management Software</option>
+            <option>Milk Collection Mobile App</option>
+            <option>Dairy Cloud Portal</option>
+            <option>POS Billing Software</option>
+            <option>Milk Analyzer Integration</option>
+            <option>Milk Analyzer Devices</option>
+            <option>Custom Software Development</option>
+            <option>Website Development</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Tell us about your requirements..."></textarea>
+        </div>
+        <button class="btn btn-primary" style="font-size:1rem; padding:14px 28px;" onclick="alert('Thank you! We will contact you shortly.')">
+          Send Message →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
-    (function frame() {
-        confetti({
-            particleCount: 5,
-            angle: 60,
-            spread: 70,
-            origin: { x: 0 }
-        });
-        confetti({
-            particleCount: 5,
-            angle: 120,
-            spread: 100,
-            origin: { x: 1 }
-        });
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:1rem; display:inline-flex;">
+          <div class="logo-icon">🐄</div>
+          Logic<span>Shell</span>
+        </a>
+        <p>Complete digital solutions for the dairy industry. Software, mobile apps, cloud portals, and milk analyzer devices — all from one trusted partner.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="product-dairy-management.html">Dairy Management Software</a></li>
+          <li><a href="product-mobile-app.html">Mobile App</a></li>
+          <li><a href="product-cloud-portal.html">Cloud Portal</a></li>
+          <li><a href="product-pos.html">POS Billing</a></li>
+          <li><a href="product-analyzer-software.html">Analyzer Integration</a></li>
+          <li><a href="product-analyzer-devices.html">Analyzer Devices</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Web Development</a></li>
+          <li><a href="#services">Mobile Apps</a></li>
+          <li><a href="#services">Custom Software</a></li>
+          <li><a href="#services">Cloud Solutions</a></li>
+          <li><a href="#services">Technical Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#industries">Industries</a></li>
+          <li><a href="#why">Why Choose Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Logic Shell. All rights reserved.</span>
+      <span>Made with ❤️ for the Dairy Industry</span>
+    </div>
+  </div>
+</footer>
 
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
-        }
-    })();
-}
-
-setInterval(() => {
-    const now = new Date();
-    const month = now.getMonth(); 
-    const date = now.getDate();
-
-    // March 31 or April 1 = CRAZY fireworks
-    if ((month === 2 && date === 31) || (month === 3 && date === 1)) {
-        launchCelebration();
-    } else {
-        randomFirework(0.3); // small sparkles before launch
-    }
-
-}, 5000);
-</script>
-<script>
-const text = document.getElementById("comingSoon");
-
-function randomMove() {
-
-    const maxX = window.innerWidth - 200;
-    const maxY = window.innerHeight - 100;
-
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    const colors = [
-        "#ff4d4d",
-        "#00ffff",
-        "#ffd700",
-        "#00ff7f",
-        "#ff00ff",
-        "#ffffff"
-    ];
-
-    const randomColor = colors[Math.floor(Math.random()*colors.length)];
-
-    const sizes = ["1.5em","2em","2.5em","3em"];
-    const randomSize = sizes[Math.floor(Math.random()*sizes.length)];
-
-    text.style.left = randomX + "px";
-    text.style.top = randomY + "px";
-    text.style.color = randomColor;
-    text.style.fontSize = randomSize;
-}
-
-setInterval(randomMove, 2000);
-</script>
+<script src="main.js"></script>
 </body>
 </html>
