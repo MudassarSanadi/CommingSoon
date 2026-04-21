@@ -1,936 +1,705 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Logic Shell — Where Precision Meets Perfection</title>
-  <meta name="description" content="Logic Shell provides complete digital solutions for the dairy industry — software, mobile apps, cloud portals, POS systems, and milk analyzer devices." />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      position: relative; overflow: hidden;
-      padding-top: 70px;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(61,111,255,0.18) 0%, transparent 70%),
-                  radial-gradient(ellipse 50% 50% at 20% 80%, rgba(46,204,138,0.12) 0%, transparent 60%),
-                  var(--bg);
-    }
-    .hero-grid-lines {
-      position: absolute; inset: 0;
-      background-image: linear-gradient(var(--border) 1px, transparent 1px),
-                        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 60px 60px;
-      opacity: 0.4;
-    }
-    .hero-content {
-      position: relative; z-index: 2;
-      max-width: 700px;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(46,204,138,0.1);
-      border: 1px solid rgba(46,204,138,0.25);
-      border-radius: 50px;
-      padding: 6px 16px;
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 2rem;
-      animation: fadeInUp 0.6s ease forwards;
-    }
-    .hero-badge::before {
-      content: ''; width: 6px; height: 6px;
-      background: var(--accent); border-radius: 50%;
-      animation: pulse 1.5s infinite;
-    }
-    .hero h1 {
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-      animation: fadeInUp 0.7s 0.1s ease both;
-    }
-    .hero h1 .highlight {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub {
-      font-size: 1.15rem; color: var(--text2);
-      max-width: 540px; line-height: 1.8;
-      margin-bottom: 2.5rem;
-      animation: fadeInUp 0.7s 0.2s ease both;
-    }
-    .hero-tagline {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.95rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--text3);
-      margin-bottom: 0.8rem;
-      animation: fadeInUp 0.7s 0.05s ease both;
-    }
-    .hero-btns {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      animation: fadeInUp 0.7s 0.3s ease both;
-    }
-    .hero-btns .btn { font-size: 1rem; padding: 14px 28px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logic Shell LLP — where precision meets perfection</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A1628;
+  --royal:#1B3A7A;
+  --blue:#2563EB;
+  --sky:#3B82F6;
+  --ice:#DBEAFE;
+  --pale:#EFF6FF;
+  --white:#ffffff;
+  --gray-50:#F8FAFC;
+  --gray-100:#F1F5F9;
+  --gray-200:#E2E8F0;
+  --gray-300:#CBD5E1;
+  --gray-400:#94A3B8;
+  --gray-500:#64748B;
+  --gray-600:#475569;
+  --gray-800:#1E293B;
+  --text:#0F172A;
+  --subtext:#475569;
+  --font-head:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+  --radius:12px;
+  --radius-lg:20px;
+  --shadow:0 2px 16px rgba(10,22,40,0.07);
+  --shadow-md:0 4px 24px rgba(10,22,40,0.10);
+  --shadow-lg:0 12px 48px rgba(10,22,40,0.13);
+}
+body{font-family:var(--font-body);color:var(--text);background:#F8FAFF;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;font-family:var(--font-body)}
 
-    .hero-visual {
-      position: absolute; right: -40px; top: 50%;
-      transform: translateY(-50%);
-      width: 520px; height: 520px;
-      animation: fadeIn 1s 0.4s ease both;
-    }
-    .hero-orb {
-      position: absolute; width: 100%; height: 100%;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 40%, rgba(61,111,255,0.25), rgba(46,204,138,0.15), transparent 70%);
-      animation: float 6s ease-in-out infinite;
-    }
-    .hero-illustration {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14rem; opacity: 0.12;
-      animation: float 8s ease-in-out infinite;
-    }
-    .hero-stats {
-      display: flex; gap: 3rem; margin-top: 3rem;
-      animation: fadeInUp 0.7s 0.4s ease both;
-    }
-    .stat-num {
-      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
-      color: var(--text);
-    }
-    .stat-num span { color: var(--primary); }
-    .stat-label { font-size: 0.85rem; color: var(--text3); }
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);padding:0 5vw}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:1200px;margin:0 auto}
+.nav-logo{font-family:var(--font-head);font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-0.5px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.nav-logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--royal),var(--sky));border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-logo-mark svg{width:20px;height:20px}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-link{padding:8px 13px;font-size:14px;font-weight:400;color:var(--gray-600);transition:color .2s,background .2s;cursor:pointer;border-radius:8px}
+.nav-link:hover,.nav-link.active{color:var(--navy);background:var(--pale)}
+.nav-cta{background:var(--navy);color:#fff!important;padding:10px 20px;border-radius:8px;font-weight:500;font-size:14px;transition:background .2s}
+.nav-cta:hover{background:var(--royal)}
 
-    /* ABOUT */
-    #about { background: var(--bg2); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-    .about-visual {
-      position: relative; height: 440px;
-      border-radius: 20px; overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--border);
-    }
-    .about-visual-inner {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 1.5rem;
-    }
-    .about-icon-row { display: flex; gap: 1.5rem; align-items: center; }
-    .about-icon-box {
-      width: 80px; height: 80px;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem;
-      animation: float 4s ease-in-out infinite;
-    }
-    .about-icon-box:nth-child(2) { animation-delay: -1.5s; }
-    .about-icon-box:nth-child(3) { animation-delay: -3s; }
-    .about-glow {
-      position: absolute; width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(61,111,255,0.2), transparent 70%);
-      border-radius: 50%;
-      top: 50%; left: 50%; transform: translate(-50%,-50%);
-    }
-    .about-points { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
-    .about-point {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1rem 1.2rem;
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-    .about-point-icon {
-      font-size: 1.4rem; line-height: 1;
-      flex-shrink: 0; margin-top: 2px;
-    }
-    .about-point h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
-    .about-point p { font-size: 0.85rem; color: var(--text2); }
+/* ── PAGES ── */
+.page{display:none;padding-top:68px;min-height:100vh}
+.page.active{display:block}
 
-    /* SERVICES */
-    #services { background: var(--bg); }
-    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
-    .service-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.8rem;
-      transition: all var(--transition);
-      position: relative; overflow: hidden;
-    }
-    .service-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      opacity: 0; transition: opacity var(--transition);
-    }
-    .service-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--shadow); }
-    .service-card:hover::before { opacity: 1; }
-    .service-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .service-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .service-card p { font-size: 0.88rem; color: var(--text2); line-height: 1.6; }
+/* ── HERO ── */
+.hero{min-height:calc(100vh - 68px);background:linear-gradient(155deg,#EFF6FF 0%,#F0F7FF 40%,#E8F0FF 70%,#EEF4FF 100%);position:relative;overflow:hidden;display:flex;align-items:center;padding:80px 5vw}
+.hero-dot-bg{position:absolute;inset:0;background-image:radial-gradient(circle,#CBD5E1 1px,transparent 1px);background-size:32px 32px;opacity:0.5}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none}
+.hero-orb-1{width:700px;height:700px;background:radial-gradient(circle,rgba(37,99,235,0.08),transparent 70%);top:-200px;right:-100px}
+.hero-orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,0.06),transparent 70%);bottom:-150px;left:-80px}
+.hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.2);color:var(--blue);padding:8px 16px;border-radius:100px;font-size:13px;font-weight:500;margin-bottom:32px;letter-spacing:0.3px}
+.hero-badge-dot{width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-family:var(--font-head);font-size:clamp(38px,5.5vw,68px);font-weight:800;color:var(--navy);line-height:1.06;letter-spacing:-2px;margin-bottom:24px;max-width:800px}
+.hero h1 span{background:linear-gradient(135deg,var(--blue),#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:var(--gray-500);max-width:520px;line-height:1.75;margin-bottom:40px;font-weight:300}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{background:var(--navy);color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;gap:8px;border:none}
+.btn-primary:hover{background:var(--royal);transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,99,235,0.25)}
+.btn-secondary{background:#fff;color:var(--navy);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:400;border:1.5px solid var(--gray-200);transition:all .2s}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);background:var(--pale)}
+.hero-stats{display:flex;gap:48px;margin-top:72px;padding-top:48px;border-top:1px solid var(--gray-200)}
+.hero-stat-num{font-family:var(--font-head);font-size:34px;font-weight:800;color:var(--navy)}
+.hero-stat-label{font-size:13px;color:var(--gray-400);margin-top:4px}
+.hero-float-card{position:absolute;right:5vw;top:50%;transform:translateY(-50%);z-index:2;display:flex;flex-direction:column;gap:16px}
+.hfc{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:20px 24px;box-shadow:var(--shadow-md);min-width:260px}
+.hfc-label{font-size:12px;color:var(--gray-400);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase}
+.hfc-val{font-family:var(--font-head);font-size:22px;font-weight:700;color:var(--navy)}
+.hfc-bar{height:4px;background:var(--gray-100);border-radius:2px;margin-top:10px;overflow:hidden}
+.hfc-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--sky),var(--blue))}
+.hfc-row{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+.hfc-sub{font-size:12px;color:var(--gray-400)}
+.hfc-up{font-size:12px;color:#10B981;font-weight:500}
 
-    /* PRODUCTS */
-    #products { background: var(--bg2); }
-    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
-    .product-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: all var(--transition);
-      cursor: pointer;
-      text-decoration: none; color: inherit;
-      display: block;
-    }
-    .product-card:hover { border-color: var(--primary); transform: translateY(-6px); box-shadow: var(--shadow); }
-    .product-thumb {
-      height: 180px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 5rem;
-      position: relative; overflow: hidden;
-    }
-    .product-thumb::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(10,14,26,0.6));
-    }
-    .product-body { padding: 1.5rem; }
-    .product-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .product-body p { font-size: 0.88rem; color: var(--text2); line-height: 1.6; margin-bottom: 1rem; }
-    .product-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.85rem; font-weight: 600; color: var(--primary);
-      transition: gap var(--transition);
-    }
-    .product-card:hover .product-link { gap: 10px; }
+/* ── SECTION ── */
+.section{padding:96px 5vw}
+.section.alt{background:#fff}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-tag{font-size:12px;font-weight:600;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.section-title{font-family:var(--font-head);font-size:clamp(26px,3.5vw,42px);font-weight:800;color:var(--navy);letter-spacing:-1px;line-height:1.1;margin-bottom:14px}
+.section-sub{font-size:16px;color:var(--subtext);max-width:560px;line-height:1.75;font-weight:300}
+.section-header{margin-bottom:60px}
+.section-header.center{text-align:center}
+.section-header.center .section-sub{margin:0 auto}
 
-    /* SOLUTIONS */
-    #solutions { background: var(--bg); }
-    .solution-flow {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 0; margin-top: 3rem;
-      position: relative;
-    }
-    .solution-flow::before {
-      content: '';
-      position: absolute;
-      top: 40px; left: 10%; right: 10%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      z-index: 0;
-    }
-    .flow-step {
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center; padding: 0 1rem;
-      position: relative; z-index: 1;
-    }
-    .flow-icon {
-      width: 80px; height: 80px;
-      background: var(--surface);
-      border: 2px solid var(--primary);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem; margin-bottom: 1.2rem;
-    }
-    .flow-step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .flow-step p { font-size: 0.82rem; color: var(--text2); }
-    .solutions-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
-    .sol-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.8rem;
-      transition: all var(--transition);
-    }
-    .sol-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-    .sol-card .sol-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .sol-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .sol-card p { font-size: 0.88rem; color: var(--text2); }
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:30px;transition:all .3s;position:relative;overflow:hidden}
+.card:hover{border-color:rgba(37,99,235,0.3);box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.card-icon{width:48px;height:48px;background:var(--pale);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.card-icon svg{width:22px;height:22px;stroke:var(--blue);fill:none;stroke-width:1.5}
+.card h3{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.card p{font-size:13.5px;color:var(--subtext);line-height:1.65}
 
-    /* WHY US */
-    #why { background: var(--bg2); }
-    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
-    .why-list { display: flex; flex-direction: column; gap: 1.2rem; }
-    .why-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1.2rem 1.5rem;
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 12px; transition: all var(--transition);
-    }
-    .why-item:hover { border-color: var(--primary); transform: translateX(6px); }
-    .why-check {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(46,204,138,0.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; color: var(--accent); flex-shrink: 0;
-    }
-    .why-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
-    .why-item p { font-size: 0.85rem; color: var(--text2); }
-    .why-visual {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 2.5rem; text-align: center;
-    }
-    .why-big-num {
-      font-family: 'Syne', sans-serif; font-size: 5rem; font-weight: 800;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; line-height: 1;
-    }
-    .why-visual p { color: var(--text2); margin-top: 0.5rem; }
-    .why-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
-    .metric { text-align: center; padding: 1.2rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; }
-    .metric-num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--text); }
-    .metric-num span { color: var(--primary); }
-    .metric-label { font-size: 0.8rem; color: var(--text3); margin-top: 0.2rem; }
+/* ── ABOUT STRIP ── */
+.about-strip{background:#fff;border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);padding:80px 5vw}
+.about-flex{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.about-values{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+.value-chip{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:14px 18px;font-size:14px;font-weight:500;color:var(--navy);display:flex;align-items:center;gap:10px}
+.value-chip-dot{width:7px;height:7px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.about-visual{background:linear-gradient(145deg,var(--pale),#E0EBFF);border:1px solid rgba(37,99,235,0.15);border-radius:var(--radius-lg);padding:36px;min-height:300px;display:flex;flex-direction:column;gap:14px}
+.about-visual-title{font-size:12px;font-weight:600;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.stat-row{display:flex;align-items:center;gap:14px}
+.stat-label{font-size:13px;color:var(--gray-500);width:150px;flex-shrink:0}
+.stat-bar{flex:1;height:5px;background:rgba(37,99,235,0.1);border-radius:3px;overflow:hidden}
+.stat-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--blue))}
+.stat-val{font-size:13px;color:var(--navy);font-weight:600;min-width:34px;text-align:right}
 
-    /* INDUSTRIES */
-    #industries { background: var(--bg); }
-    .industry-scroll { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; margin-top: 3rem; }
-    .industry-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 2rem 1.2rem;
-      text-align: center; transition: all var(--transition);
-    }
-    .industry-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-    .industry-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .industry-card h4 { font-size: 0.9rem; font-weight: 700; }
+/* ── PAGE HERO ── */
+.page-hero{background:linear-gradient(155deg,#EFF6FF 0%,#E8F0FF 50%,#EEF4FF 100%);padding:72px 5vw 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--gray-200)}
+.page-hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:2}
+.page-hero h1{font-family:var(--font-head);font-size:clamp(30px,4vw,50px);font-weight:800;color:var(--navy);letter-spacing:-1.5px;margin-bottom:14px}
+.page-hero p{font-size:17px;color:var(--gray-500);max-width:520px;font-weight:300;line-height:1.7}
+.page-hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,#CBD5E1 1px,transparent 1px);background-size:28px 28px;opacity:0.4}
 
-    /* CONTACT */
-    #contact { background: var(--bg2); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
-    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
-    .contact-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1.2rem; background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-    .contact-item-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: rgba(61,111,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; flex-shrink: 0;
-    }
-    .contact-item h4 { font-size: 0.85rem; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
-    .contact-item p { font-size: 0.9rem; color: var(--text); }
-    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text2); }
-    .form-group input, .form-group textarea, .form-group select {
-      width: 100%; padding: 12px 16px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; color: var(--text); font-family: inherit; font-size: 0.9rem;
-      transition: border-color var(--transition);
-      outline: none;
-    }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--primary); }
-    .form-group textarea { resize: vertical; min-height: 120px; }
-    .whatsapp-btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: #25d366; color: #fff;
-      padding: 14px 28px; border-radius: 8px;
-      font-weight: 600; font-size: 1rem;
-      transition: all var(--transition); cursor: pointer;
-      border: none;
-    }
-    .whatsapp-btn:hover { background: #1ebe57; transform: translateY(-2px); }
-  </style>
+/* ── SOLUTIONS ── */
+.sol-group{margin-bottom:52px}
+.sol-group-title{font-family:var(--font-head);font-size:19px;font-weight:700;color:var(--navy);margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--ice);display:flex;align-items:center;gap:12px}
+.sol-icon{width:32px;height:32px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sol-icon svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}
+.sol-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.sol-item{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:18px 18px 18px 30px;font-size:14px;color:var(--gray-600);line-height:1.6;position:relative}
+.sol-item::before{content:'';position:absolute;left:18px;top:24px;width:6px;height:6px;background:var(--blue);border-radius:50%}
+
+/* ── INDUSTRY ── */
+.industry-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.industry-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:36px;transition:all .3s;position:relative;overflow:hidden}
+.industry-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--sky),var(--blue))}
+.industry-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.industry-card h3{font-family:var(--font-head);font-size:19px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.ic-sub{font-size:13px;color:var(--gray-400);margin-bottom:22px}
+.ic-items{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ic-items li{font-size:14px;color:var(--subtext);padding-left:16px;position:relative;line-height:1.5}
+.ic-items li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;background:var(--sky);border-radius:50%}
+
+/* ── DAIRY ── */
+.flow-strip{background:linear-gradient(135deg,var(--navy),#1B3A7A);border-radius:var(--radius-lg);padding:36px;margin-bottom:44px;overflow-x:auto}
+.flow-steps{display:flex;align-items:center;min-width:540px}
+.flow-step{flex:1;text-align:center}
+.flow-dot{width:46px;height:46px;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:13px;font-weight:700;color:#fff}
+.flow-lbl{font-size:12px;color:rgba(255,255,255,0.5)}
+.flow-arrow{color:rgba(255,255,255,0.25);font-size:22px;padding-bottom:28px;flex-shrink:0;padding-left:2px;padding-right:2px}
+.dairy-modules{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.dairy-module{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:30px}
+.dairy-module h3{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:18px;padding-bottom:13px;border-bottom:1px solid var(--gray-200)}
+.dairy-module ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.dairy-module li{font-size:14px;color:var(--subtext);padding-left:18px;position:relative}
+.dairy-module li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;background:var(--sky);border-radius:50%;border:1px solid var(--blue)}
+.dairy-note{background:var(--pale);border:1px solid rgba(37,99,235,0.2);border-radius:var(--radius);padding:18px 22px;font-size:14px;color:var(--blue);margin-top:28px;font-style:italic}
+
+/* ── SERVICES ── */
+.services-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.service-item{display:flex;align-items:flex-start;gap:18px;background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:26px;transition:all .2s}
+.service-item:hover{border-color:rgba(37,99,235,0.3);background:var(--pale);box-shadow:var(--shadow)}
+.service-num{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--blue);background:var(--ice);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.service-info h3{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.service-info p{font-size:13px;color:var(--subtext);line-height:1.6}
+
+/* ── VISION ── */
+.vision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.vision-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:32px;text-align:center;transition:all .2s}
+.vision-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.v-icon{width:54px;height:54px;border-radius:50%;background:var(--pale);margin:0 auto 18px;display:flex;align-items:center;justify-content:center}
+.v-icon svg{width:24px;height:24px;stroke:var(--blue);fill:none;stroke-width:1.5}
+.vision-card h3{font-family:var(--font-head);font-size:17px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.vision-card p{font-size:13.5px;color:var(--subtext);line-height:1.7}
+
+/* ── TEAM ── */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.team-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden;transition:all .3s}
+.team-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.team-photo{height:180px;background:linear-gradient(145deg,var(--pale),#D4E5FF);display:flex;align-items:center;justify-content:center;position:relative}
+.team-avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--royal),var(--sky));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:26px;font-weight:800;color:#fff;border:3px solid #fff;box-shadow:0 4px 20px rgba(37,99,235,0.3)}
+.team-info{padding:22px}
+.team-info h3{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.team-info .role{font-size:13px;color:var(--blue);font-weight:500;margin-bottom:10px}
+.team-info .bio{font-size:13px;color:var(--subtext);line-height:1.6;margin-bottom:14px}
+.btn-outline{background:transparent;border:1.5px solid var(--gray-200);color:var(--navy);padding:9px 18px;border-radius:8px;font-size:13px;font-weight:500;transition:all .2s;width:100%;cursor:pointer}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--pale)}
+
+/* ── PROFILE ── */
+.profile-layout{display:grid;grid-template-columns:300px 1fr;gap:44px;align-items:start}
+.profile-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden;position:sticky;top:88px}
+.profile-photo{height:240px;background:linear-gradient(145deg,var(--pale),#D4E5FF);display:flex;align-items:center;justify-content:center}
+.profile-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--royal),var(--sky));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:32px;font-weight:800;color:#fff;border:3px solid #fff;box-shadow:0 4px 20px rgba(37,99,235,0.3)}
+.profile-info-pad{padding:26px}
+.profile-info-pad h2{font-family:var(--font-head);font-size:21px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.profile-info-pad .role{font-size:13px;color:var(--blue);margin-bottom:16px;font-weight:500}
+.profile-skills{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.skill-tag{font-size:12px;color:var(--blue);background:var(--ice);padding:5px 12px;border-radius:100px;font-weight:500}
+.profile-main h2{font-family:var(--font-head);font-size:23px;font-weight:800;color:var(--navy);margin-bottom:22px}
+.profile-section{margin-bottom:36px}
+.profile-section h3{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--gray-200)}
+.profile-project{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:18px;margin-bottom:10px}
+.profile-project h4{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:5px}
+.profile-project p{font-size:13px;color:var(--subtext);line-height:1.6}
+.btn-back{background:transparent;border:none;color:var(--blue);font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;padding:0;margin-bottom:28px;cursor:pointer}
+
+/* ── CONTACT ── */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.contact-form{display:flex;flex-direction:column;gap:18px}
+.form-group{display:flex;flex-direction:column;gap:7px}
+.form-group label{font-size:13px;font-weight:500;color:var(--navy)}
+.form-input{border:1.5px solid var(--gray-200);border-radius:10px;padding:12px 16px;font-size:15px;font-family:var(--font-body);color:var(--text);transition:border .2s;outline:none;background:#fff}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.08)}
+textarea.form-input{resize:vertical;min-height:120px}
+.contact-info{display:flex;flex-direction:column;gap:22px}
+.ci-item{display:flex;align-items:flex-start;gap:14px}
+.ci-icon{width:42px;height:42px;background:var(--pale);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-icon svg{width:18px;height:18px;stroke:var(--blue);fill:none;stroke-width:1.5}
+.ci-label{font-size:12px;color:var(--gray-400);margin-bottom:3px}
+.ci-val{font-size:15px;font-weight:500;color:var(--navy)}
+.map-ph{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-lg);height:200px;display:flex;align-items:center;justify-content:center;margin-top:28px;color:var(--gray-400);font-size:14px;flex-direction:column;gap:8px}
+.contact-cta{background:linear-gradient(145deg,var(--navy),#1B3A7A);border-radius:var(--radius-lg);padding:48px;text-align:center;margin-top:60px}
+.contact-cta h2{font-family:var(--font-head);font-size:clamp(22px,3vw,34px);font-weight:800;color:#fff;margin-bottom:10px}
+.contact-cta p{color:#94A3B8;margin-bottom:26px;font-size:16px}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);padding:60px 5vw 30px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px}
+.footer-tagline{font-size:14px;color:#475569;line-height:1.7;max-width:230px;margin-top:12px}
+.footer-col h4{font-size:13px;font-weight:600;color:#94A3B8;margin-bottom:14px;letter-spacing:0.5px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-links li{font-size:13px;color:#475569;cursor:pointer;transition:color .2s}
+.footer-links li:hover{color:#94A3B8}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:13px;color:#334155}
+.footer-tagline-sm{font-size:13px;color:#1E293B;font-style:italic}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){
+  .hero-float-card{display:none}
+  .about-flex,.contact-layout,.profile-layout{grid-template-columns:1fr}
+  .industry-grid,.dairy-modules{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .vision-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .hero-stats{flex-wrap:wrap;gap:20px}
+  .vision-grid,.footer-top{grid-template-columns:1fr}
+  .nav-link{padding:7px 9px;font-size:13px}
+}
+</style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- NAVIGATION -->
 <nav>
-  <a href="index.html" class="nav-logo">
-    <div class="logo-icon">🐄</div>
-    Logic<span>Shell</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#products">Products</a></li>
-    <li><a href="#solutions">Solutions</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle" title="Toggle theme"></button>
-    <a href="#contact" class="btn btn-primary">Get Started</a>
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 10L7 6L11 10L7 14L3 10Z" fill="white" opacity="0.95"/>
+          <path d="M9 10L13 6L17 10L13 14L9 10Z" fill="white" opacity="0.55"/>
+        </svg>
+      </div>
+      Logic Shell
+    </div>
+    <div class="nav-links">
+      <span class="nav-link" onclick="showPage('home')" id="nav-home">Home</span>
+      <span class="nav-link" onclick="showPage('solutions')" id="nav-solutions">Solutions</span>
+      <span class="nav-link" onclick="showPage('industry')" id="nav-industry">Industry</span>
+      <span class="nav-link" onclick="showPage('services')" id="nav-services">Services</span>
+      <span class="nav-link" onclick="showPage('about')" id="nav-about">About</span>
+      <span class="nav-link" onclick="showPage('team')" id="nav-team">Team</span>
+      <span class="nav-link nav-cta" onclick="showPage('contact')">Contact Us</span>
     </div>
   </div>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#products">Products</a>
-  <a href="#solutions">Solutions</a>
-  <a href="#contact">Contact</a>
-</div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid-lines"></div>
-  <div class="container">
+<!-- ═══════════ HOME ═══════════ -->
+<div id="page-home" class="page active">
+
+  <section class="hero">
+    <div class="hero-dot-bg"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
     <div class="hero-content">
-       
-      <p class="hero-tagline">where precision meets perfection</p>
-      <h1>
-        Digital Solutions for the<br/>
-        <span class="highlight">Dairy Industry</span>
-      </h1>
-      <p class="hero-sub">
-        Logic Shell delivers complete software, mobile apps, cloud portals, and milk analyzer integration — everything your dairy business needs to thrive in the digital age.
-      </p>
+      <div class="hero-badge"><span class="hero-badge-dot"></span> where precision meets perfection</div>
+      <h1>Building Intelligent<br><span>Digital Ecosystems</span><br>for Modern Businesses</h1>
+      <p class="hero-sub">Logic Shell LLP delivers scalable digital solutions across web, mobile, enterprise systems, and cloud platforms.</p>
       <div class="hero-btns">
-        <a href="#products" class="btn btn-primary">View Products →</a>
-        <a href="#services" class="btn btn-outline">Our Services</a>
-        <a href="#contact" class="btn btn-accent">Contact Us</a>
+        <button class="btn-primary" onclick="showPage('services')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Explore Services
+        </button>
+        <button class="btn-secondary" onclick="showPage('team')">Meet Our Team</button>
       </div>
       <div class="hero-stats">
-        <div>
-          <div class="stat-num">500<span>+</span></div>
-          <div class="stat-label">Dairy Businesses</div>
-        </div>
-        <div>
-          <div class="stat-num">10<span>+</span></div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-        <div>
-          <div class="stat-num">99<span>%</span></div>
-          <div class="stat-label">Uptime Guarantee</div>
-        </div>
+        <div><div class="hero-stat-num">50+</div><div class="hero-stat-label">Projects Delivered</div></div>
+        <div><div class="hero-stat-num">12+</div><div class="hero-stat-label">Industry Verticals</div></div>
+        <div><div class="hero-stat-num">8+</div><div class="hero-stat-label">Years of Expertise</div></div>
+        <div><div class="hero-stat-num">99%</div><div class="hero-stat-label">Client Satisfaction</div></div>
       </div>
     </div>
-  </div>
-  <div class="hero-visual">
-    <div class="hero-orb"></div>
-    <div class="hero-illustration">🐄</div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-visual animate">
-        <div class="about-glow"></div>
-        <div class="about-visual-inner">
-          <div class="about-icon-row">
-            <div class="about-icon-box">🐄</div>
-            <div class="about-icon-box">💻</div>
-            <div class="about-icon-box">☁️</div>
-          </div>
-          <div class="about-icon-row">
-            <div class="about-icon-box">📱</div>
-            <div class="about-icon-box">🔬</div>
-          </div>
-          <div style="text-align:center; margin-top:1.5rem;">
-            <div class="badge"> Complete Dairy Tech Stack</div>
-          </div>
-        </div>
+    <!-- Floating KPI Cards -->
+    <div class="hero-float-card">
+      <div class="hfc">
+        <div class="hfc-label">System Uptime</div>
+        <div class="hfc-val">99.9%</div>
+        <div class="hfc-bar"><div class="hfc-fill" style="width:99.9%"></div></div>
+        <div class="hfc-row"><span class="hfc-sub">Last 30 days</span><span class="hfc-up">▲ Stable</span></div>
       </div>
+      <div class="hfc">
+        <div class="hfc-label">Active Projects</div>
+        <div class="hfc-val">24 Live</div>
+        <div class="hfc-bar"><div class="hfc-fill" style="width:80%"></div></div>
+        <div class="hfc-row"><span class="hfc-sub">Across 6 industries</span><span class="hfc-up">▲ +3 this month</span></div>
+      </div>
+      <div class="hfc">
+        <div class="hfc-label">Avg. Delivery Speed</div>
+        <div class="hfc-val">14 days</div>
+        <div class="hfc-bar"><div class="hfc-fill" style="width:65%"></div></div>
+        <div class="hfc-row"><span class="hfc-sub">Sprint velocity</span><span class="hfc-up">▲ 18% faster</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Strip -->
+  <section class="about-strip">
+    <div class="about-flex">
       <div>
-        <div class="section-label animate">About Logic Shell</div>
-        <h2 class="section-title animate animate-delay-1">Transforming Dairy with <span>Smart Technology</span></h2>
-        <p class="section-sub animate animate-delay-2">
-          Logic Shell is a technology company focused on building software and digital tools for dairy farms, milk collection centers, and dairy businesses across India.
-        </p>
-        <div class="about-points animate animate-delay-3">
-          <div class="about-point">
-            <div class="about-point-icon">🏗️</div>
-            <div>
-              <h4>End-to-End Solutions</h4>
-              <p>From milk collection to billing — we cover every step of your dairy operations digitally.</p>
-            </div>
-          </div>
-          <div class="about-point">
-            <div class="about-point-icon">🔗</div>
-            <div>
-              <h4>Hardware + Software Integration</h4>
-              <p>Seamless integration with milk analyzers, fat testers, and dairy hardware devices.</p>
-            </div>
-          </div>
-          <div class="about-point">
-            <div class="about-point-icon">📊</div>
-            <div>
-              <h4>Data-Driven Dairy Management</h4>
-              <p>Real-time dashboards, reports, and cloud analytics for smarter business decisions.</p>
-            </div>
-          </div>
+        <div class="section-tag">About Logic Shell</div>
+        <h2 class="section-title">Powering the Next Generation of Enterprise Software</h2>
+        <p class="section-sub">Logic Shell LLP is a technology solutions company focused on building intelligent software ecosystems that power businesses, automate operations, and enhance digital transformation.</p>
+        <div class="about-values">
+          <div class="value-chip"><span class="value-chip-dot"></span>Precision</div>
+          <div class="value-chip"><span class="value-chip-dot"></span>Innovation</div>
+          <div class="value-chip"><span class="value-chip-dot"></span>Reliability</div>
+          <div class="value-chip"><span class="value-chip-dot"></span>Scalability</div>
         </div>
       </div>
+      <div class="about-visual">
+        <div class="about-visual-title">Capability Depth</div>
+        <div class="stat-row"><span class="stat-label">Web &amp; Mobile</span><div class="stat-bar"><div class="stat-fill" style="width:95%"></div></div><span class="stat-val">95%</span></div>
+        <div class="stat-row"><span class="stat-label">Enterprise ERP</span><div class="stat-bar"><div class="stat-fill" style="width:88%"></div></div><span class="stat-val">88%</span></div>
+        <div class="stat-row"><span class="stat-label">Cloud Systems</span><div class="stat-bar"><div class="stat-fill" style="width:80%"></div></div><span class="stat-val">80%</span></div>
+        <div class="stat-row"><span class="stat-label">CRM &amp; Automation</span><div class="stat-bar"><div class="stat-fill" style="width:92%"></div></div><span class="stat-val">92%</span></div>
+        <div class="stat-row"><span class="stat-label">Hardware Integration</span><div class="stat-bar"><div class="stat-fill" style="width:75%"></div></div><span class="stat-val">75%</span></div>
+        <div style="margin-top:auto;padding-top:20px;border-top:1px solid rgba(37,99,235,0.12);font-size:13px;color:var(--gray-400)">Trusted across manufacturing, dairy, retail &amp; more</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Overview -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-tag">What We Build</div>
+        <h2 class="section-title">Core Service Offerings</h2>
+        <p class="section-sub">From bespoke software to enterprise platforms — every solution engineered for precision and scale.</p>
+      </div>
+      <div class="cards-grid">
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><h3>Web Development</h3><p>Scalable, high-performance web applications built with modern frameworks and enterprise-grade architecture.</p></div>
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><h3>Mobile Applications</h3><p>Native and cross-platform mobile apps for iOS and Android, delivering seamless user experiences.</p></div>
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><h3>Custom Software</h3><p>Bespoke software solutions designed around your exact business logic and workflow requirements.</p></div>
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div><h3>ERP Solutions</h3><p>End-to-end enterprise resource planning for operations, inventory, and multi-branch management.</p></div>
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>CRM Systems</h3><p>Customer relationship management for lead tracking, sales pipelines, and client communication.</p></div>
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>POS &amp; Billing Systems</h3><p>Point-of-sale and intelligent billing systems integrated with accounting and inventory modules.</p></div>
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Enterprise Automation</h3><p>Intelligent automation systems that streamline repetitive workflows and boost operational efficiency.</p></div>
+        <div class="card"><div class="card-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Cloud Applications</h3><p>Cloud-native applications with real-time synchronization, backups, and distributed architecture.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ SOLUTIONS ═══════════ -->
+<div id="page-solutions" class="page">
+  <div class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="page-hero-inner">
+      <div class="section-tag">Core Solutions</div>
+      <h1>Smart Digital Solutions<br>for Modern Enterprises</h1>
+      <p>Comprehensive software ecosystems built to automate, scale, and transform your business operations.</p>
     </div>
   </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="container">
-    <div style="max-width:600px;">
-      <div class="section-label animate">What We Do</div>
-      <h2 class="section-title animate animate-delay-1">Our <span>Services</span></h2>
-      <p class="section-sub animate animate-delay-2">Comprehensive technology services tailored for dairy businesses and other industries.</p>
+  <section class="section">
+    <div class="section-inner">
+      <div class="sol-group">
+        <div class="sol-group-title"><div class="sol-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>Business Software Solutions</div>
+        <div class="sol-items">
+          <div class="sol-item">Web-based billing systems for sales, purchase, invoicing and accounting</div>
+          <div class="sol-item">Customer and vendor ledger management with full audit trails</div>
+          <div class="sol-item">Financial reporting dashboards with real-time analytics</div>
+          <div class="sol-item">Business workflow automation and process optimization</div>
+        </div>
+      </div>
+      <div class="sol-group">
+        <div class="sol-group-title"><div class="sol-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>CRM and Office Solutions</div>
+        <div class="sol-items">
+          <div class="sol-item">Lead management systems with pipeline visualization</div>
+          <div class="sol-item">Client communication tracking and history management</div>
+          <div class="sol-item">Task and workflow automation for teams</div>
+          <div class="sol-item">Sales pipeline monitoring with conversion analytics</div>
+        </div>
+      </div>
+      <div class="sol-group">
+        <div class="sol-group-title"><div class="sol-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>Enterprise Management Systems</div>
+        <div class="sol-items">
+          <div class="sol-item">ERP solutions for full operational management</div>
+          <div class="sol-item">Inventory and stock management with low-stock alerts</div>
+          <div class="sol-item">Multi-branch synchronization and centralized control</div>
+          <div class="sol-item">Role-based access control and permission management</div>
+        </div>
+      </div>
     </div>
-    <div class="services-grid">
-      <div class="service-card animate animate-delay-1">
-        <div class="service-icon">🌐</div>
-        <h3>Website Design & Development</h3>
-        <p>Modern, responsive websites built for dairy businesses and enterprises. Fast, SEO-friendly, and professionally designed.</p>
-      </div>
-      <div class="service-card animate animate-delay-2">
-        <div class="service-icon">📱</div>
-        <h3>Mobile App Development</h3>
-        <p>Native and cross-platform mobile apps for Android & iOS. Farmer apps, collection apps, and management solutions.</p>
-      </div>
-      <div class="service-card animate animate-delay-3">
-        <div class="service-icon">💻</div>
-        <h3>Custom Software Development</h3>
-        <p>Bespoke software tailored to your unique business requirements. Scalable, secure, and built to last.</p>
-      </div>
-      <div class="service-card animate animate-delay-1">
-        <div class="service-icon">🐄</div>
-        <h3>Dairy Management Software</h3>
-        <p>Complete dairy ERP solutions covering milk collection, fat testing, payment management, and reporting.</p>
-      </div>
-      <div class="service-card animate animate-delay-2">
-        <div class="service-icon">☁️</div>
-        <h3>Cloud-Based Dairy Portals</h3>
-        <p>Centralized cloud platforms for real-time monitoring, data storage, and multi-branch dairy management.</p>
-      </div>
-      <div class="service-card animate animate-delay-3">
-        <div class="service-icon">🖥️</div>
-        <h3>POS Billing Systems</h3>
-        <p>Point-of-sale systems with dairy-specific billing, inventory management, and daily transaction tracking.</p>
-      </div>
-      <div class="service-card animate animate-delay-1">
-        <div class="service-icon">🔬</div>
-        <h3>Milk Analyzer Integration</h3>
-        <p>Software integration with leading milk analyzer brands — automatic fat, SNF, protein reading and logging.</p>
-      </div>
-      <div class="service-card animate animate-delay-2">
-        <div class="service-icon">📡</div>
-        <h3>Milk Analyzer Sales & Supply</h3>
-        <p>Supply and installation of various brands of milk analyzers with technical support and warranty.</p>
-      </div>
-      <div class="service-card animate animate-delay-3">
-        <div class="service-icon">🛠️</div>
-        <h3>Technical Support</h3>
-        <p>Dedicated 24/7 technical support for all dairy systems, software, and hardware devices we supply.</p>
-      </div>
+  </section>
+</div>
+
+<!-- ═══════════ INDUSTRY ═══════════ -->
+<div id="page-industry" class="page">
+  <div class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="page-hero-inner">
+      <div class="section-tag">Industry Focus</div>
+      <h1>Industry-Focused<br>Digital Ecosystems</h1>
+      <p>Specialized solutions built for the real complexities of modern industries.</p>
     </div>
   </div>
-</section>
+  <section class="section">
+    <div class="section-inner">
+      <div class="industry-grid">
+        <div class="industry-card"><h3>Operational Data Systems</h3><div class="ic-sub">Records, reporting, and tracking</div><ul class="ic-items"><li>Digital record management with structured data storage</li><li>Real-time reporting dashboards for operations teams</li><li>Automated workflow tracking and audit logging</li></ul></div>
+        <div class="industry-card"><h3>Cloud Infrastructure</h3><div class="ic-sub">Secure, distributed, always-on</div><ul class="ic-items"><li>Secure cloud storage systems with encryption</li><li>Multi-location data synchronization in real time</li><li>Backup and disaster recovery systems</li></ul></div>
+        <div class="industry-card"><h3>Mobile Ecosystem Apps</h3><div class="ic-sub">Visibility from anywhere</div><ul class="ic-items"><li>Owner dashboards with key KPI snapshots</li><li>Manager monitoring apps with team oversight</li><li>Real-time alerts, reports, and notifications</li></ul></div>
+        <div class="industry-card"><h3>Hardware and Device Integration</h3><div class="ic-sub">Bridging physical and digital</div><ul class="ic-items"><li>Integration with industry-grade analyzers and machines</li><li>Automated data capture systems via device APIs</li><li>Plug-and-play connectivity solutions</li></ul></div>
+      </div>
 
-<div class="divider"></div>
-
-<!-- PRODUCTS -->
-<section id="products">
-  <div class="container">
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem;">
-      <div>
-        <div class="section-label animate">Our Products</div>
-        <h2 class="section-title animate animate-delay-1">Dairy <span>Software Suite</span></h2>
-        <p class="section-sub animate animate-delay-2">Purpose-built products for every stage of dairy operations.</p>
+      <div style="margin-top:72px">
+        <div class="section-header center">
+          <div class="section-tag">Case Study</div>
+          <h2 class="section-title">Dairy Ecosystem Solution</h2>
+          <p class="section-sub">A complete supply chain management platform engineered for the dairy industry.</p>
+        </div>
+        <div class="flow-strip">
+          <div class="flow-steps">
+            <div class="flow-step"><div class="flow-dot">F</div><div class="flow-lbl">Farmer</div></div>
+            <div class="flow-arrow">›</div>
+            <div class="flow-step"><div class="flow-dot">C</div><div class="flow-lbl">Collection</div></div>
+            <div class="flow-arrow">›</div>
+            <div class="flow-step"><div class="flow-dot">T</div><div class="flow-lbl">Testing</div></div>
+            <div class="flow-arrow">›</div>
+            <div class="flow-step"><div class="flow-dot">B</div><div class="flow-lbl">Billing</div></div>
+            <div class="flow-arrow">›</div>
+            <div class="flow-step"><div class="flow-dot">S</div><div class="flow-lbl">Cloud Sync</div></div>
+            <div class="flow-arrow">›</div>
+            <div class="flow-step"><div class="flow-dot">R</div><div class="flow-lbl">Reports</div></div>
+          </div>
+        </div>
+        <div class="dairy-modules">
+          <div class="dairy-module"><h3>Farm Management</h3><ul><li>Farmer registration and production tracking</li><li>Cattle and yield record management</li><li>Farm-level analytics and performance reports</li></ul></div>
+          <div class="dairy-module"><h3>Quality Testing System</h3><ul><li>Automated analyzer integration for data capture</li><li>Fat and SNF measurement and logging</li><li>Quality validation and rejection workflow</li></ul></div>
+          <div class="dairy-module"><h3>Billing and Payment System</h3><ul><li>Automated rate calculation based on quality metrics</li><li>Payment slips and settlement tracking</li><li>Bank integration-ready payment system</li></ul></div>
+          <div class="dairy-module"><h3>Cloud Analytics</h3><ul><li>Real-time operational dashboards</li><li>Multi-branch consolidated reporting</li><li>Historical data insights and trend analysis</li></ul></div>
+        </div>
+        <div class="dairy-note">This is one of many industry-specific solutions supported by Logic Shell LLP — including manufacturing, retail, healthcare, and logistics.</div>
       </div>
     </div>
-    <div class="products-grid">
+  </section>
+</div>
 
-      <a href="product-dairy-management.html" class="product-card animate animate-delay-1">
-        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(61,111,255,0.3), rgba(46,204,138,0.2));">
-          <span>🐄</span>
-        </div>
-        <div class="product-body">
-          <span class="tag">Flagship</span>
-          <h3>Dairy Management Software</h3>
-          <p>Complete dairy ERP — milk collection, fat testing, farmer payments, and advanced reporting in one platform.</p>
-          <div class="product-link">View Details →</div>
-        </div>
-      </a>
-
-      <a href="product-mobile-app.html" class="product-card animate animate-delay-2">
-        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(46,204,138,0.3), rgba(0,100,200,0.2));">
-          <span>📱</span>
-        </div>
-        <div class="product-body">
-          <span class="tag-green tag">Mobile</span>
-          <h3>Milk Collection Mobile App</h3>
-          <p>Android app for milk collection centers — offline-capable, fast, and integrated with analyzers.</p>
-          <div class="product-link">View Details →</div>
-        </div>
-      </a>
-
-      <a href="product-cloud-portal.html" class="product-card animate animate-delay-3">
-        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(100,60,255,0.3), rgba(61,111,255,0.2));">
-          <span>☁️</span>
-        </div>
-        <div class="product-body">
-          <span class="tag">Cloud</span>
-          <h3>Dairy Cloud Portal</h3>
-          <p>Web-based portal for managing multiple collection centers, generating reports, and monitoring operations.</p>
-          <div class="product-link">View Details →</div>
-        </div>
-      </a>
-
-      <a href="product-pos.html" class="product-card animate animate-delay-1">
-        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(255,120,60,0.25), rgba(255,60,120,0.2));">
-          <span>🖥️</span>
-        </div>
-        <div class="product-body">
-          <span class="tag">Billing</span>
-          <h3>POS Billing Software</h3>
-          <p>Point-of-sale system with dairy billing, inventory, customer management, and daily reports.</p>
-          <div class="product-link">View Details →</div>
-        </div>
-      </a>
-
-      <a href="product-analyzer-software.html" class="product-card animate animate-delay-2">
-        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(46,204,138,0.3), rgba(0,180,100,0.2));">
-          <span>🔬</span>
-        </div>
-        <div class="product-body">
-          <span class="tag-green tag">Integration</span>
-          <h3>Milk Analyzer Integration</h3>
-          <p>Software that connects directly to milk analyzers to auto-read fat, SNF, protein, and water values.</p>
-          <div class="product-link">View Details →</div>
-        </div>
-      </a>
-
-      <a href="product-analyzer-devices.html" class="product-card animate animate-delay-3">
-        <div class="product-thumb" style="background: linear-gradient(135deg, rgba(255,200,50,0.2), rgba(255,120,20,0.2));">
-          <span>📡</span>
-        </div>
-        <div class="product-body">
-          <span class="tag">Hardware</span>
-          <h3>Milk Analyzer Devices</h3>
-          <p>Supply and installation of leading milk analyzer brands — automatic and semi-automatic models available.</p>
-          <div class="product-link">View Details →</div>
-        </div>
-      </a>
-
+<!-- ═══════════ SERVICES ═══════════ -->
+<div id="page-services" class="page">
+  <div class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="page-hero-inner">
+      <div class="section-tag">What We Do</div>
+      <h1>Our Services</h1>
+      <p>Full-spectrum technology services from architecture and design to deployment and integration.</p>
     </div>
   </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- SOLUTIONS -->
-<section id="solutions">
-  <div class="container">
-    <div style="text-align:center; max-width:600px; margin: 0 auto 1rem;">
-      <div class="section-label animate" style="justify-content:center;">End-to-End Solutions</div>
-      <h2 class="section-title animate animate-delay-1">Complete <span>Dairy Ecosystem</span></h2>
-      <p class="section-sub animate animate-delay-2" style="margin: 0 auto;">From farm to consumer — Logic Shell covers every touchpoint of your dairy supply chain.</p>
-    </div>
-
-    <div class="solution-flow animate">
-      <div class="flow-step">
-        <div class="flow-icon">🐄</div>
-        <h4>Farmer / Farm</h4>
-        <p>Farmer registration & milk production tracking</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-icon">🔬</div>
-        <h4>Milk Testing</h4>
-        <p>Analyzer integration for automated quality reading</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-icon">📊</div>
-        <h4>Data & Billing</h4>
-        <p>Digital records, POS billing, and payment management</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-icon">☁️</div>
-        <h4>Cloud & Reports</h4>
-        <p>Real-time dashboards and cloud data management</p>
+  <section class="section">
+    <div class="section-inner">
+      <div class="services-list">
+        <div class="service-item"><div class="service-num">01</div><div class="service-info"><h3>Software Development</h3><p>End-to-end custom software built for performance, maintainability, and long-term scalability.</p></div></div>
+        <div class="service-item"><div class="service-num">02</div><div class="service-info"><h3>SaaS Product Development</h3><p>Multi-tenant SaaS platforms from concept to launch, with subscription management and onboarding flows.</p></div></div>
+        <div class="service-item"><div class="service-num">03</div><div class="service-info"><h3>Mobile App Development</h3><p>iOS and Android applications with native performance and elegant cross-platform design.</p></div></div>
+        <div class="service-item"><div class="service-num">04</div><div class="service-info"><h3>UI/UX Design</h3><p>Research-driven interface design that balances aesthetics with enterprise usability and accessibility.</p></div></div>
+        <div class="service-item"><div class="service-num">05</div><div class="service-info"><h3>Cloud Architecture</h3><p>Scalable, secure cloud infrastructure design and deployment on AWS, Azure, or GCP.</p></div></div>
+        <div class="service-item"><div class="service-num">06</div><div class="service-info"><h3>API Development and Integration</h3><p>RESTful and GraphQL API development, third-party integrations, and webhook-based automation.</p></div></div>
+        <div class="service-item"><div class="service-num">07</div><div class="service-info"><h3>Business Automation Systems</h3><p>Intelligent workflow automation that eliminates manual processes and reduces operational overhead.</p></div></div>
       </div>
     </div>
+  </section>
+</div>
 
-    <div class="solutions-cards">
-      <div class="sol-card animate animate-delay-1">
-        <div class="sol-icon">🏢</div>
-        <h3>Milk Collection Centers</h3>
-        <p>Complete digital setup for BMC & village collection centers with analyzer integration and daily reporting.</p>
-      </div>
-      <div class="sol-card animate animate-delay-2">
-        <div class="sol-icon">🌾</div>
-        <h3>Dairy Farms</h3>
-        <p>Farm management software, cattle tracking, health records, and production analytics for dairy farms.</p>
-      </div>
-      <div class="sol-card animate animate-delay-3">
-        <div class="sol-icon">💰</div>
-        <h3>Farmer Payment Management</h3>
-        <p>Automated farmer payment calculation based on fat/SNF with bank integration and payment slips.</p>
-      </div>
-      <div class="sol-card animate animate-delay-1">
-        <div class="sol-icon">☁️</div>
-        <h3>Cloud Data Management</h3>
-        <p>Secure cloud storage with multi-branch access, data backup, and synchronized reporting across locations.</p>
-      </div>
-      <div class="sol-card animate animate-delay-2">
-        <div class="sol-icon">📱</div>
-        <h3>Mobile Monitoring Apps</h3>
-        <p>Owner and manager apps to monitor operations, view reports, and manage business from anywhere.</p>
-      </div>
-      <div class="sol-card animate animate-delay-3">
-        <div class="sol-icon">🔗</div>
-        <h3>Hardware Integration</h3>
-        <p>Plug-and-play integration with Lactoscan, MCC, Milkotronic, and other leading analyzer brands.</p>
-      </div>
+<!-- ═══════════ ABOUT ═══════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="page-hero-inner">
+      <div class="section-tag">Our Story</div>
+      <h1>About Logic Shell LLP</h1>
+      <p>A technology company built on the belief that precision and innovation are not trade-offs — they are the foundation.</p>
     </div>
   </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- WHY US -->
-<section id="why">
-  <div class="container">
-    <div class="why-grid">
-      <div>
-        <div class="section-label animate">Why Logic Shell</div>
-        <h2 class="section-title animate animate-delay-1">The Smarter Choice for <span>Dairy Tech</span></h2>
-        <div class="why-list animate animate-delay-2">
-          <div class="why-item">
-            <div class="why-check">✓</div>
-            <div>
-              <h4>Dairy Industry Expertise</h4>
-              <p>Years of hands-on experience building technology specifically for the dairy sector.</p>
-            </div>
-          </div>
-          <div class="why-item">
-            <div class="why-check">✓</div>
-            <div>
-              <h4>Hardware + Software Bundle</h4>
-              <p>One vendor for both milk analyzer devices and the software to manage them — less hassle, better integration.</p>
-            </div>
-          </div>
-          <div class="why-item">
-            <div class="why-check">✓</div>
-            <div>
-              <h4>Cloud-Based & Scalable</h4>
-              <p>Start small and grow — our systems scale from single centers to hundreds of collection points.</p>
-            </div>
-          </div>
-          <div class="why-item">
-            <div class="why-check">✓</div>
-            <div>
-              <h4>Dedicated Customer Support</h4>
-              <p>Responsive technical support with fast resolution for any software or hardware issues.</p>
-            </div>
-          </div>
-          <div class="why-item">
-            <div class="why-check">✓</div>
-            <div>
-              <h4>Affordable Pricing</h4>
-              <p>Enterprise-grade solutions at pricing suited for dairy cooperatives and small businesses alike.</p>
-            </div>
-          </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="about-flex">
+        <div>
+          <div class="section-tag">Our Mission</div>
+          <h2 class="section-title">Simplify operations through powerful software ecosystems</h2>
+          <p class="section-sub" style="max-width:100%">Logic Shell LLP was founded on the conviction that great software should feel invisible — it should simply work, reliably and at scale. We partner with businesses to design, build, and deploy technology that removes friction and unlocks capability.</p>
+          <p style="font-size:16px;color:var(--subtext);line-height:1.75;font-weight:300;margin-top:14px">From the manufacturing floor to the executive dashboard, our systems are engineered for the people who use them every day.</p>
+        </div>
+        <div>
+          <div class="section-tag">Our Vision</div>
+          <h2 class="section-title">Intelligent, scalable, future-ready digital systems</h2>
+          <p class="section-sub" style="max-width:100%">We see a world where every business — regardless of size or industry — has access to enterprise-grade software that grows with them. Logic Shell LLP is building that future, one ecosystem at a time.</p>
         </div>
       </div>
-      <div class="animate animate-delay-2">
-        <div class="why-visual">
-          <div class="why-big-num">500+</div>
-          <p>Dairy businesses trust Logic Shell</p>
-          <div class="why-metrics">
-            <div class="metric">
-              <div class="metric-num">10<span>+</span></div>
-              <div class="metric-label">Years in Dairy Tech</div>
-            </div>
-            <div class="metric">
-              <div class="metric-num">15<span>+</span></div>
-              <div class="metric-label">Analyzer Brands</div>
-            </div>
-            <div class="metric">
-              <div class="metric-num">99<span>%</span></div>
-              <div class="metric-label">System Uptime</div>
-            </div>
-            <div class="metric">
-              <div class="metric-num">24<span>/7</span></div>
-              <div class="metric-label">Support Available</div>
-            </div>
-          </div>
-        </div>
+      <div class="vision-grid">
+        <div class="vision-card"><div class="v-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><h3>Precision</h3><p>Every line of code, every interface decision, every architecture choice is made with deliberate intent and technical rigor.</p></div>
+        <div class="vision-card"><div class="v-icon"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3M6.343 6.343l-.707-.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div><h3>Innovation</h3><p>We embrace emerging technologies and challenge conventional approaches to deliver solutions ahead of the curve.</p></div>
+        <div class="vision-card"><div class="v-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Reliability</h3><p>Systems that businesses depend on must be robust, tested, and maintained. We build for uptime, not just launch day.</p></div>
+        <div class="vision-card"><div class="v-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Scalability</h3><p>Architecture designed to grow with your business — from startup stage to enterprise-scale without a rebuild.</p></div>
+        <div class="vision-card"><div class="v-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><h3>Efficiency</h3><p>We eliminate waste in both software and process — delivering maximum value for every hour of engineering investment.</p></div>
+        <div class="vision-card"><div class="v-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div><h3>Partnership</h3><p>We see ourselves as long-term partners in your digital journey — not just vendors who ship code and disappear.</p></div>
       </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ TEAM ═══════════ -->
+<div id="page-team" class="page">
+  <div class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="page-hero-inner">
+      <div class="section-tag">The People</div>
+      <h1>Our Expert Team</h1>
+      <p>Seasoned engineers, designers, and strategists working together to build the future of enterprise software.</p>
     </div>
   </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- INDUSTRIES -->
-<section id="industries">
-  <div class="container">
-    <div style="text-align:center; max-width:600px; margin:0 auto 3rem;">
-      <div class="section-label animate" style="justify-content:center;">Industries We Serve</div>
-      <h2 class="section-title animate animate-delay-1">Built for the <span>Dairy Ecosystem</span></h2>
-    </div>
-    <div class="industry-scroll animate">
-      <div class="industry-card">
-        <div class="industry-icon">🐄</div>
-        <h4>Dairy Farms</h4>
-      </div>
-      <div class="industry-card">
-        <div class="industry-icon">🏭</div>
-        <h4>Milk Collection Centers</h4>
-      </div>
-      <div class="industry-card">
-        <div class="industry-icon">🤝</div>
-        <h4>Dairy Cooperatives</h4>
-      </div>
-      <div class="industry-card">
-        <div class="industry-icon">🏗️</div>
-        <h4>Milk Processing Units</h4>
-      </div>
-      <div class="industry-card">
-        <div class="industry-icon">🌾</div>
-        <h4>Agriculture Businesses</h4>
+  <section class="section">
+    <div class="section-inner">
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-photo"><div class="team-avatar">AR</div></div>
+          <div class="team-info"><h3>Aryan Rathi</h3><div class="role">Software Architect</div><p class="bio">10+ years designing scalable enterprise systems. Specializes in distributed architecture and cloud-native applications.</p><button class="btn-outline" onclick="showProfile('AR','Aryan Rathi','Software Architect','Aryan leads architectural decisions across all major platform builds. With over a decade of enterprise software experience, he brings structure, foresight, and technical depth to every engagement.',['System Design','Cloud Architecture','Node.js','PostgreSQL','Microservices'],['Dairy ERP Platform','Multi-Branch Retail System','SaaS Billing Engine'])">View Profile</button></div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo" style="background:linear-gradient(145deg,#E0EBFF,#C7DCFF)"><div class="team-avatar" style="background:linear-gradient(135deg,#1E3A5F,#2563EB)">PS</div></div>
+          <div class="team-info"><h3>Priya Sharma</h3><div class="role">Backend Lead</div><p class="bio">Expert in API architecture and database optimization. Builds the backbone of high-throughput enterprise systems.</p><button class="btn-outline" onclick="showProfile('PS','Priya Sharma','Backend Lead','Priya architects the server-side systems that power Logic Shell\'s most demanding client deployments. Her expertise in performance optimization has saved clients hundreds of hours of processing time.',['Python','Django','Redis','MySQL','API Design'],['Cloud Analytics Engine','CRM Backend','Inventory Management System'])">View Profile</button></div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo" style="background:linear-gradient(145deg,#EEF2FF,#DDE5FF)"><div class="team-avatar" style="background:linear-gradient(135deg,#312E81,#4F46E5)">KM</div></div>
+          <div class="team-info"><h3>Karan Mehta</h3><div class="role">UI/UX Designer</div><p class="bio">Crafts enterprise interfaces that are operationally functional and visually refined. Former Zoho product designer.</p><button class="btn-outline" onclick="showProfile('KM','Karan Mehta','UI/UX Designer','Karan brings a rare combination of product thinking and visual craft to Logic Shell. His design systems have defined the user experience across more than 15 enterprise client deployments.',['Figma','Design Systems','User Research','Prototyping','React'],['Enterprise Dashboard Suite','POS Interface Redesign','Mobile Monitoring App'])">View Profile</button></div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo" style="background:linear-gradient(145deg,#F0FAFA,#D4EFED)"><div class="team-avatar" style="background:linear-gradient(135deg,#0F766E,#0EA5E9)">SJ</div></div>
+          <div class="team-info"><h3>Sneha Joshi</h3><div class="role">Mobile Developer</div><p class="bio">Full-stack mobile engineer building cross-platform applications with native performance for iOS and Android.</p><button class="btn-outline" onclick="showProfile('SJ','Sneha Joshi','Mobile Developer','Sneha specializes in React Native and Flutter applications that perform at near-native speeds. She has shipped over 8 production mobile applications across retail, agriculture, and logistics verticals.',['React Native','Flutter','Firebase','Redux','REST APIs'],['Farmer Mobile App','Owner Dashboard App','Manager Monitoring App'])">View Profile</button></div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo" style="background:linear-gradient(145deg,#FFF7ED,#FFE4B5)"><div class="team-avatar" style="background:linear-gradient(135deg,#92400E,#D97706)">RV</div></div>
+          <div class="team-info"><h3>Rahul Verma</h3><div class="role">Cloud Engineer</div><p class="bio">AWS-certified cloud architect specializing in serverless deployments, data pipelines, and infrastructure as code.</p><button class="btn-outline" onclick="showProfile('RV','Rahul Verma','Cloud Engineer','Rahul manages the cloud infrastructure that keeps Logic Shell\'s client systems running at 99.9% uptime. His DevOps expertise spans AWS, Azure, and hybrid on-premise setups.',['AWS','Terraform','Docker','Kubernetes','CI/CD'],['Multi-Branch Cloud Sync','Disaster Recovery System','Scalable API Gateway'])">View Profile</button></div>
+        </div>
+        <div class="team-card">
+          <div class="team-photo" style="background:linear-gradient(145deg,#FDF4FF,#EDD5FF)"><div class="team-avatar" style="background:linear-gradient(135deg,#6B21A8,#9333EA)">NK</div></div>
+          <div class="team-info"><h3>Nandita Kulkarni</h3><div class="role">Project Manager</div><p class="bio">Certified PMP with expertise in agile delivery for enterprise software. Ensures projects ship on time and on scope.</p><button class="btn-outline" onclick="showProfile('NK','Nandita Kulkarni','Project Manager','Nandita orchestrates multi-team delivery across complex enterprise engagements. Her structured approach to agile planning has reduced average project delays by over 40% across Logic Shell\'s portfolio.',['Agile / Scrum','Jira','Stakeholder Management','Risk Planning','Client Communication'],['Dairy ERP Full Rollout','Retail Chain System','CRM Implementation'])">View Profile</button></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
-<div class="divider"></div>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div style="text-align:center; max-width:600px; margin:0 auto 3rem;">
-      <div class="section-label animate" style="justify-content:center;">Get In Touch</div>
-      <h2 class="section-title animate animate-delay-1">Start Your <span>Dairy Digital Journey</span></h2>
-      <p class="section-sub animate animate-delay-2" style="margin:0 auto;">Ready to digitize your dairy operations? Talk to our experts today.</p>
+<!-- ═══════════ PROFILE ═══════════ -->
+<div id="page-profile" class="page">
+  <section class="section">
+    <div class="section-inner">
+      <button class="btn-back" onclick="showPage('team')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Team
+      </button>
+      <div class="profile-layout">
+        <div>
+          <div class="profile-card">
+            <div class="profile-photo"><div class="profile-avatar" id="profile-avatar">AR</div></div>
+            <div class="profile-info-pad">
+              <h2 id="profile-name">Name</h2>
+              <div class="role" id="profile-role">Role</div>
+              <div style="font-size:13px;color:var(--subtext);line-height:1.6;margin-bottom:14px" id="profile-bio-short"></div>
+              <div class="profile-skills" id="profile-skills"></div>
+              <button class="btn-primary" style="margin-top:20px;width:100%;justify-content:center" onclick="showPage('contact')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                Get In Touch
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="profile-main">
+          <h2 id="profile-full-name">Full Name</h2>
+          <div class="profile-section"><h3>About</h3><p style="font-size:15px;color:var(--subtext);line-height:1.8" id="profile-about"></p></div>
+          <div class="profile-section"><h3>Notable Projects</h3><div id="profile-projects"></div></div>
+        </div>
+      </div>
     </div>
-    <div class="contact-grid animate">
-      <div class="contact-info">
-        <div class="contact-item">
-          <div class="contact-item-icon">📞</div>
-          <div>
-            <h4>Phone</h4>
-            <p>+91 95790 74450</p>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">📧</div>
-          <div>
-            <h4>Email</h4>
-            <p>info@logicshell.in</p>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">📍</div>
-          <div>
-            <h4>Location</h4>
-            <p>Maharashtra, India</p>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">🕐</div>
-          <div>
-            <h4>Business Hours</h4>
-            <p>Mon–Sat: 9:00 AM – 6:00 PM</p>
-          </div>
-        </div>
-        <button class="whatsapp-btn" onclick="window.open('https://wa.me/919579074450','_blank')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Chat on WhatsApp
-        </button>
-      </div>
-      <div class="contact-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" placeholder="John Doe" />
-          </div>
-          <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" placeholder="+91 1234567890" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="you@example.com" />
-        </div>
-        <div class="form-group">
-          <label>Interested In</label>
-          <select>
-            <option>Select a product/service</option>
-            <option>Dairy Management Software</option>
-            <option>Milk Collection Mobile App</option>
-            <option>Dairy Cloud Portal</option>
-            <option>POS Billing Software</option>
-            <option>Milk Analyzer Integration</option>
-            <option>Milk Analyzer Devices</option>
-            <option>Custom Software Development</option>
-            <option>Website Development</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea placeholder="Tell us about your requirements..."></textarea>
-        </div>
-        <button class="btn btn-primary" style="font-size:1rem; padding:14px 28px;" onclick="alert('Thank you! We will contact you shortly.')">
-          Send Message →
-        </button>
-      </div>
+  </section>
+</div>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="page-hero-inner">
+      <div class="section-tag">Reach Us</div>
+      <h1>Get In Touch</h1>
+      <p>Ready to build something powerful? We would love to hear about your project.</p>
     </div>
   </div>
-</section>
+  <section class="section">
+    <div class="section-inner">
+      <div class="contact-layout">
+        <div>
+          <h3 style="font-family:var(--font-head);font-size:21px;font-weight:700;color:var(--navy);margin-bottom:24px">Send us a message</h3>
+          <div class="contact-form">
+            <div class="form-group"><label>Full Name</label><input class="form-input" type="text" placeholder="Your full name"></div>
+            <div class="form-group"><label>Company Name</label><input class="form-input" type="text" placeholder="Your company name"></div>
+            <div class="form-group"><label>Email Address</label><input class="form-input" type="email" placeholder="you@company.com"></div>
+            <div class="form-group"><label>Phone Number</label><input class="form-input" type="tel" placeholder="+91 00000 00000"></div>
+            <div class="form-group"><label>Project Description</label><textarea class="form-input" placeholder="Tell us about your project, requirements, and timeline..."></textarea></div>
+            <button class="btn-primary" style="width:100%;justify-content:center;padding:16px" onclick="alert('Message sent! We will be in touch shortly.')">Send Message</button>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:var(--font-head);font-size:21px;font-weight:700;color:var(--navy);margin-bottom:24px">Contact Information</h3>
+          <div class="contact-info">
+            <div class="ci-item"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="ci-label">Email</div><div class="ci-val">hello@logicshell.in</div></div></div>
+            <div class="ci-item"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.43 19.79 19.79 0 01.12 4.71C.03 3.62.98 2.68 2.08 2.68h2.94a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 10.1a16 16 0 006 6l.38-.38a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.03z"/></svg></div><div><div class="ci-label">Phone</div><div class="ci-val">+91 98765 43210</div></div></div>
+            <div class="ci-item"><div class="ci-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="ci-label">Office</div><div class="ci-val">Pune, Maharashtra, India</div></div></div>
+          </div>
+          <div class="map-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Map placeholder — integrate Google Maps here</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-cta">
+        <h2>Let's Build Something Powerful Together</h2>
+        <p>Whether you are starting from scratch or scaling an existing platform, Logic Shell LLP is your technology partner.</p>
+        <button class="btn-primary" style="margin:0 auto;display:inline-flex" onclick="alert('We will schedule a call shortly!')">Schedule a Discovery Call</button>
+      </div>
+    </div>
+  </section>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="nav-logo" style="margin-bottom:1rem; display:inline-flex;">
-          <div class="logo-icon">🐄</div>
-          Logic<span>Shell</span>
-        </a>
-        <p>Complete digital solutions for the dairy industry. Software, mobile apps, cloud portals, and milk analyzer devices — all from one trusted partner.</p>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="nav-logo" style="cursor:default">
+          <div class="nav-logo-mark"><svg viewBox="0 0 20 20" fill="none"><path d="M3 10L7 6L11 10L7 14L3 10Z" fill="white" opacity="0.95"/><path d="M9 10L13 6L17 10L13 14L9 10Z" fill="white" opacity="0.55"/></svg></div>
+          <span style="color:#fff">Logic Shell</span>
+        </div>
+        <p class="footer-tagline">where precision meets perfection — building intelligent digital ecosystems for modern businesses.</p>
       </div>
-      <div class="footer-col">
-        <h4>Products</h4>
-        <ul>
-          <li><a href="product-dairy-management.html">Dairy Management Software</a></li>
-          <li><a href="product-mobile-app.html">Mobile App</a></li>
-          <li><a href="product-cloud-portal.html">Cloud Portal</a></li>
-          <li><a href="product-pos.html">POS Billing</a></li>
-          <li><a href="product-analyzer-software.html">Analyzer Integration</a></li>
-          <li><a href="product-analyzer-devices.html">Analyzer Devices</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#services">Web Development</a></li>
-          <li><a href="#services">Mobile Apps</a></li>
-          <li><a href="#services">Custom Software</a></li>
-          <li><a href="#services">Cloud Solutions</a></li>
-          <li><a href="#services">Technical Support</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#industries">Industries</a></li>
-          <li><a href="#why">Why Choose Us</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
+      <div><h4>Company</h4><ul class="footer-links"><li onclick="showPage('about')">About Us</li><li onclick="showPage('team')">Our Team</li><li onclick="showPage('contact')">Contact</li></ul></div>
+      <div><h4>Solutions</h4><ul class="footer-links"><li onclick="showPage('solutions')">Business Software</li><li onclick="showPage('solutions')">CRM Systems</li><li onclick="showPage('solutions')">ERP Platforms</li><li onclick="showPage('industry')">Industry Solutions</li></ul></div>
+      <div><h4>Services</h4><ul class="footer-links"><li onclick="showPage('services')">Web Development</li><li onclick="showPage('services')">Mobile Apps</li><li onclick="showPage('services')">Cloud Architecture</li><li onclick="showPage('services')">SaaS Products</li></ul></div>
     </div>
     <div class="footer-bottom">
-      <span>© 2024 Logic Shell. All rights reserved.</span>
-      <span>Made with ❤️ for the Dairy Industry</span>
+      <div class="footer-copy">© 2025 Logic Shell LLP. All rights reserved.</div>
+      <div class="footer-tagline-sm">where precision meets perfection</div>
     </div>
   </div>
 </footer>
 
-<script src="main.js"></script>
+<script>
+const pages=['home','solutions','industry','services','about','team','profile','contact'];
+function showPage(id){
+  pages.forEach(p=>{
+    const el=document.getElementById('page-'+p);
+    const nav=document.getElementById('nav-'+p);
+    if(el)el.classList.toggle('active',p===id);
+    if(nav)nav.classList.toggle('active',p===id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showProfile(initials,name,role,about,skills,projects){
+  document.getElementById('profile-avatar').textContent=initials;
+  document.getElementById('profile-name').textContent=name;
+  document.getElementById('profile-full-name').textContent=name;
+  document.getElementById('profile-role').textContent=role;
+  document.getElementById('profile-bio-short').textContent=about.substring(0,110)+'...';
+  document.getElementById('profile-about').textContent=about;
+  document.getElementById('profile-skills').innerHTML=skills.map(s=>`<span class="skill-tag">${s}</span>`).join('');
+  document.getElementById('profile-projects').innerHTML=projects.map((p,i)=>`<div class="profile-project"><h4>Project ${i+1}</h4><p>${p}</p></div>`).join('');
+  showPage('profile');
+}
+</script>
 </body>
 </html>
