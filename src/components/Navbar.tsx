@@ -44,7 +44,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
     setCurrentPage(page)
     setIsMenuOpen(false)
   }
-
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-blue-100 shadow-sm">
@@ -75,7 +74,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
                 </button>
               ))}
             </div>
-
             <div className="flex items-center gap-3">
               <button
                 onClick={() => handleNavClick('contact')}
