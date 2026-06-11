@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   Server, Users, Building2, CheckCircle2, Sparkles, 
   ChevronDown, ChevronUp, Clock, Shield, Zap, BarChart3, 
@@ -13,6 +13,14 @@ interface SolutionsPageProps {
 
 const SolutionsPage: React.FC<SolutionsPageProps> = ({ setCurrentPage }) => {
   const [expandedSolution, setExpandedSolution] = useState<number | null>(null)
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, [])
 
   const solutions = [
     {

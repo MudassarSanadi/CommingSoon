@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   Sparkles, CheckCircle2, Code, Cloud, Smartphone, 
   Palette, Server, GitMerge, Bot, ChevronDown, ChevronUp, 
@@ -12,6 +12,14 @@ interface ServicesPageProps {
 
 const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
   const [expandedService, setExpandedService] = useState<number | null>(null)
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, [])
 
   const services = [
     { 

@@ -1,5 +1,6 @@
-import React from 'react'
-import { Database, Cloud, Smartphone, Cpu, CheckCircle2, Calendar, Sparkles, Factory, Droplet, Store, Activity } from 'lucide-react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Database, Cloud, Smartphone, Cpu, CheckCircle2, Calendar, Sparkles, Factory, Droplet, Store, Activity, ArrowRight } from 'lucide-react'
 import type { PageType } from '../App'
 
 interface IndustryPageProps {
@@ -7,12 +8,21 @@ interface IndustryPageProps {
 }
 
 const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
+  const navigate = useNavigate()
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, [])
+
   const industries = [
     { 
       icon: Database, 
       title: 'Operational Data Systems', 
       subtitle: 'Records, reporting, and tracking',
-      color: 'blue',
       items: [
         'Digital record management with structured data storage',
         'Real-time reporting dashboards for operations teams',
@@ -23,7 +33,6 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
       icon: Cloud, 
       title: 'Cloud Infrastructure', 
       subtitle: 'Secure, distributed, always-on',
-      color: 'indigo',
       items: [
         'Secure cloud storage systems with encryption',
         'Multi-location data synchronization in real time',
@@ -34,7 +43,6 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
       icon: Smartphone, 
       title: 'Mobile Ecosystem Apps', 
       subtitle: 'Visibility from anywhere',
-      color: 'cyan',
       items: [
         'Owner dashboards with key KPI snapshots',
         'Manager monitoring apps with team oversight',
@@ -45,7 +53,6 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
       icon: Cpu, 
       title: 'Hardware Integration', 
       subtitle: 'Bridging physical and digital',
-      color: 'purple',
       items: [
         'Integration with industry-grade analyzers and machines',
         'Automated data capture systems via device APIs',
@@ -55,48 +62,35 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
   ]
 
   const industriesList = [
-    { icon: Factory, name: 'Manufacturing', desc: 'Production tracking, inventory management, quality control' },
-    { icon: Droplet, name: 'Dairy & Agriculture', desc: 'Farm management, testing, billing, supply chain' },
-    { icon: Store, name: 'Retail & Distribution', desc: 'POS systems, inventory, customer management' },
-    { icon: Activity, name: 'Healthcare', desc: 'Patient records, appointment systems, billing' }
-  ]
-
-  const dairyModules = [
     { 
-      title: 'Farm Management', 
-      items: [
-        'Farmer registration and production tracking',
-        'Cattle and yield record management',
-        'Farm-level analytics and performance reports'
-      ] 
+      id: 'manufacturing',
+      icon: Factory, 
+      name: 'Manufacturing', 
+      shortDesc: 'Production tracking, inventory management, quality control'
     },
     { 
-      title: 'Quality Testing System', 
-      items: [
-        'Automated analyzer integration for data capture',
-        'Fat and SNF measurement and logging',
-        'Quality validation and rejection workflow'
-      ] 
+      id: 'dairy',
+      icon: Droplet, 
+      name: 'Dairy & Agriculture', 
+      shortDesc: 'Farm management, testing, billing, supply chain'
     },
     { 
-      title: 'Billing and Payment System', 
-      items: [
-        'Automated rate calculation based on quality metrics',
-        'Payment slips and settlement tracking',
-        'Bank integration-ready payment system'
-      ] 
+      id: 'retail',
+      icon: Store, 
+      name: 'Retail & Distribution', 
+      shortDesc: 'POS systems, inventory, customer management'
     },
     { 
-      title: 'Cloud Analytics', 
-      items: [
-        'Real-time operational dashboards',
-        'Multi-branch consolidated reporting',
-        'Historical data insights and trend analysis'
-      ] 
+      id: 'healthcare',
+      icon: Activity, 
+      name: 'Healthcare', 
+      shortDesc: 'Patient records, appointment systems, billing'
     }
   ]
 
-  const flowSteps = ['Farmer Collection', 'Quality Testing', 'Smart Billing', 'Cloud Sync', 'Analytics']
+  const handleIndustryClick = (industryId: string) => {
+    navigate(`/industry/${industryId}`)
+  }
 
   return (
     <div className="bg-white min-h-screen">
@@ -128,18 +122,25 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
             </div>
             <h2 className="font-syne font-bold text-3xl text-gray-900 mb-3">Trusted Across Sectors</h2>
             <p className="text-gray-500 max-w-2xl mx-auto">
-              We deliver tailored solutions for diverse industry verticals
+              Click on any industry to explore our specialized solutions
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
             {industriesList.map((industry, i) => (
-              <div key={i} className="bg-white rounded-xl p-5 border border-blue-100 shadow-sm hover:shadow-md hover:border-blue-300 transition-all text-center">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center mx-auto mb-3">
-                  <industry.icon size={20} className="text-blue-500" />
+              <div 
+                key={i} 
+                onClick={() => handleIndustryClick(industry.id)}
+                className="group bg-white rounded-xl p-5 border border-blue-100 shadow-sm hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-500 group-hover:border-blue-500 transition-all">
+                  <industry.icon size={20} className="text-blue-500 group-hover:text-white transition-all" />
                 </div>
-                <h3 className="font-bold text-gray-800 mb-1">{industry.name}</h3>
-                <p className="text-xs text-gray-500">{industry.desc}</p>
+                <h3 className="font-bold text-gray-800 mb-1 group-hover:text-blue-600 transition-all">{industry.name}</h3>
+                <p className="text-xs text-gray-500 mb-3">{industry.shortDesc}</p>
+                <div className="inline-flex items-center gap-1 text-blue-500 text-xs font-medium opacity-0 group-hover:opacity-100 transition-all">
+                  Learn More <ArrowRight size={12} />
+                </div>
               </div>
             ))}
           </div>
@@ -176,63 +177,6 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
                 </ul>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 rounded-full px-3 py-1 mb-4">
-              <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Case Study</span>
-            </div>
-            <h2 className="font-syne font-bold text-3xl text-gray-900 mb-3">Dairy Ecosystem Solution</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto">
-              A complete supply chain management platform engineered for the dairy industry
-            </p>
-          </div>
-
-          {/* Flow Visualization */}
-          <div className="bg-linear-to-r from-blue-500 to-indigo-500 rounded-xl p-5 mb-10 overflow-x-auto">
-            <div className="flex items-center justify-between min-w-80">
-              {flowSteps.map((step, i) => (
-                <React.Fragment key={i}>
-                  <div className="text-center">
-                    <div className="w-10 h-10 bg-white/20 border-2 border-white/30 rounded-full flex items-center justify-center text-white font-bold text-sm mx-auto mb-2">
-                      {i + 1}
-                    </div>
-                    <div className="text-xs text-white/80 whitespace-nowrap">{step}</div>
-                  </div>
-                  {i < flowSteps.length - 1 && (
-                    <div className="text-white/40">→</div>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-
-          {/* Modules Grid */}
-          <div className="grid md:grid-cols-2 gap-5 mb-8">
-            {dairyModules.map((module, i) => (
-              <div key={i} className="bg-white rounded-xl p-5 border border-blue-100 shadow-sm hover:shadow-md transition-all">
-                <h3 className="font-bold text-gray-900 mb-3 pb-2 border-b border-blue-100">{module.title}</h3>
-                <ul className="space-y-2">
-                  {module.items.map((item, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-gray-600">
-                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-blue-700 text-sm flex items-center gap-2">
-              <span className="text-lg">💡</span> 
-              This is one of many industry-specific solutions supported by Logic Shell LLP — including manufacturing, retail, healthcare, and logistics.
-            </p>
           </div>
         </div>
       </section>

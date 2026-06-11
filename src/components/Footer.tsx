@@ -60,15 +60,16 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
             <div className="space-y-2 pt-2">
               <div className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-500">
                 <Mail size={14} className="text-blue-400 flex" />
-                <span className="break-all">hello@logicshell.in</span>
+                <span className="break-all">info@thelogicshell.com</span>
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-500">
                 <Phone size={14} className="text-blue-400 flex" />
-                <span>+91 98765 43210</span>
+                <span>+91 95790 74450</span>
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-500">
                 <MapPin size={14} className="text-blue-400 flex" />
-                <span>Pune, Maharashtra, India</span>
+                <span> Madhvnagar Road, Sangli<br />
+                      Maharashtra</span>
               </div>
             </div>
           </div>

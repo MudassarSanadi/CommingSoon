@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Sparkles, Users, Award, Briefcase, Calendar, Mail, MapPin } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Sparkles, Users, Award, Briefcase, Calendar, Mail, MapPin, Code } from 'lucide-react'
 import type { PageType } from '../App'
 
 export interface TeamMember {
@@ -15,6 +15,12 @@ export interface TeamMember {
   experience: string
   education: string
   achievements: string[]
+  projects: string[]
+  social?: {
+    github?: string
+    linkedin?: string
+    twitter?: string
+  }
 }
 
 interface TeamPageProps {
@@ -25,93 +31,109 @@ interface TeamPageProps {
 const teamMembers: TeamMember[] = [
   {
     id: 1,
-    name: 'Amit Sharma',
-    initials: 'AS',
-    role: 'Founder & CEO',
-    bio: 'Visionary leader with 15+ years of experience in enterprise software architecture and business strategy.',
-    skills: ['Leadership', 'Strategy', 'Cloud Architecture', 'Business Development'],
-    email: 'amit@logicshell.in',
-    phone: '+91 98765 43210',
-    location: 'Pune, India',
-    experience: '15+ years',
-    education: 'MBA, IIM Bangalore | B.Tech, IIT Bombay',
-    achievements: ['Built 50+ successful products', 'Led teams of 100+ engineers', 'Ex-Microsoft']
+    name: 'Asgar Nesari',
+    initials: 'AN',
+    role: 'Full Stack Developer',
+    bio: 'Passionate full-stack developer with expertise in building scalable web applications and enterprise solutions.',
+    skills: ['React', 'Node.js', 'TypeScript', 'Python', 'MongoDB', 'AWS', 'Next.js', 'Express.js', 'PostgreSQL', 'Socket.IO', 'REST APIs', 'Docker', 'Git', 'Jest', 'Spring boot'],
+    email: 'asgar@logicshell.in',
+    phone: '+91 9075566776',
+    location: 'Terani, India',
+    experience: '2+ years',
+    education: 'Master Of Computer Application, DYP University',
+    achievements: [
+      'Built 15+ production-grade applications',
+      'Microsoft Certified: Full Stack Developer',
+      'Open source contributor',
+      'Hackathon Winner 2023'
+    ],
+    projects: [
+      'Manufacturing ERP System - Built a complete ERP solution for a manufacturing company with 500+ daily users using React, Node.js, and PostgreSQL',
+      'Dairy Supply Chain Platform - Developed end-to-end dairy management system with real-time tracking using Socket.IO and MongoDB',
+      'Healthcare Portal - Created telemedicine platform with video consultation and EHR integration using WebRTC and React',
+      'E-commerce Analytics Dashboard - Built real-time analytics dashboard processing 100K+ events/day using Next.js and Express.js'
+    ],
+    social: {
+      github: 'https://github.com/asgar',
+      linkedin: 'https://linkedin.com/in/asgar',
+     
+    }
   },
   {
     id: 2,
-    name: 'Priya Singh',
-    initials: 'PS',
-    role: 'Lead Software Architect',
-    bio: 'Full-stack architect specializing in scalable cloud-native applications and microservices.',
-    skills: ['React', 'Node.js', 'AWS', 'Microservices', 'Python'],
-    email: 'priya@logicshell.in',
-    phone: '+91 98765 43211',
-    location: 'Pune, India',
-    experience: '10+ years',
-    education: 'M.Tech, IIT Delhi | B.E., Pune University',
-    achievements: ['AWS Certified Solutions Architect', 'Published 5 tech papers']
+    name: 'Muskan Mujawar',
+    initials: 'MM',
+    role: 'Full Stack Developer',
+    bio: 'Creative full-stack developer specializing in modern web technologies and delightful user experiences.',
+    skills: ['React', 'Node.js', 'TypeScript', 'Python', 'MongoDB', 'AWS', 'Next.js', 'Express.js', 'PostgreSQL', 'Socket.IO', 'REST APIs', 'Docker', 'Git', 'Jest','Spring boot'],
+    email: 'muskan@logicshell.in',
+    phone: '+91 9156070412',
+    location: 'Ashta, India',
+    experience: '2+ years',
+    education: 'Master Of Computer Application, DYP University',
+    achievements: [
+      'Women in Tech Award 2024',
+      'Google Cloud Certified',
+      'Published 3 technical blogs',
+      'Open Source Contributor - Next.js'
+    ],
+    projects: [
+      'Retail POS System - Built modern POS solution for a retail chain with 50+ stores using Next.js, Node.js, and PostgreSQL',
+      'E-learning Platform - Developed online learning platform with live classes and assessments using WebRTC and GraphQL',
+      'Inventory Management System - Created real-time inventory tracking for warehouse management using Redis and Socket.IO',
+      'Social Media Dashboard - Built analytics dashboard for social media management using Next.js and Prisma'
+    ],
+    social: {
+      github: 'https://github.com/muskan',
+      linkedin: 'https://linkedin.com/in/muskan',
+    
+    }
   },
   {
     id: 3,
-    name: 'Kunal Mehta',
-    initials: 'KM',
-    role: 'Senior Product Manager',
-    bio: 'Product strategist bridging business goals with technical execution for maximum impact.',
-    skills: ['Product Strategy', 'Agile', 'User Research', 'Analytics'],
-    email: 'kunal@logicshell.in',
-    phone: '+91 98765 43212',
-    location: 'Mumbai, India',
-    experience: '8+ years',
-    education: 'PGDM, SP Jain | B.E., Mumbai University',
-    achievements: ['Launched 20+ products', 'Certified Scrum Product Owner']
+    name: 'Gayatri Patil',
+    initials: 'GP',
+    role: 'Full Stack Developer',
+    bio: 'Results-driven full-stack developer focused on building robust backend systems and intuitive frontend interfaces.',
+    skills: ['React', 'Node.js', 'TypeScript', 'Python', 'MongoDB', 'AWS', 'Next.js', 'Express.js', 'PostgreSQL', 'Socket.IO', 'REST APIs', 'Docker', 'Git', 'Jest','Spring boot'],
+    email: 'gayatri@logicshell.in',
+    phone: '+91 7841981102',
+    location: 'Kolhapur, India',
+    experience: '2+ years',
+    education: 'Master Of Computer Application, DYP University',
+    achievements: [
+      'Java Champion Award',
+      'Microsoft Certified: Full Stack Developer',
+      'Mentored 50+ junior developers',
+      'Published 2 research papers'
+    ],
+    projects: [
+      'Banking Software Suite - Developed secure banking platform with transaction processing using Spring Boot and Angular',
+      'Healthcare Management System - Built hospital management system with 10,000+ patient records using Java and React',
+      'Logistics Platform - Created shipment tracking and fleet management solution using Microservices architecture',
+      'Payment Gateway Integration - Built scalable payment processing system handling 10K+ transactions/day'
+    ],
+    social: {
+      github: 'https://github.com/gayatri',
+      linkedin: 'https://linkedin.com/in/gayatri',
+     
+    }
   },
-  {
-    id: 4,
-    name: 'Anjali Nair',
-    initials: 'AN',
-    role: 'Lead UI/UX Designer',
-    bio: 'Design thinker creating intuitive, accessible, and beautiful user experiences.',
-    skills: ['Figma', 'User Research', 'Prototyping', 'Design Systems', 'Accessibility'],
-    email: 'anjali@logicshell.in',
-    phone: '+91 98765 43213',
-    location: 'Bangalore, India',
-    experience: '7+ years',
-    education: 'M.Des, NID | B.Des, NIFT',
-    achievements: ['Award-winning designs', 'Google Certified UX Designer']
-  },
-  {
-    id: 5,
-    name: 'Manish Patil',
-    initials: 'MP',
-    role: 'DevOps Engineer',
-    bio: 'Infrastructure specialist automating deployment pipelines and cloud operations.',
-    skills: ['AWS', 'Kubernetes', 'Terraform', 'CI/CD', 'Docker'],
-    email: 'manish@logicshell.in',
-    phone: '+91 98765 43214',
-    location: 'Pune, India',
-    experience: '6+ years',
-    education: 'B.Tech, COEP Pune',
-    achievements: ['Kubernetes Certified', 'AWS Certified DevOps Engineer']
-  },
-  {
-    id: 6,
-    name: 'Neha Gupta',
-    initials: 'NG',
-    role: 'Quality Assurance Lead',
-    bio: 'Quality evangelist ensuring robust, bug-free software through automated testing.',
-    skills: ['Selenium', 'Cypress', 'Jest', 'Manual Testing', 'Test Automation'],
-    email: 'neha@logicshell.in',
-    phone: '+91 98765 43215',
-    location: 'Pune, India',
-    experience: '7+ years',
-    education: 'M.Sc. CS, Pune University',
-    achievements: ['ISTQB Certified', 'Built test automation from scratch']
-  }
+   
+  
 ]
 
 const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
   const [filter, setFilter] = useState<string>('all')
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, [])
 
   // Get unique roles for filter
   const roles = ['all', ...new Set(teamMembers.map(member => member.role))]
@@ -122,38 +144,60 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
 
   const getAvatarGradient = (initials: string) => {
     const gradients: Record<string, string> = {
-      AS: 'from-blue-500 to-indigo-500',
-      PS: 'from-blue-600 to-blue-800',
-      KM: 'from-indigo-500 to-indigo-700',
-      AN: 'from-cyan-500 to-blue-600',
-      MP: 'from-purple-500 to-indigo-600',
-      NG: 'from-emerald-500 to-teal-600',
+      AN: 'from-blue-500 to-indigo-500',
+      MM: 'from-purple-500 to-pink-500',
+      GP: 'from-green-500 to-teal-500',
+      AS: 'from-blue-600 to-blue-800',
+      PS: 'from-indigo-500 to-indigo-700',
+      KM: 'from-cyan-500 to-blue-600',
+      RD: 'from-orange-500 to-red-500',
     }
     return gradients[initials] || 'from-blue-500 to-indigo-500'
   }
 
   const getBgGradient = (initials: string) => {
     const gradients: Record<string, string> = {
-      AS: 'from-blue-50 via-indigo-50 to-blue-50',
-      PS: 'from-blue-50 via-sky-50 to-blue-50',
-      KM: 'from-indigo-50 via-purple-50 to-indigo-50',
-      AN: 'from-cyan-50 via-blue-50 to-cyan-50',
-      MP: 'from-purple-50 via-pink-50 to-purple-50',
-      NG: 'from-emerald-50 via-teal-50 to-emerald-50',
+      AN: 'from-blue-50 via-indigo-50 to-blue-50',
+      MM: 'from-purple-50 via-pink-50 to-purple-50',
+      GP: 'from-green-50 via-teal-50 to-green-50',
+      AS: 'from-blue-50 via-sky-50 to-blue-50',
+      PS: 'from-indigo-50 via-purple-50 to-indigo-50',
+      KM: 'from-cyan-50 via-blue-50 to-cyan-50',
+      RD: 'from-orange-50 via-red-50 to-orange-50',
     }
     return gradients[initials] || 'from-blue-50 via-indigo-50 to-blue-50'
   }
 
+  // Categorize skills
+  const categorizeSkills = (skills: string[]) => {
+    const frontend = skills.filter(skill => 
+      ['React', 'Next.js', 'Angular', 'Vue', 'Tailwind CSS', 'HTML5', 'CSS3', 'Figma', 'WebRTC'].includes(skill)
+    )
+    const backend = skills.filter(skill => 
+      ['Node.js', 'Express.js', 'Python', 'Java', 'Spring Boot', 'C#', 'PHP', 'Go'].includes(skill)
+    )
+    const database = skills.filter(skill => 
+      ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Prisma', 'Hibernate', 'GraphQL'].includes(skill)
+    )
+    const devops = skills.filter(skill => 
+      ['Docker', 'Kubernetes', 'AWS', 'Jenkins', 'Terraform', 'Git', 'CI/CD'].includes(skill)
+    )
+    const other = skills.filter(skill => 
+      !frontend.includes(skill) && !backend.includes(skill) && !database.includes(skill) && !devops.includes(skill)
+    )
+    
+    return { frontend, backend, database, devops, other }
+  }
+
   const stats = [
     { value: `${teamMembers.length}+`, label: 'Expert Members', icon: Users },
-    { value: '50+', label: 'Projects Completed', icon: Briefcase },
+    { value: '60+', label: 'Projects Completed', icon: Briefcase },
     { value: '98%', label: 'Client Satisfaction', icon: Award },
-    { value: '30+', label: 'Years Combined', icon: Calendar },
+    { value: '40+', label: 'Years Combined', icon: Calendar },
   ]
 
   return (
     <div className="bg-white min-h-screen">
-
       <section className="relative bg-linear-to-br from-blue-50 via-white to-indigo-50 border-b border-blue-100 py-16 md:py-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-200/20 rounded-full blur-3xl pointer-events-none" />
@@ -169,7 +213,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
           </h1>
           
           <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
-            Seasoned engineers, designers, and strategists working together to build the future of enterprise software.
+            Meet our talented full-stack developers and industry experts building the future of enterprise software.
           </p>
         </div>
       </section>
@@ -211,7 +255,6 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
                 key={member.id} 
                 className="group bg-white rounded-xl border border-blue-100 shadow-sm overflow-hidden hover:shadow-lg hover:border-blue-300 transition-all"
               >
-                {/* Avatar Section */}
                 <div className={`h-40 bg-linear-to-br ${getBgGradient(member.initials)} flex items-center justify-center relative`}>
                   <div className={`w-20 h-20 rounded-full bg-linear-to-br ${getAvatarGradient(member.initials)} flex items-center justify-center text-white text-xl font-bold border-4 border-white shadow-lg group-hover:scale-105 transition-transform`}>
                     {member.initials}
@@ -221,19 +264,19 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
                 <div className="p-5">
                   <h3 className="font-syne font-bold text-gray-900 text-lg">{member.name}</h3>
                   <p className="text-blue-500 text-sm font-medium mb-2">{member.role}</p>
-                  <p className="text-gray-500 text-sm leading-relaxed mb-3">
+                  <p className="text-gray-500 text-sm leading-relaxed mb-3 line-clamp-2">
                     {member.bio}
                   </p>
                   
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {member.skills.slice(0, 3).map((skill, i) => (
+                    {member.skills.slice(0, 4).map((skill, i) => (
                       <span key={i} className="px-2 py-0.5 bg-blue-50 border border-blue-100 rounded-full text-xs text-blue-600">
                         {skill}
                       </span>
                     ))}
-                    {member.skills.length > 3 && (
+                    {member.skills.length > 4 && (
                       <span className="px-2 py-0.5 bg-gray-100 rounded-full text-xs text-gray-500">
-                        +{member.skills.length - 3}
+                        +{member.skills.length - 4}
                       </span>
                     )}
                   </div>
@@ -255,7 +298,6 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
             ))}
           </div>
 
-          {/* No Results */}
           {filteredMembers.length === 0 && (
             <div className="text-center py-16">
               <p className="text-gray-500">No team members found for this role.</p>
@@ -268,7 +310,6 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
             </div>
           )}
 
-          {/* Join Our Team CTA */}
           <div className="mt-16 bg-linear-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
             <div className="flex flex-col md:flex-row items-center justify-between gap-5">
               <div className="text-center md:text-left">
@@ -297,49 +338,182 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
       {/* Profile Modal */}
       {selectedMember && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedMember(null)}>
-          <div className="bg-white rounded-xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="font-syne font-bold text-xl text-gray-900">{selectedMember.name}</h3>
-                <p className="text-blue-500 text-sm">{selectedMember.role}</p>
+                <div className="flex items-center gap-3">
+                  <div className={`w-16 h-16 rounded-full bg-linear-to-br ${getAvatarGradient(selectedMember.initials)} flex items-center justify-center text-white text-2xl font-bold`}>
+                    {selectedMember.initials}
+                  </div>
+                  <div>
+                    <h3 className="font-syne font-bold text-2xl text-gray-900">{selectedMember.name}</h3>
+                    <p className="text-blue-500 text-sm font-medium">{selectedMember.role}</p>
+                  </div>
+                </div>
               </div>
-              <button onClick={() => setSelectedMember(null)} className="text-gray-400 hover:text-gray-600">✕</button>
+              <button onClick={() => setSelectedMember(null)} className="text-gray-400 hover:text-gray-600 text-2xl">✕</button>
             </div>
             
-            <div className="space-y-3 text-sm">
-              <p className="text-gray-600">{selectedMember.bio}</p>
+            <div className="space-y-4 text-sm mt-4">
+              <p className="text-gray-600 leading-relaxed">{selectedMember.bio}</p>
               
+              {/* Categorized Skills */}
+              {selectedMember.role === 'Full Stack Developer' && (() => {
+                const { frontend, backend, database, devops, other } = categorizeSkills(selectedMember.skills)
+                return (
+                  <div className="space-y-3">
+                    {frontend.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                          <span>🎨</span> Frontend
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {frontend.map((skill, i) => (
+                            <span key={i} className="px-2 py-1 bg-blue-50 rounded-full text-xs text-blue-600 font-medium">{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {backend.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                          <span>⚙️</span> Backend
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {backend.map((skill, i) => (
+                            <span key={i} className="px-2 py-1 bg-green-50 rounded-full text-xs text-green-600 font-medium">{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {database.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                          <span>🗄️</span> Database
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {database.map((skill, i) => (
+                            <span key={i} className="px-2 py-1 bg-purple-50 rounded-full text-xs text-purple-600 font-medium">{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {devops.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                          <span>🚀</span> DevOps & Tools
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {devops.map((skill, i) => (
+                            <span key={i} className="px-2 py-1 bg-orange-50 rounded-full text-xs text-orange-600 font-medium">{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {other.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                          <span>🔧</span> Other Skills
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {other.map((skill, i) => (
+                            <span key={i} className="px-2 py-1 bg-gray-50 rounded-full text-xs text-gray-600 font-medium">{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })()}
+
+              {/* For non-developer roles, show all skills */}
+              {selectedMember.role !== 'Full Stack Developer' && selectedMember.skills.length > 0 && (
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                    <Code size={14} className="text-blue-500" />
+                    Skills & Expertise
+                  </h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedMember.skills.map((skill, i) => (
+                      <span key={i} className="px-2 py-1 bg-blue-50 rounded-full text-xs text-blue-600 font-medium">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div>
-                <h4 className="font-semibold text-gray-800 mb-1">Skills</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedMember.skills.map((skill, i) => (
-                    <span key={i} className="px-2 py-0.5 bg-blue-50 rounded-full text-xs text-blue-600">{skill}</span>
+                <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                  <Briefcase size={14} className="text-blue-500" />
+                  Key Projects
+                </h4>
+                <div className="space-y-2">
+                  {selectedMember.projects.map((project, i) => (
+                    <div key={i} className="bg-gray-50 rounded-lg p-3 border border-gray-100 hover:bg-gray-100 transition-colors">
+                      <p className="text-gray-700 text-sm leading-relaxed">{project}</p>
+                    </div>
                   ))}
                 </div>
               </div>
               
-              <div className="flex items-center gap-2 text-gray-500">
-                <Mail size={14} className="text-blue-500" />
-                <span>{selectedMember.email}</span>
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                  <Award size={14} className="text-blue-500" />
+                  Achievements
+                </h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedMember.achievements.map((achievement, i) => (
+                    <span key={i} className="px-2 py-1 bg-green-50 rounded-full text-xs text-green-600">
+                      🏆 {achievement}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-gray-500">
-                <span className="text-blue-500">📱</span>
-                <span>{selectedMember.phone}</span>
+              
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <div className="flex items-center gap-2 text-gray-500">
+                  <Mail size={14} className="text-blue-500" />
+                  <span className="text-xs break-all">{selectedMember.email}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500">
+                  <span className="text-blue-500">📱</span>
+                  <span className="text-xs">{selectedMember.phone}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500">
+                  <MapPin size={14} className="text-blue-500" />
+                  <span className="text-xs">{selectedMember.location}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500">
+                  <Briefcase size={14} className="text-blue-500" />
+                  <span className="text-xs">{selectedMember.experience}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-gray-500">
-                <MapPin size={14} className="text-blue-500" />
-                <span>{selectedMember.location}</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-500">
-                <Briefcase size={14} className="text-blue-500" />
-                <span>{selectedMember.experience} experience</span>
-              </div>
+
+              {selectedMember.social && (
+                <div className="flex gap-3 pt-2">
+                  {selectedMember.social.github && (
+                    <a href={selectedMember.social.github} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-700 transition-colors">
+                      <Mail size={18} />
+                    </a>
+                  )}
+                  {selectedMember.social.linkedin && (
+                    <a href={selectedMember.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-600 transition-colors">
+                      <Mail size={18} />
+                    </a>
+                  )}
+                  {selectedMember.social.twitter && (
+                    <a href={selectedMember.social.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
+                      <Mail size={18} />
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
             
             <button 
               onClick={() => setCurrentPage('contact')}
-              className="w-full mt-5 py-2 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-all"
+              className="w-full mt-5 py-2.5 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
             >
+              <Mail size={16} />
               Contact {selectedMember.name.split(' ')[0]}
             </button>
           </div>

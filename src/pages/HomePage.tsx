@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   LayoutGrid, Smartphone, Database, Building2,
   Users, ShoppingBag, Shield, Cloud, ArrowRight, CheckCircle2
@@ -10,6 +10,14 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Smooth scrolling animation
+    })
+  }, []) // Empty dependency array means this runs once when component mounts
+
   const services = [
     { icon: LayoutGrid,   title: 'Web Development',       desc: 'Scalable, high-performance web applications built with modern frameworks.' },
     { icon: Smartphone,   title: 'Mobile Applications',   desc: 'Native and cross-platform mobile apps for iOS and Android.' },

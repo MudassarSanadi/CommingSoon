@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Target, Eye, CheckCircle2, Zap, Shield, Users, Clock, TrendingUp, Award, Briefcase, MapPin } from 'lucide-react'
 
 interface AboutPageProps {
@@ -6,6 +6,14 @@ interface AboutPageProps {
 }
 
 const AboutPage: React.FC<AboutPageProps> = ({ setCurrentPage }) => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, [])
+
   const values = [
     { icon: CheckCircle2, title: 'Precision', desc: 'Every line of code, every interface decision is made with deliberate intent and technical rigor.' },
     { icon: Zap, title: 'Innovation', desc: 'We embrace emerging technologies and challenge conventional approaches.' },

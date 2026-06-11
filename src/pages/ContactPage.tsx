@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
-import { Mail, Phone, MapPin, Send, Clock, Calendar, Building2, User, MessageSquare, Sparkles } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Clock, Building2, User, MessageSquare, Sparkles } from 'lucide-react'
+import type { PageType } from '../App'
 
-const ContactPage: React.FC = () => {
+interface ContactPageProps {
+  setCurrentPage: (page: PageType) => void
+}
+
+const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPage }) => {
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -21,11 +26,18 @@ const ContactPage: React.FC = () => {
   }
 
   const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'hello@logicshell.in', action: 'mailto:hello@logicshell.in' },
-    { icon: Phone, label: 'Phone', value: '+91 98765 43210', action: 'tel:+919876543210' },
-    { icon: MapPin, label: 'Office', value: 'Pune, Maharashtra, India', action: 'https://maps.google.com/?q=Pune+Maharashtra+India' },
+    { icon: Mail, label: 'Email', value: 'info@thelogicshell.com', action: 'mailto:info@thelogicshell.com' },
+    { icon: Phone, label: 'Phone', value: '+91 9579074450', action: 'tel:+919579074450' },
+    { icon: MapPin, label: 'Office', value: 'Siddhivinayak Apartment Block No 6, Madhvnagar Road, Sangli', action: 'https://maps.google.com/?q=Siddhivinayak+Apartment+Block+No+6+Madhvnagar+Road+Sangli' },
     { icon: Clock, label: 'Business Hours', value: 'Mon-Fri, 9:00 AM - 7:00 PM IST', action: null },
   ]
+
+  // Exact coordinates for Sangli location
+  const mapLocation = {
+    address: 'Siddhivinayak apartment block no 6, Madhvnagar Road Sangli',
+    lat: 16.8524,
+    lng: 74.5815
+  }
 
   return (
     <div>
@@ -111,7 +123,7 @@ const ContactPage: React.FC = () => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 95790 74450"
                       />
                     </div>
                   </div>
@@ -146,13 +158,14 @@ const ContactPage: React.FC = () => {
                     key={index}
                     href={info.action || '#'}
                     target={info.action?.startsWith('http') ? '_blank' : '_self'}
+                    rel="noopener noreferrer"
                     className="block bg-white rounded-lg p-4 border border-blue-100 hover:border-blue-300 hover:shadow-sm transition-all"
                   >
                     <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center mb-2">
                       <info.icon size={16} className="text-blue-500" />
                     </div>
                     <p className="text-xs text-gray-400 uppercase tracking-wider">{info.label}</p>
-                    <p className="text-sm text-gray-800 font-medium">{info.value}</p>
+                    <p className="text-sm text-gray-800 font-medium break-all">{info.value}</p>
                   </a>
                 ))}
               </div>
@@ -161,19 +174,68 @@ const ContactPage: React.FC = () => {
                 <div className="p-3 border-b border-blue-100 bg-gray-50">
                   <h3 className="font-semibold text-gray-800 flex items-center gap-2">
                     <MapPin size={16} className="text-blue-500" />
-                    Find Us Here
+                    Our Office Location
                   </h3>
                 </div>
-                <div className="h-64 w-full">
+                <div className="p-3 bg-blue-50/30 border-b border-blue-100">
+                  <p className="text-sm text-gray-700 flex items-start gap-2">
+                    <MapPin size={14} className="text-blue-500 mt-0.5 " />
+                    <span>
+                      Siddhivinayak Apartment Block No 6<br />
+                      Madhvnagar Road, Sangli<br />
+                      Maharashtra, India
+                    </span>
+                  </p>
+                  <p className="text-sm text-gray-500 mt-2 flex items-center gap-2">
+                    <Phone size={12} className="text-blue-500" />
+                    <span>Sushant Rajmane: +91 9579074450</span>
+                  </p>
+                </div>
+                <div className="h-80 w-full">
                   <iframe
-                    title="Office Location"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.294960225112!2d73.856743!3d18.52043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c06f29a1a1a1%3A0x8a7b7b7b7b7b7b7b!2sPune%2C%20Maharashtra%2C%20India!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                    title="Logic Shell LLP Office Location - Sangli"
+                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(mapLocation.address)}&center=${mapLocation.lat},${mapLocation.lng}&zoom=15`}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
                   />
+                </div>
+                <div className="p-3 bg-gray-50 text-center">
+                  <a 
+                    href={`https://maps.google.com/?q=${encodeURIComponent(mapLocation.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-blue-500 hover:text-blue-600 inline-flex items-center gap-1"
+                  >
+                    <MapPin size={12} />
+                    Open in Google Maps
+                  </a>
+                </div>
+              </div>
+
+              {/* Additional Contact Person Info */}
+              <div className="bg-white rounded-lg p-4 border border-blue-100 shadow-sm">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center">
+                    <User size={16} className="text-blue-500" />
+                  </div>
+                  <h3 className="font-semibold text-gray-800">Contact Person</h3>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-700">
+                    <span className="font-medium">Sushant Rajmane</span>
+                  </p>
+                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                    <Phone size={12} className="text-blue-500" />
+                    <a href="tel:+919579074450" className="hover:text-blue-500">+91 9579074450</a>
+                  </p>
+                  <p className="text-sm text-gray-600 flex items-center gap-2">
+                    <Mail size={12} className="text-blue-500" />
+                    <a href="mailto:info@thelogicshell.com" className="hover:text-blue-500">info@thelogicshell.com</a>
+                  </p>
                 </div>
               </div>
             </div>
@@ -189,13 +251,23 @@ const ContactPage: React.FC = () => {
               Whether you're starting from scratch or scaling an existing platform.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <button className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-white text-blue-600 font-semibold text-sm hover:bg-gray-100 transition-all">
-                <Calendar size={14} />
-                Schedule a Call
-              </button>
-              <button className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-blue-600/30 border border-white/30 text-white font-semibold text-sm hover:bg-blue-600/40 transition-all">
+              <button 
+                onClick={() => {
+                  window.location.href = 'tel:+919579074450'
+                }}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-white text-blue-600 font-semibold text-sm hover:bg-gray-100 transition-all"
+              >
                 <Phone size={14} />
                 Call Us Now
+              </button>
+              <button 
+                onClick={() => {
+                  window.location.href = 'mailto:info@thelogicshell.com'
+                }}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-blue-600/30 border border-white/30 text-white font-semibold text-sm hover:bg-blue-600/40 transition-all"
+              >
+                <Mail size={14} />
+                Email Us
               </button>
             </div>
           </div>
