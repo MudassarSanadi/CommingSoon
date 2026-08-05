@@ -1,32 +1,12 @@
 import React, { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import type { PageType } from '../App'
+import LogoIcon from './LogoIcon'
 
 interface NavbarProps {
   currentPage: PageType
   setCurrentPage: (page: PageType) => void
 }
-
-const LogoIcon: React.FC<{ size?: number }> = ({ size = 22 }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 20 20" 
-    fill="none" 
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path 
-      d="M3 10L7 6L11 10L7 14L3 10Z" 
-      fill="white" 
-      opacity="0.95"
-    />
-    <path 
-      d="M9 10L13 6L17 10L13 14L9 10Z" 
-      fill="white" 
-      opacity="0.55"
-    />
-  </svg>
-)
 
 const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -51,8 +31,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
           <div className="flex items-center justify-between h-16">
             
             <div onClick={() => handleNavClick('home')} className="flex items-center gap-2.5 cursor-pointer group">
-              <div className="w-10 h-10 rounded-lg bg-linear-to-br from-blue-700 to-blue-500 shadow-md shadow-blue-500/30 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <LogoIcon size={22} />
+              <div className="w-14 h-14 rounded-full bg-white border border-blue-200 shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden p-1">
+                <LogoIcon />
               </div>
               <span className="font-syne font-bold text-xl text-gray-800">
                 Logic<span className="text-blue-500">Shell</span>

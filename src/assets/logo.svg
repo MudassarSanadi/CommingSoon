@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="logoTitle" fill="none">
+  <title id="logoTitle">LogicShell Logo</title>
+  <circle cx="60" cy="60" r="56" fill="#0B69FF" />
+  <path d="M32 64L52 44L72 64L52 84L32 64Z" fill="#fff" />
+  <path d="M58 64L78 44L98 64L78 84L58 64Z" fill="#CDE4FF" />
+</svg>

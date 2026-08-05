@@ -1,6 +1,6 @@
-// App.tsx - Fixed Version
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'  
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
@@ -43,6 +43,13 @@ const AppContent = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-indigo-50">
+    
+      <Helmet>
+        <title>Logic Shell</title>
+        <meta name="description" content="Logic Shell - Intelligent Digital Ecosystems" />
+        <link rel="canonical" href="https://thelogicshell.com" />
+      </Helmet>
+      
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <main className="pt-16">
         <Suspense fallback={<PageLoader />}>

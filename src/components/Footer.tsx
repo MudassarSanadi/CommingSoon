@@ -1,23 +1,11 @@
 import React from "react";
 import { Heart, Mail, Phone, MapPin } from "lucide-react";
 import type { PageType } from "../App";
+import LogoIcon from './LogoIcon'
 
 interface FooterProps {
   setCurrentPage: (page: PageType) => void;
 }
-
-const LogoIcon: React.FC<{ size?: number }> = ({ size = 22 }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M3 10L7 6L11 10L7 14L3 10Z" fill="white" opacity="0.95" />
-    <path d="M9 10L13 6L17 10L13 14L9 10Z" fill="white" opacity="0.55" />
-  </svg>
-);
 
 const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
   const footerLinks = {
@@ -46,8 +34,8 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-blue-100">
           <div className="space-y-3 text-center sm:text-left">
             <div className="flex items-center justify-center sm:justify-start gap-2.5">
-              <div className="w-10 h-10 rounded-lg bg-linear-to-br from-blue-700 to-blue-500 shadow-md shadow-blue-500/30 flex items-center justify-center">
-                <LogoIcon size={22} />
+              <div className="w-14 h-14 rounded-full bg-white border border-blue-200 shadow-sm flex items-center justify-center overflow-hidden p-1">
+                <LogoIcon />
               </div>
               <span className="font-syne font-bold text-xl text-gray-800">
                 Logic<span className="text-blue-500">Shell</span>

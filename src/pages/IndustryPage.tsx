@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
-import { Database, Cloud, Smartphone, Cpu, CheckCircle2, Calendar, Sparkles, Factory, Droplet, Store, Activity, ArrowRight, Milk } from 'lucide-react'
+import { Database, Cloud, Smartphone, Cpu, CheckCircle2, Calendar, Sparkles, Factory, Droplet, Store, Activity, ArrowRight, Milk, FlaskConical} from 'lucide-react'
 import type { PageType } from '../App'
 
 interface IndustryPageProps {
   setCurrentPage: (page: PageType) => void
 }
-
 
 function useInView<T extends HTMLElement>(threshold = 0.12) {
   const ref = useRef<T | null>(null)
@@ -124,6 +123,12 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
       icon: Milk, 
       name: 'Milk Plant Machinery', 
       shortDesc: 'Processing, utility, and reception equipment for dairy plants'
+    },
+    { 
+      id: 'milk-by-product-machinery',
+      icon: FlaskConical, 
+      name: 'Milk By-Product Machinery', 
+      shortDesc: 'Complete processing solutions for Ghee, Butter, Paneer, Curd, Lassi, Cream, Khoya, Ice Cream, Flavoured Milk, Cheese & Yogurt'
     }
   ]
 
@@ -217,7 +222,7 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
               </p>
             </div>
 
-            <div ref={industriesGridSection.ref} className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+            <div ref={industriesGridSection.ref} className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
               {industriesList.map((industry, i) => (
                 <div 
                   key={i} 
