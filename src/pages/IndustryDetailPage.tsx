@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
-  ArrowLeft, Calendar, Sparkles, Mail, 
+  ArrowLeft, Calendar, Sparkles, Mail, X,
   TrendingUp, Users, Package, Activity, Droplet, Factory, Store,
   Award, Clock, Shield, Zap, BarChart3, Settings, Truck, 
-  ClipboardCheck, Database, Cloud, Smartphone, Cpu
+  ClipboardCheck, Database, Cloud, Smartphone, Cpu, Milk, Thermometer,
+  Waves, GitBranch, Gauge, Warehouse, FlaskConical, CircleDot
 } from 'lucide-react';
 import type { PageType } from '../App';
 
@@ -12,17 +14,503 @@ interface IndustryDetailPageProps {
   setCurrentPage: (page: PageType) => void;
 }
 
+interface MachineItem {
+  name: string;
+  category: string;
+  description: string;
+  detailedInfo: string[];
+  icon: any;
+  image: string;
+}
+
+/**
+ * Static color class map.
+ *
+ * IMPORTANT: Tailwind CSS scans your source files for complete class-name
+ * strings at build time. It cannot resolve dynamically constructed class
+ * names like `bg-${color}-500` — that string never appears literally in
+ * the source, so Tailwind's purge step drops it from the final CSS.
+ * This is exactly why the Dairy & Agriculture page (color: 'teal') was
+ * missing its colors/effects while other industries (blue, orange,
+ * purple, etc.) happened to work — likely because those exact class
+ * strings appeared literally elsewhere in the codebase already, so
+ * Tailwind's scanner picked them up "by accident."
+ *
+ * Fix: define every class variant we need as a literal, static string
+ * here, then look it up at runtime via a plain object key access
+ * (`colorClasses[industry.color]`). Because every value in this map is a
+ * complete, literal string written directly in the source, Tailwind's
+ * scanner finds and includes ALL of them in the compiled CSS — regardless
+ * of which industry the user is currently viewing.
+ */
+type ColorKey =
+  | 'blue' | 'teal' | 'orange' | 'purple' | 'emerald'
+  | 'cyan' | 'indigo' | 'pink' | 'red';
+
+interface ColorClassSet {
+  bg50: string;
+  bg500: string;
+  bg600: string;
+  text500: string;
+  text600: string;
+  border300: string;
+  hoverBg600: string;
+}
+
+const colorClasses: Record<ColorKey, ColorClassSet> = {
+  blue: {
+    bg50: 'bg-blue-50',
+    bg500: 'bg-blue-500',
+    bg600: 'bg-blue-600',
+    text500: 'text-blue-500',
+    text600: 'text-blue-600',
+    border300: 'border-blue-300',
+    hoverBg600: 'hover:bg-blue-600',
+  },
+  teal: {
+    bg50: 'bg-teal-50',
+    bg500: 'bg-teal-500',
+    bg600: 'bg-teal-600',
+    text500: 'text-teal-500',
+    text600: 'text-teal-600',
+    border300: 'border-teal-300',
+    hoverBg600: 'hover:bg-teal-600',
+  },
+  orange: {
+    bg50: 'bg-orange-50',
+    bg500: 'bg-orange-500',
+    bg600: 'bg-orange-600',
+    text500: 'text-orange-500',
+    text600: 'text-orange-600',
+    border300: 'border-orange-300',
+    hoverBg600: 'hover:bg-orange-600',
+  },
+  purple: {
+    bg50: 'bg-purple-50',
+    bg500: 'bg-purple-500',
+    bg600: 'bg-purple-600',
+    text500: 'text-purple-500',
+    text600: 'text-purple-600',
+    border300: 'border-purple-300',
+    hoverBg600: 'hover:bg-purple-600',
+  },
+  emerald: {
+    bg50: 'bg-emerald-50',
+    bg500: 'bg-emerald-500',
+    bg600: 'bg-emerald-600',
+    text500: 'text-emerald-500',
+    text600: 'text-emerald-600',
+    border300: 'border-emerald-300',
+    hoverBg600: 'hover:bg-emerald-600',
+  },
+  cyan: {
+    bg50: 'bg-cyan-50',
+    bg500: 'bg-cyan-500',
+    bg600: 'bg-cyan-600',
+    text500: 'text-cyan-500',
+    text600: 'text-cyan-600',
+    border300: 'border-cyan-300',
+    hoverBg600: 'hover:bg-cyan-600',
+  },
+  indigo: {
+    bg50: 'bg-indigo-50',
+    bg500: 'bg-indigo-500',
+    bg600: 'bg-indigo-600',
+    text500: 'text-indigo-500',
+    text600: 'text-indigo-600',
+    border300: 'border-indigo-300',
+    hoverBg600: 'hover:bg-indigo-600',
+  },
+  pink: {
+    bg50: 'bg-pink-50',
+    bg500: 'bg-pink-500',
+    bg600: 'bg-pink-600',
+    text500: 'text-pink-500',
+    text600: 'text-pink-600',
+    border300: 'border-pink-300',
+    hoverBg600: 'hover:bg-pink-600',
+  },
+  red: {
+    bg50: 'bg-red-50',
+    bg500: 'bg-red-500',
+    bg600: 'bg-red-600',
+    text500: 'text-red-500',
+    text600: 'text-red-600',
+    border300: 'border-red-300',
+    hoverBg600: 'hover:bg-red-600',
+  },
+};
+
+function getColorClasses(color: string): ColorClassSet {
+  return colorClasses[color as ColorKey] || colorClasses.blue;
+}
+
+function useInView<T extends HTMLElement>(threshold = 0.1) {
+  const ref = useRef<T | null>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.unobserve(node);
+        }
+      },
+      { threshold }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, inView };
+}
+
+const MachineCard: React.FC<{ machine: MachineItem; color: string; onClick: () => void; delay?: number; visible?: boolean }> = ({ machine, color, onClick, delay = 0, visible = true }) => {
+  const c = getColorClasses(color);
+  return (
+    <div
+      onClick={onClick}
+      className="group bg-white rounded-xl border border-blue-100 shadow-sm hover:shadow-lg hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(24px)',
+        animation: visible ? `fadeInUp 0.6s ease-out ${delay}ms both` : undefined,
+      }}
+    >
+      <div className="relative h-64 md:h-72 bg-gray-100 overflow-hidden">
+        <img
+          src={machine.image}
+          alt={machine.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+        <div className={`absolute top-2 left-2 w-8 h-8 rounded-lg ${c.bg500} flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-110`}>
+          <machine.icon size={16} className="text-white" />
+        </div>
+      </div>
+
+      <div className="p-4">
+        <span className={`inline-block text-[10px] font-semibold uppercase tracking-wide ${c.text600} mb-1`}>
+          {machine.category}
+        </span>
+        <h3 className="font-bold text-gray-900 text-sm md:text-base mb-1">{machine.name}</h3>
+        <p className="text-xs text-gray-500 leading-relaxed">{machine.description}</p>
+        <span className={`inline-block mt-2 text-[11px] font-medium ${c.text600} group-hover:underline transition-all duration-300`}>
+          View Details →
+        </span>
+      </div>
+    </div>
+  );
+};
+
+const MachineModal: React.FC<{ machine: MachineItem; color: string; onClose: () => void }> = ({ machine, color, onClose }) => {
+  const [visible, setVisible] = useState(false);
+  const c = getColorClasses(color);
+
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(onClose, 200);
+  };
+
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setVisible(true));
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      cancelAnimationFrame(t);
+      window.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-200"
+      style={{ opacity: visible ? 1 : 0 }}
+      onClick={handleClose}
+    >
+      <div
+        className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl transition-all duration-250 ease-out"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'scale(1) translateY(0)' : 'scale(0.94) translateY(16px)',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative h-64 md:h-80 bg-gray-100">
+          <img src={machine.image} alt={machine.name} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
+          <button
+            onClick={handleClose}
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/60 hover:rotate-90 transition-all duration-300"
+            aria-label="Close"
+          >
+            <X size={18} />
+          </button>
+          <div className="absolute bottom-4 left-5 flex items-center gap-3">
+            <div className={`w-10 h-10 rounded-xl ${c.bg500} flex items-center justify-center shadow-md`}>
+              <machine.icon size={20} className="text-white" />
+            </div>
+            <div>
+              <span className={`block text-[10px] font-semibold uppercase tracking-wide text-white/80`}>
+                {machine.category}
+              </span>
+              <h3 className="text-xl md:text-2xl font-bold text-white">{machine.name}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-5 md:p-6">
+          <div className="space-y-3">
+            {machine.detailedInfo.map((line, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-2.5"
+                style={{ animation: visible ? `fadeInUp 0.4s ease-out ${i * 60 + 100}ms both` : undefined }}
+              >
+                <div className={`w-1.5 h-1.5 rounded-full ${c.bg500} mt-2 shrink-0`} />
+                <p className="text-sm text-gray-600 leading-relaxed">{line}</p>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={handleClose}
+            className={`mt-6 w-full py-2.5 rounded-lg ${c.bg500} text-white font-semibold text-sm ${c.hoverBg600} transition-all duration-300`}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage }) => {
   const { industryId } = useParams();
   const navigate = useNavigate();
+  const [activeMachine, setActiveMachine] = useState<MachineItem | null>(null);
+  const [heroLoaded, setHeroLoaded] = useState(false);
 
-  // High-quality optimized images for each industry
+  const statsSection = useInView<HTMLDivElement>();
+  const overviewSection = useInView<HTMLDivElement>();
+  const processingSection = useInView<HTMLDivElement>();
+  const utilitySection = useInView<HTMLDivElement>();
+  const receptionSection = useInView<HTMLDivElement>();
+  const processingUtilitySection = useInView<HTMLDivElement>();
+  const benefitsSection = useInView<HTMLDivElement>();
+  const modulesSection = useInView<HTMLDivElement>();
+  const techSection = useInView<HTMLDivElement>();
+  const ctaSection = useInView<HTMLDivElement>();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    const t = requestAnimationFrame(() => setHeroLoaded(true));
+    return () => cancelAnimationFrame(t);
+  }, []);
+
   const heroImages: Record<string, string> = {
     manufacturing: 'https://i.pinimg.com/736x/c2/03/f0/c203f0f2ca090e28d38c375f6591fe9f.jpg',
     dairy: 'https://i.pinimg.com/1200x/23/7d/4c/237d4c85c92e6ac7235f782c8073df77.jpg',
     retail: 'https://i.pinimg.com/1200x/52/bc/a2/52bca2af216c16bd480dd3d815713ff7.jpg',
     healthcare: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1600&h=500&fit=crop&q=80',
+    'milk-plant-machinery': 'https://i.pinimg.com/736x/c5/97/c4/c597c4708f5c84e3068bea03a1e51e7a.jpg',
   };
+
+ 
+  const milkMachines: MachineItem[] = [
+    {
+      name: 'Milk Pasteurizer',
+      category: 'Processing Equipment',
+      description: 'HTST & batch pasteurization, 500–10,000+ LPH capacity for safe, shelf-stable milk.',
+      detailedInfo: [
+        'Heats raw milk to a set temperature for a precise duration to destroy harmful bacteria while preserving nutritional value and taste.',
+        'Available in HTST (High Temperature Short Time) and batch pasteurization modes to suit different plant scales.',
+        'Capacity ranges from 500 LPH for small setups to 10,000+ LPH for large commercial dairies.',
+        'Built with food-grade SS316 plate heat exchangers for efficient, hygienic heat transfer.',
+        'PLC-based automatic temperature control ensures consistent pasteurization with minimal manual monitoring.',
+        'Includes a regeneration section that reuses heat energy, reducing overall power consumption.'
+      ],
+      icon: Thermometer,
+      image: 'https://i.pinimg.com/736x/77/7f/d8/777fd87dac81d0793e54fd9c19328042.jpg'
+    },
+    {
+      name: 'Milk Homogenizer',
+      category: 'Processing Equipment',
+      description: 'High-pressure, two-stage homogenization for uniform fat distribution and smooth texture.',
+      detailedInfo: [
+        'Breaks down fat globules in milk into smaller, uniform particles so cream does not separate and rise to the top.',
+        'Two-stage high-pressure homogenization (up to 250 bar) delivers a smoother mouthfeel and consistent texture.',
+        'Typically integrated directly with the pasteurization line for a seamless processing flow.',
+        'Stainless steel construction ensures durability and compliance with food safety standards.',
+        'Low-noise, low-vibration operation designed for continuous industrial use.',
+        'Easy to clean and fully compatible with CIP (Clean-in-Place) systems.'
+      ],
+      icon: Waves,
+      image: 'https://www.dtfoodmachine.com/wp-content/uploads/2025/09/milk-homogenizer.jpg'
+    },
+    {
+      name: 'Plate Heat Exchanger',
+      category: 'Processing Equipment',
+      description: 'Chiller, heater & heat recovery system for efficient thermal treatment of milk.',
+      detailedInfo: [
+        'Transfers heat between milk and a heating/cooling medium through a series of thin stainless steel plates.',
+        'Used for both chilling raw milk and heating it during pasteurization, all in one compact unit.',
+        'Heat recovery function reuses thermal energy from outgoing milk to preheat incoming milk, cutting energy costs.',
+        'Gasketed plate design allows easy disassembly for cleaning and capacity expansion.',
+        'Handles a wide range of flow rates, making it suitable for both small dairies and large processing plants.',
+        'Food-grade construction ensures full compliance with dairy hygiene regulations.'
+      ],
+      icon: GitBranch,
+      image: 'https://i.pinimg.com/736x/27/a4/be/27a4be1582ca6c0af4c06f5ff0f3dfab.jpg'
+    },
+    {
+      name: 'CIP System',
+      category: 'Utility & Automation',
+      description: 'Automated cleaning-in-place system ensuring plant-wide hygiene without disassembly.',
+      detailedInfo: [
+        'Automatically cleans and sanitizes tanks, pipelines, and processing equipment without any disassembly.',
+        'Runs a programmed cycle of rinsing, alkali wash, acid wash, and final rinse for thorough hygiene.',
+        'PLC-controlled sequencing ensures consistent, repeatable cleaning every time.',
+        'Chemical dosing system automatically maintains the right concentration for each wash stage.',
+        'Recovery tanks allow cleaning solutions to be reused, reducing water and chemical wastage.',
+        'Critical for meeting food safety compliance and minimizing manual cleaning labor.'
+      ],
+      icon: Settings,
+      image: 'https://www.hrs-heatexchangers.com/wp-content/uploads/2016/09/CIP3.jpg'
+    },
+    {
+      name: 'Dairy Valve Cluster',
+      category: 'Utility & Automation',
+      description: 'Automatic mix-proof valve battery for contamination-free product routing.',
+      detailedInfo: [
+        'A battery of automatic mix-proof valves that routes milk and cleaning fluids through the plant\'s pipelines.',
+        'Prevents cross-contamination between different product lines and cleaning cycles.',
+        'Enables multiple processes (production, cleaning, transfer) to run simultaneously without interference.',
+        'Centralized control allows quick reconfiguration of flow paths for different production needs.',
+        'Reduces manual valve operation, minimizing human error in complex plant layouts.',
+        'Built to hygienic design standards for long-term reliability in dairy environments.'
+      ],
+      icon: CircleDot,
+      image: 'https://i.pinimg.com/736x/fe/ad/2e/fead2ea8a302382e8d59b8cc56b39b72.jpg'
+    },
+    {
+      name: 'Milk Reception Dock (RMRD)',
+      category: 'Reception & Storage',
+      description: 'Weigh, filter, chill and store incoming raw milk at the point of entry.',
+      detailedInfo: [
+        'The first point of contact for incoming raw milk at the dairy plant.',
+        'Weighs each incoming milk consignment accurately for record-keeping and payment processing.',
+        'Filters out physical impurities before the milk enters the processing line.',
+        'Rapidly chills the milk to preserve freshness and slow bacterial growth right at reception.',
+        'Feeds directly into storage tanks or silos for further processing.',
+        'Designed for high-throughput handling during peak collection hours.'
+      ],
+      icon: Truck,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpXfFjdF7yDzHh8eubPCwYJhulTPT0bAmrV_KHxeVTUdjSF4uNzXAz864&s=10'
+    },
+    {
+      name: 'Milk Storage Silo & Tanks',
+      category: 'Reception & Storage',
+      description: 'Insulated storage from 1,000L to 100,000L+ for raw and processed milk.',
+      detailedInfo: [
+        'Provides temperature-controlled bulk storage for raw or processed milk before further handling.',
+        'Available in capacities ranging from 1,000 litres up to 100,000+ litres for large-scale plants.',
+        'Insulated jacket design maintains a consistent internal temperature and reduces energy loss.',
+        'Fitted with level indicators and sensors for real-time monitoring of stock levels.',
+        'Includes agitators in larger tanks to keep milk composition uniform during storage.',
+        'Constructed from SS304/SS316 stainless steel to meet food-grade hygiene standards.'
+      ],
+      icon: Warehouse,
+      image: 'https://i.pinimg.com/1200x/a2/40/af/a240afc72e12736b313db75bfafd7b23.jpg'
+    },
+    {
+      name: 'Cream Separator',
+      category: 'Processing & Utility',
+      description: 'Fat standardization & clarification through high-speed centrifugal separation.',
+      detailedInfo: [
+        'Separates cream/fat from milk using high-speed centrifugal force, producing skimmed milk and cream.',
+        'Essential for standardizing milk fat content to meet product specifications.',
+        'Also performs clarification, removing fine impurities and improving overall milk quality.',
+        'Automatic self-cleaning (self-desludging) bowl reduces downtime between cleaning cycles.',
+        'Compact footprint makes it suitable for both small and large dairy plant layouts.',
+        'Low maintenance design with long service intervals for continuous operation.'
+      ],
+      icon: Gauge,
+      image: 'https://i.pinimg.com/736x/d1/7f/5b/d17f5b6f98ea920c33c56b39a5973e01.jpg'
+    },
+    {
+      name: 'Bulk Milk Cooler (BMC)',
+      category: 'Processing & Utility',
+      description: 'Village-level chilling to 4°C, preserving milk freshness at the collection stage.',
+      detailedInfo: [
+        'Rapidly cools raw milk down to 4°C right at the village-level collection center.',
+        'Prevents bacterial growth and preserves milk freshness before it reaches the processing plant.',
+        'Uses direct expansion (DX) cooling technology for fast, efficient chilling.',
+        'Built-in agitator ensures uniform cooling throughout the tank.',
+        'Insulated body keeps power consumption low even during extended storage periods.',
+        'Available in capacities from 500 litres up to 20,000 litres depending on collection volume.'
+      ],
+      icon: Milk,
+      image: 'https://5.imimg.com/data5/SELLER/Default/2021/10/CS/AU/GC/7782392/bulk-milk-cooler-bmc--500x500.jpg'
+    },
+    {
+      name: 'Milk Chilling Plant',
+      category: 'Processing & Utility',
+      description: 'Central chilling systems for large-scale, plant-wide temperature control.',
+      detailedInfo: [
+        'A centralized chilling system designed for large-scale, plant-wide temperature control.',
+        'Handles higher milk volumes compared to a standalone Bulk Milk Cooler.',
+        'Maintains consistent cold-chain temperatures across multiple storage and processing points.',
+        'Integrates with plant automation for real-time temperature monitoring and alerts.',
+        'Reduces spoilage risk by ensuring milk stays within safe temperature ranges at every stage.',
+        'Scalable design allows capacity expansion as plant throughput grows.'
+      ],
+      icon: Thermometer,
+      image: 'https://5.imimg.com/data5/LF/BP/MY-5433941/milk-chilling-plant-500x500.jpg'
+    },
+    {
+      name: 'Cheese & Paneer Vat',
+      category: 'Processing & Utility',
+      description: 'Cutting & stirring vats designed for consistent curd formation and yield.',
+      detailedInfo: [
+        'Specialized vats designed for curd formation during cheese and paneer production.',
+        'Built-in cutting and stirring mechanisms ensure uniform curd texture and consistent yield.',
+        'Jacketed design allows precise temperature control during the setting and cutting process.',
+        'Helps standardize production quality across batches, reducing variation.',
+        'Available in different sizes to match small-batch or high-volume production needs.',
+        'Hygienic stainless steel construction suited for continuous food-grade operation.'
+      ],
+      icon: FlaskConical,
+      image: 'https://goma.co.in/uploads/equipments/842bd71a0229d9677fcd86f4f86c8093.jpg'
+    },
+    {
+      name: 'Butter Churn',
+      category: 'Processing & Utility',
+      description: 'Continuous butter making system for high-throughput, consistent output.',
+      detailedInfo: [
+        'Converts cream into butter through a continuous churning and working process.',
+        'Designed for high-throughput operation, suitable for medium to large dairy plants.',
+        'Delivers consistent butter texture and moisture content across every batch.',
+        'Reduces manual labor compared to traditional batch churning methods.',
+        'Integrated working section kneads the butter to the correct consistency after churning.',
+        'Built from food-grade stainless steel for long-term hygienic operation.'
+      ],
+      icon: Package,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4yyzulkqB1mpjskly-eFnw0XEXCNl7sj2Xq1FRp9pNk6xgMbCdp3tEmk7&s=10'
+    },
+  ];
 
   const industryData: Record<string, any> = {
     manufacturing: {
@@ -176,12 +664,43 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
         { name: 'Billing Module', status: 'Core', features: 11 },
         { name: 'Telehealth Module', status: 'Advanced', features: 7 },
       ]
+    },
+    'milk-plant-machinery': {
+      name: 'Milk Plant Machinery',
+      tagline: 'Complete Dairy Plant Equipment, From Reception to Processing',
+      icon: Milk,
+      color: 'blue',
+      gradient: 'from-blue-500 to-indigo-500',
+      description: 'Comprehensive dairy plant machinery covering processing, utility automation, and reception & storage.',
+      longDescription: 'We deliver equipment that performs as a plant, not a pile of boxes. Our milk plant machinery lineup spans processing equipment like pasteurizers, homogenizers and heat exchangers, utility & automation systems like CIP and valve clusters, and reception & storage solutions built for real-world dairy operations.',
+      stats: [
+        { value: '12', label: 'Machine Types', icon: Package },
+        { value: '500–10K+', label: 'LPH Capacity Range', icon: Gauge },
+        { value: '1K–100K+ L', label: 'Storage Range', icon: Warehouse },
+        { value: '100%', label: 'Hygienic Design', icon: Shield },
+      ],
+      isMachineryPage: true,
+      machines: milkMachines,
+      benefits: [
+        { metric: '30%', label: 'Faster Processing', color: 'blue' },
+        { metric: '99%', label: 'Hygiene Compliance', color: 'indigo' },
+        { metric: '40%', label: 'Reduced Manual Labor', color: 'blue' },
+        { metric: '100%', label: 'Plant-wide Integration', color: 'indigo' },
+      ],
+      technologies: ['SS304/SS316 Construction', 'PLC Automation', 'IoT Monitoring', 'Mix-proof Valves', 'CIP Integration', 'Cold Chain Systems'],
+      modules: [
+        { name: 'Processing Module', status: 'Core', features: 3 },
+        { name: 'Utility Module', status: 'Core', features: 2 },
+        { name: 'Reception Module', status: 'Core', features: 2 },
+        { name: 'Processing & Utility Module', status: 'Advanced', features: 5 },
+      ]
     }
   };
 
   const industry = industryData[industryId || 'manufacturing'];
   const heroImage = heroImages[industryId || 'manufacturing'];
-  const IconComponent = industry.icon;
+  const IconComponent = industry?.icon;
+  const c = getColorClasses(industry?.color);
 
   if (!industry) {
     return (
@@ -196,192 +715,30 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
     );
   }
 
+  const industryTitle = `${industry.name} Solutions - Logic Shell`;
+
   return (
-    <div className="bg-white min-h-screen">
-      {/* Hero Section with Clean Image - No Overlay Colors */}
-      <section className="relative h-[50vh] md:h-[55vh] lg:h-[60vh] min-h-87.5 max-h-125 overflow-hidden">
-        {/* Background Image */}
-        <img 
-          src={heroImage} 
-          alt={industry.name}
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          style={{ objectPosition: 'center 30%' }}
-        />
-        
-        {/* Dark gradient overlay for text readability - subtle */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-black/20" />
-        
-        {/* Content */}
-        <div className="relative z-10 h-full flex items-end pb-12 md:pb-16 lg:pb-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <button 
-              onClick={() => navigate('/industry')}
-              className="inline-flex items-center gap-2 text-white/90 hover:text-white mb-4 md:mb-6 group bg-black/30 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm md:text-base transition-all"
-            >
-              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-              Back to Industries
-            </button>
-            
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 mb-2 md:mb-3">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-xl md:rounded-2xl flex items-center justify-center border border-white/40 shadow-lg">
-                <IconComponent size={24} className="text-white md:w-8 md:h-8" />
-              </div>
-              <div>
-                <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-2 py-0.5 md:px-3 md:py-1 mb-1 md:mb-2">
-                  <span className="text-[10px] md:text-xs font-semibold text-white uppercase tracking-wide">Industry Solution</span>
-                </div>
-                <h1 className="font-syne font-bold text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-tight">
-                  {industry.name}
-                </h1>
-              </div>
-            </div>
-            <p className="text-white/95 text-base md:text-lg lg:text-xl max-w-2xl font-medium leading-relaxed">
-              {industry.tagline}
-            </p>
-          </div>
-        </div>
-      </section>
+    <>
+      <Helmet>
+        <title>{industryTitle}</title>
+        <meta name="description" content={`Logic Shell ${industry.name} solutions - ${industry.tagline}. Explore our comprehensive digital solutions for ${industry.name} industry.`} />
+        <link rel="canonical" href={`https://thelogicshell.com/industry/${industryId}`} />
+      </Helmet>
 
-      {/* Stats Section */}
-      <section className="py-8 md:py-12 bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {industry.stats.map((stat: any, i: number) => (
-              <div key={i} className="text-center p-3 md:p-4 rounded-xl bg-linear-to-br from-gray-50 to-white border border-gray-100 hover:shadow-md transition-shadow">
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl bg-${industry.color}-50 flex items-center justify-center mx-auto mb-2 md:mb-3`}>
-                  <stat.icon size={20} className={`text-${industry.color}-500 md:w-5.5 md:h-5.5`} />
-                </div>
-                <div className={`text-xl md:text-2xl lg:text-3xl font-bold text-${industry.color}-600`}>{stat.value}</div>
-                <div className="text-[11px] md:text-xs text-gray-500 mt-1">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Overview Section */}
-      <section className="py-10 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Overview</h2>
-              <p className="text-gray-600 leading-relaxed mb-6 text-sm md:text-base">
-                {industry.longDescription}
-              </p>
-              
-              <div className="bg-linear-to-br from-gray-50 to-white rounded-xl p-5 md:p-6 border border-gray-100">
-                <h3 className="font-semibold text-gray-900 mb-3 md:mb-4 flex items-center gap-2 text-base md:text-lg">
-                  <Award size={18} className={`text-${industry.color}-500`} />
-                  Key Benefits
-                </h3>
-                <div className="grid grid-cols-2 gap-3 md:gap-4">
-                  {industry.benefits.map((benefit: any, i: number) => (
-                    <div key={i} className="text-center p-2 md:p-3 bg-white rounded-lg border border-gray-100">
-                      <div className={`text-base md:text-xl font-bold text-${benefit.color}-600`}>{benefit.metric}</div>
-                      <div className="text-[10px] md:text-xs text-gray-500">{benefit.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Key Features</h2>
-              <div className="space-y-3 max-h-100 md:max-h-125 overflow-y-auto pr-2 custom-scrollbar">
-                {industry.features.map((feature: any, i: number) => (
-                  <div key={i} className="flex items-start gap-3 p-3 md:p-4 bg-white rounded-xl border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all">
-                    <div className={`w-7 h-7 md:w-8 md:h-8 rounded-lg bg-${industry.color}-50 flex items-center justify-center shrink-0`}>
-                      <feature.icon size={14} className={`text-${industry.color}-500 md:w-4 md:h-4`} />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-800 text-xs md:text-sm">{feature.title}</h3>
-                      <p className="text-[10px] md:text-xs text-gray-500 mt-0.5">{feature.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Modules Section */}
-      <section className="py-10 md:py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6 md:mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Solution Modules</h2>
-            <p className="text-gray-500 text-sm md:text-base">Comprehensive modules designed for your business needs</p>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-            {industry.modules.map((module: any, i: number) => (
-              <div key={i} className="bg-white rounded-xl p-3 md:p-5 border border-gray-100 text-center hover:shadow-md transition-all">
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl bg-${industry.color}-50 flex items-center justify-center mx-auto mb-2 md:mb-3`}>
-                  <Package size={18} className={`text-${industry.color}-500 md:w-5 md:h-5`} />
-                </div>
-                <h3 className="font-bold text-gray-800 text-sm md:text-base mb-1">{module.name}</h3>
-                <div className="flex items-center justify-center gap-1 md:gap-2 mt-1 md:mt-2">
-                  <span className={`text-[10px] md:text-xs px-1.5 py-0.5 md:px-2 rounded-full ${module.status === 'Core' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'}`}>
-                    {module.status}
-                  </span>
-                  <span className="text-[10px] md:text-xs text-gray-400">{module.features} features</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technologies Section */}
-      <section className="py-10 md:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`bg-linear-to-r ${industry.gradient} rounded-2xl p-6 md:p-8 text-white`}>
-            <div className="text-center mb-4 md:mb-6">
-              <h3 className="text-xl md:text-2xl font-bold mb-2">Technologies We Use</h3>
-              <p className="text-white/80 text-xs md:text-sm">Cutting-edge technology stack for modern solutions</p>
-            </div>
-            <div className="flex flex-wrap gap-1.5 md:gap-2 justify-center">
-              {industry.technologies.map((tech: string, i: number) => (
-                <span key={i} className="px-2.5 py-1 md:px-4 md:py-2 bg-white/20 backdrop-blur-sm rounded-full text-[11px] md:text-sm font-medium border border-white/30">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-10 md:py-16 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`bg-linear-to-r ${industry.gradient} rounded-2xl p-6 md:p-10 text-center shadow-xl`}>
-            <Sparkles size={24} className="text-white mx-auto mb-3 md:w-8 md:h-8" />
-            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 md:mb-3">
-              Ready to Transform Your {industry.name} Business?
-            </h3>
-            <p className="text-white/90 mb-5 md:mb-6 max-w-md mx-auto text-sm md:text-base">
-              Let's discuss how we can help you implement these solutions and drive growth.
-            </p>
-            <div className="flex flex-wrap gap-3 md:gap-4 justify-center">
-              <button 
-                onClick={() => setCurrentPage('contact')}
-                className="px-4 py-2 md:px-6 md:py-3 bg-white text-gray-800 rounded-xl font-semibold text-sm md:text-base hover:bg-gray-100 transition-all inline-flex items-center gap-2 shadow-lg"
-              >
-                <Mail size={16} />
-                Contact Sales
-              </button>
-              <button 
-                onClick={() => setCurrentPage('contact')}
-                className="px-4 py-2 md:px-6 md:py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white rounded-xl font-semibold text-sm md:text-base hover:bg-white/30 transition-all inline-flex items-center gap-2"
-              >
-                <Calendar size={16} />
-                Schedule Demo
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* Scoped keyframes — no tailwind.config changes needed */}
       <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal-hidden {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        .reveal-visible {
+          animation: fadeInUp 0.7s ease-out forwards;
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
           width: 4px;
         }
@@ -403,7 +760,335 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
           }
         }
       `}</style>
-    </div>
+
+      <div className="bg-white min-h-screen">
+        <section className="relative h-[50vh] md:h-[55vh] lg:h-[60vh] min-h-87.5 max-h-125 overflow-hidden">
+          <img 
+            src={heroImage} 
+            alt={industry.name}
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-1200 ease-out"
+            style={{ objectPosition: 'center 30%', transform: heroLoaded ? 'scale(1)' : 'scale(1.08)' }}
+          />
+          
+          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-black/20" />
+          
+          <div className="relative z-10 h-full flex items-end pb-12 md:pb-16 lg:pb-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+              <button 
+                onClick={() => navigate('/industry')}
+                className="inline-flex items-center gap-2 text-white/90 hover:text-white mb-4 md:mb-6 group bg-black/30 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm md:text-base transition-all duration-300"
+                style={{
+                  opacity: heroLoaded ? 1 : 0,
+                  transform: heroLoaded ? 'translateY(0)' : 'translateY(12px)',
+                  transition: 'opacity 0.6s ease-out, transform 0.6s ease-out',
+                }}
+              >
+                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-300" />
+                Back to Industries
+              </button>
+              
+              <div
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 mb-2 md:mb-3"
+                style={{
+                  opacity: heroLoaded ? 1 : 0,
+                  transform: heroLoaded ? 'translateY(0)' : 'translateY(20px)',
+                  transition: 'opacity 0.7s ease-out 100ms, transform 0.7s ease-out 100ms',
+                }}
+              >
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-xl md:rounded-2xl flex items-center justify-center border border-white/40 shadow-lg">
+                  <IconComponent size={24} className="text-white md:w-8 md:h-8" />
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-2 py-0.5 md:px-3 md:py-1 mb-1 md:mb-2">
+                    <span className="text-[10px] md:text-xs font-semibold text-white uppercase tracking-wide">Industry Solution</span>
+                  </div>
+                  <h1 className="font-syne font-bold text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-tight">
+                    {industry.name}
+                  </h1>
+                </div>
+              </div>
+              <p
+                className="text-white/95 text-base md:text-lg lg:text-xl max-w-2xl font-medium leading-relaxed"
+                style={{
+                  opacity: heroLoaded ? 1 : 0,
+                  transform: heroLoaded ? 'translateY(0)' : 'translateY(20px)',
+                  transition: 'opacity 0.7s ease-out 220ms, transform 0.7s ease-out 220ms',
+                }}
+              >
+                {industry.tagline}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-8 md:py-12 bg-white border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div ref={statsSection.ref} className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {industry.stats.map((stat: any, i: number) => (
+                <div
+                  key={i}
+                  className={`text-center p-3 md:p-4 rounded-xl bg-linear-to-br from-gray-50 to-white border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 ${
+                    statsSection.inView ? 'reveal-visible' : 'reveal-hidden'
+                  }`}
+                  style={{ animationDelay: statsSection.inView ? `${i * 100}ms` : undefined }}
+                >
+                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${c.bg50} flex items-center justify-center mx-auto mb-2 md:mb-3`}>
+                    <stat.icon size={20} className={`${c.text500} md:w-5.5 md:h-5.5`} />
+                  </div>
+                  <div className={`text-xl md:text-2xl lg:text-3xl font-bold ${c.text600}`}>{stat.value}</div>
+                  <div className="text-[11px] md:text-xs text-gray-500 mt-1">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {industry.isMachineryPage ? (
+          <>
+            <section className="py-10 md:py-12">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-2">
+                  <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto text-sm md:text-base">
+                    {industry.longDescription}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section className="py-6 md:py-8">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-4">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">Processing Equipment</h2>
+                </div>
+                <div ref={processingSection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {industry.machines.filter((m: MachineItem) => m.category === 'Processing Equipment').map((machine: MachineItem, i: number) => (
+                    <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={processingSection.inView} />
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="py-6 md:py-8 bg-gray-50/50">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-4">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">Utility & Automation</h2>
+                </div>
+                <div ref={utilitySection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {industry.machines.filter((m: MachineItem) => m.category === 'Utility & Automation').map((machine: MachineItem, i: number) => (
+                    <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={utilitySection.inView} />
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="py-6 md:py-8">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-4">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">Reception & Storage</h2>
+                </div>
+                <div ref={receptionSection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {industry.machines.filter((m: MachineItem) => m.category === 'Reception & Storage').map((machine: MachineItem, i: number) => (
+                    <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={receptionSection.inView} />
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="py-6 md:py-12 bg-gray-50/50">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mb-4">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">Processing & Utility Equipment</h2>
+                </div>
+                <div ref={processingUtilitySection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {industry.machines.filter((m: MachineItem) => m.category === 'Processing & Utility').map((machine: MachineItem, i: number) => (
+                    <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 80} visible={processingUtilitySection.inView} />
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        ) : (
+          <section className="py-10 md:py-16">
+            <div ref={overviewSection.ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
+                <div className={overviewSection.inView ? 'reveal-visible' : 'reveal-hidden'}>
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Overview</h2>
+                  <p className="text-gray-600 leading-relaxed mb-6 text-sm md:text-base">
+                    {industry.longDescription}
+                  </p>
+                  
+                  <div className="bg-linear-to-br from-gray-50 to-white rounded-xl p-5 md:p-6 border border-gray-100">
+                    <h3 className="font-semibold text-gray-900 mb-3 md:mb-4 flex items-center gap-2 text-base md:text-lg">
+                      <Award size={18} className={c.text500} />
+                      Key Benefits
+                    </h3>
+                    <div className="grid grid-cols-2 gap-3 md:gap-4">
+                      {industry.benefits.map((benefit: any, i: number) => {
+                        const bc = getColorClasses(benefit.color);
+                        return (
+                          <div key={i} className="text-center p-2 md:p-3 bg-white rounded-lg border border-gray-100 transition-transform duration-300 hover:-translate-y-0.5">
+                            <div className={`text-base md:text-xl font-bold ${bc.text600}`}>{benefit.metric}</div>
+                            <div className="text-[10px] md:text-xs text-gray-500">{benefit.label}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={overviewSection.inView ? 'reveal-visible' : 'reveal-hidden'}
+                  style={{ animationDelay: overviewSection.inView ? '150ms' : undefined }}
+                >
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Key Features</h2>
+                  <div className="space-y-3 max-h-100 md:max-h-125 overflow-y-auto pr-2 custom-scrollbar">
+                    {industry.features.map((feature: any, i: number) => (
+                      <div key={i} className="flex items-start gap-3 p-3 md:p-4 bg-white rounded-xl border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div className={`w-7 h-7 md:w-8 md:h-8 rounded-lg ${c.bg50} flex items-center justify-center shrink-0`}>
+                          <feature.icon size={14} className={`${c.text500} md:w-4 md:h-4`} />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-800 text-xs md:text-sm">{feature.title}</h3>
+                          <p className="text-[10px] md:text-xs text-gray-500 mt-0.5">{feature.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {industry.isMachineryPage && (
+          <section className="py-10 md:py-12 bg-white border-t border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div
+                ref={benefitsSection.ref}
+                className={`bg-linear-to-br from-gray-50 to-white rounded-xl p-5 md:p-6 border border-gray-100 ${
+                  benefitsSection.inView ? 'reveal-visible' : 'reveal-hidden'
+                }`}
+              >
+                <h3 className="font-semibold text-gray-900 mb-3 md:mb-4 flex items-center gap-2 text-base md:text-lg">
+                  <Award size={18} className={c.text500} />
+                  Key Benefits
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                  {industry.benefits.map((benefit: any, i: number) => {
+                    const bc = getColorClasses(benefit.color);
+                    return (
+                      <div key={i} className="text-center p-2 md:p-3 bg-white rounded-lg border border-gray-100 transition-transform duration-300 hover:-translate-y-0.5">
+                        <div className={`text-base md:text-xl font-bold ${bc.text600}`}>{benefit.metric}</div>
+                        <div className="text-[10px] md:text-xs text-gray-500">{benefit.label}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        <section className="py-10 md:py-12 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6 md:mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Solution Modules</h2>
+              <p className="text-gray-500 text-sm md:text-base">Comprehensive modules designed for your business needs</p>
+            </div>
+            <div ref={modulesSection.ref} className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+              {industry.modules.map((module: any, i: number) => (
+                <div
+                  key={i}
+                  className={`bg-white rounded-xl p-3 md:p-5 border border-gray-100 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 ${
+                    modulesSection.inView ? 'reveal-visible' : 'reveal-hidden'
+                  }`}
+                  style={{ animationDelay: modulesSection.inView ? `${i * 100}ms` : undefined }}
+                >
+                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${c.bg50} flex items-center justify-center mx-auto mb-2 md:mb-3`}>
+                    <Package size={18} className={`${c.text500} md:w-5 md:h-5`} />
+                  </div>
+                  <h3 className="font-bold text-gray-800 text-sm md:text-base mb-1">{module.name}</h3>
+                  <div className="flex items-center justify-center gap-1 md:gap-2 mt-1 md:mt-2">
+                    <span className={`text-[10px] md:text-xs px-1.5 py-0.5 md:px-2 rounded-full ${module.status === 'Core' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'}`}>
+                      {module.status}
+                    </span>
+                    <span className="text-[10px] md:text-xs text-gray-400">{module.features} features</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-10 md:py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              ref={techSection.ref}
+              className={`bg-linear-to-r ${industry.gradient} rounded-2xl p-6 md:p-8 text-white ${
+                techSection.inView ? 'reveal-visible' : 'reveal-hidden'
+              }`}
+            >
+              <div className="text-center mb-4 md:mb-6">
+                <h3 className="text-xl md:text-2xl font-bold mb-2">Technologies We Use</h3>
+                <p className="text-white/80 text-xs md:text-sm">Cutting-edge technology stack for modern solutions</p>
+              </div>
+              <div className="flex flex-wrap gap-1.5 md:gap-2 justify-center">
+                {industry.technologies.map((tech: string, i: number) => (
+                  <span
+                    key={i}
+                    className="px-2.5 py-1 md:px-4 md:py-2 bg-white/20 backdrop-blur-sm rounded-full text-[11px] md:text-sm font-medium border border-white/30 transition-transform duration-300 hover:scale-105 hover:bg-white/30"
+                    style={{
+                      animation: techSection.inView ? `fadeInUp 0.4s ease-out ${i * 50}ms both` : undefined,
+                    }}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-10 md:py-16 bg-white border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              ref={ctaSection.ref}
+              className={`bg-linear-to-r ${industry.gradient} rounded-2xl p-6 md:p-10 text-center shadow-xl transition-shadow duration-300 hover:shadow-2xl ${
+                ctaSection.inView ? 'reveal-visible' : 'reveal-hidden'
+              }`}
+            >
+              <Sparkles size={24} className="text-white mx-auto mb-3 md:w-8 md:h-8" />
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 md:mb-3">
+                Ready to Transform Your {industry.name} Business?
+              </h3>
+              <p className="text-white/90 mb-5 md:mb-6 max-w-md mx-auto text-sm md:text-base">
+                Let's discuss how we can help you implement these solutions and drive growth.
+              </p>
+              <div className="flex flex-wrap gap-3 md:gap-4 justify-center">
+                <button 
+                  onClick={() => setCurrentPage('contact')}
+                  className="px-4 py-2 md:px-6 md:py-3 bg-white text-gray-800 rounded-xl font-semibold text-sm md:text-base hover:bg-gray-100 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 inline-flex items-center gap-2 shadow-lg"
+                >
+                  <Mail size={16} />
+                  Contact Sales
+                </button>
+                <button 
+                  onClick={() => setCurrentPage('contact')}
+                  className="px-4 py-2 md:px-6 md:py-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white rounded-xl font-semibold text-sm md:text-base hover:bg-white/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 inline-flex items-center gap-2"
+                >
+                  <Calendar size={16} />
+                  Schedule Demo
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {activeMachine && (
+        <MachineModal machine={activeMachine} color={industry.color} onClose={() => setActiveMachine(null)} />
+      )}
+    </>
   );
 };
 
