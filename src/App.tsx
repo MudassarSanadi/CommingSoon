@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import {  Routes, Route, Navigate, useNavigate, useLocation, HashRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'  
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -105,9 +105,9 @@ const AppContent = () => {
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppContent />
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

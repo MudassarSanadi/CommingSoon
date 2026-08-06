@@ -48,7 +48,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
   const infoSection = useInView<HTMLDivElement>()
   const ctaSection = useInView<HTMLDivElement>()
 
-  // Proper scroll-to-top on mount, same as the rest of the site
+ 
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -129,7 +129,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
         </script>
       </Helmet>
 
-      {/* Scoped keyframes — no tailwind.config changes needed */}
+     
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(24px); }

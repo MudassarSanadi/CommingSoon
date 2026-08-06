@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Heart, Mail, Phone, MapPin } from "lucide-react";
+import { Heart, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import type { PageType } from "../App";
-import LogoIcon from './LogoIcon'
+import LogoIcon from "./LogoIcon";
 
 interface FooterProps {
   setCurrentPage: (page: PageType) => void;
@@ -33,34 +33,52 @@ const Footer: React.FC<FooterProps> = () => {
 
   return (
     <footer className="bg-white border-t border-blue-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-blue-100">
-          <div className="space-y-3 text-center sm:text-left">
-            <div className="flex items-center justify-center sm:justify-start gap-2.5">
-              <div className="w-14 h-14 rounded-full bg-white border border-blue-200 shadow-sm flex items-center justify-center overflow-hidden p-1">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-8 pb-8 sm:pb-10 border-b border-blue-100">
+          <div className="space-y-4 text-center sm:text-left sm:col-span-2 lg:col-span-1">
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center sm:justify-start gap-2.5 group"
+            >
+              <div className="w-14 h-14 rounded-full bg-white border border-blue-200 shadow-sm flex items-center justify-center overflow-hidden p-1 group-hover:scale-105 transition-transform">
                 <LogoIcon />
               </div>
               <span className="font-syne font-bold text-xl text-gray-800">
                 Logic<span className="text-blue-500">Shell</span>
               </span>
-            </div>
+            </Link>
             <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto sm:mx-0">
               Where precision meets perfection — building intelligent digital
               ecosystems for modern businesses.
             </p>
-            <div className="space-y-2 pt-2">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-500">
-                <Mail size={14} className="text-blue-400 flex" />
+            <div className="space-y-2.5 pt-1">
+              <a
+                href="mailto:info@thelogicshell.com"
+                className="flex items-center justify-center sm:justify-start gap-2.5 text-sm text-gray-500 hover:text-blue-500 transition-colors group"
+              >
+                <span className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors">
+                  <Mail size={13} className="text-blue-500" />
+                </span>
                 <span className="break-all">info@thelogicshell.com</span>
-              </div>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-500">
-                <Phone size={14} className="text-blue-400 flex" />
+              </a>
+              <a
+                href="tel:+919579074450"
+                className="flex items-center justify-center sm:justify-start gap-2.5 text-sm text-gray-500 hover:text-blue-500 transition-colors group"
+              >
+                <span className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors">
+                  <Phone size={13} className="text-blue-500" />
+                </span>
                 <span>+91 95790 74450</span>
-              </div>
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-sm text-gray-500">
-                <MapPin size={14} className="text-blue-400 flex" />
-                <span> Madhvnagar Road, Sangli<br />
-                      Maharashtra</span>
+              </a>
+              <div className="flex items-start gap-2.5 text-sm text-gray-500 mx-auto sm:mx-0 w-fit">
+                <span className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center shrink-0 mt-0.5">
+                  <MapPin size={13} className="text-blue-500" />
+                </span>
+                <span className="text-left">
+                  Madhvnagar Road, Sangli
+                  <br />
+                  Maharashtra
+                </span>
               </div>
             </div>
           </div>
@@ -69,14 +87,18 @@ const Footer: React.FC<FooterProps> = () => {
             <h4 className="text-xs font-bold tracking-wider uppercase text-blue-500 mb-4">
               Company
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {footerLinks.company.map((link) => (
                 <li key={link.page}>
                   <Link
                     to={pageHref(link.page)}
-                    className="text-sm text-gray-500 hover:text-blue-500 transition-colors"
+                    className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-blue-500 transition-colors group"
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    <ArrowUpRight
+                      size={12}
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                    />
                   </Link>
                 </li>
               ))}
@@ -87,14 +109,18 @@ const Footer: React.FC<FooterProps> = () => {
             <h4 className="text-xs font-bold tracking-wider uppercase text-blue-500 mb-4">
               Solutions
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {footerLinks.solutions.map((link, idx) => (
                 <li key={idx}>
                   <Link
                     to={pageHref(link.page)}
-                    className="text-sm text-gray-500 hover:text-blue-500 transition-colors"
+                    className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-blue-500 transition-colors group"
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    <ArrowUpRight
+                      size={12}
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                    />
                   </Link>
                 </li>
               ))}
@@ -105,14 +131,18 @@ const Footer: React.FC<FooterProps> = () => {
             <h4 className="text-xs font-bold tracking-wider uppercase text-blue-500 mb-4">
               Services
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {footerLinks.services.map((link, idx) => (
                 <li key={idx}>
                   <Link
                     to={pageHref(link.page)}
-                    className="text-sm text-gray-500 hover:text-blue-500 transition-colors"
+                    className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-blue-500 transition-colors group"
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    <ArrowUpRight
+                      size={12}
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                    />
                   </Link>
                 </li>
               ))}
@@ -120,7 +150,7 @@ const Footer: React.FC<FooterProps> = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-3 pt-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-2 pt-6">
           <div className="text-xs text-gray-400 flex items-center gap-1 flex-wrap justify-center text-center">
             © 2025 Logic Shell LLP. All rights reserved.
             <span className="hidden sm:inline mx-1">·</span>

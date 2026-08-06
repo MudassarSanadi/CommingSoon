@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
               </span>
             </Link>
 
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.id}
@@ -59,16 +59,35 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
               <Link
                 to="/contact"
                 onClick={closeMenu}
-                className="hidden md:inline-flex px-5 py-2 rounded-lg bg-blue-500 text-white text-sm font-semibold shadow-md shadow-blue-500/30 hover:bg-blue-600 transition-all"
+                className="hidden lg:inline-flex px-5 py-2 rounded-lg bg-blue-500 text-white text-sm font-semibold shadow-md shadow-blue-500/30 hover:bg-blue-600 transition-all"
               >
                 Contact Us
               </Link>
 
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-blue-50 transition-colors"
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMenuOpen}
+                className={`lg:hidden relative w-10 h-10 flex items-center justify-center rounded-lg border transition-all duration-200 active:scale-95 ${
+                  isMenuOpen
+                    ? 'bg-blue-500 border-blue-500 text-white shadow-md shadow-blue-500/30'
+                    : 'bg-white border-blue-200 text-gray-700 hover:bg-blue-50 hover:border-blue-300'
+                }`}
               >
-                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                <span className="relative w-5 h-5">
+                  <Menu
+                    size={20}
+                    className={`absolute inset-0 transition-all duration-200 ${
+                      isMenuOpen ? 'opacity-0 rotate-45 scale-75' : 'opacity-100 rotate-0 scale-100'
+                    }`}
+                  />
+                  <X
+                    size={20}
+                    className={`absolute inset-0 transition-all duration-200 ${
+                      isMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-45 scale-75'
+                    }`}
+                  />
+                </span>
               </button>
             </div>
           </div>
@@ -76,7 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
       </nav>
 
       {isMenuOpen && (
-        <div className="fixed top-16 left-0 right-0 z-40 bg-white border-b border-blue-100 shadow-lg md:hidden">
+        <div className="fixed top-16 left-0 right-0 z-40 bg-white border-b border-blue-100 shadow-lg lg:hidden">
           <div className="px-4 py-3 flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link

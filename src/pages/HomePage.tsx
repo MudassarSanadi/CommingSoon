@@ -12,6 +12,7 @@ import {
   Milk,
   ArrowRight,
   CheckCircle2,
+  Code2,
 } from "lucide-react";
 import type { PageType } from "../App";
 
@@ -57,12 +58,18 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
       top: 0,
       behavior: "smooth",
     });
-    // trigger hero entrance on mount
+   
     const t = requestAnimationFrame(() => setHeroLoaded(true));
     return () => cancelAnimationFrame(t);
   }, []);
 
-  const services = [
+  
+  const softwareServices = [
+    {
+      icon: Code2,
+      title: "Custom Software Development",
+      desc: "Bespoke software solutions designed around your exact business logic and workflows.",
+    },
     {
       icon: LayoutGrid,
       title: "Web Development",
@@ -72,11 +79,6 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
       icon: Smartphone,
       title: "Mobile Applications",
       desc: "Native and cross-platform mobile apps for iOS and Android.",
-    },
-    {
-      icon: Database,
-      title: "Custom Software",
-      desc: "Bespoke software solutions designed around your exact business logic.",
     },
     {
       icon: Building2,
@@ -104,9 +106,17 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
       desc: "Cloud-native apps with real-time synchronization.",
     },
     {
+      icon: Database,
+      title: "Database & Backend Systems",
+      desc: "Robust, secure backend architecture built to scale with your business.",
+    },
+  ];
+
+  const machineryServices = [
+    {
       icon: Milk,
-      title: "Milk Plant Machinery",
-      desc: "Processing, utility, and reception equipment for dairy plants.",
+      title: "Dairy Plant Machinery",
+      desc: "Processing, utility, reception & storage equipment for dairy plants — pasteurizers, homogenizers, CIP systems & more.",
     },
   ];
 
@@ -122,7 +132,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
     { label: "Enterprise ERP", percentage: 88 },
     { label: "Cloud Systems", percentage: 80 },
     { label: "CRM & Automation", percentage: 92 },
-    { label: "Hardware Integration", percentage: 75 },
+    { label: "Dairy Machinery Manufacturing", percentage: 75 },
   ];
 
   const values = ["Precision", "Innovation", "Reliability", "Scalability"];
@@ -133,7 +143,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         <title>Home - Logic Shell | Intelligent Digital Ecosystems</title>
         <meta
           name="description"
-          content="Logic Shell LLP delivers scalable digital solutions across web, mobile, enterprise systems, and cloud platforms for modern businesses."
+          content="Logic Shell LLP delivers custom software solutions across web, mobile, enterprise systems, and cloud platforms — plus dairy plant machinery manufacturing for the dairy industry."
         />
         <link rel="canonical" href="https://thelogicshell.com/" />
 
@@ -141,7 +151,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         <meta property="og:title" content="Logic Shell | Intelligent Digital Ecosystems" />
         <meta
           property="og:description"
-          content="Logic Shell LLP delivers scalable digital solutions across web, mobile, enterprise systems, and cloud platforms for modern businesses."
+          content="Logic Shell LLP delivers custom software solutions across web, mobile, enterprise systems, and cloud platforms — plus dairy plant machinery manufacturing for the dairy industry."
         />
         <meta property="og:url" content="https://thelogicshell.com/" />
         <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
@@ -150,7 +160,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         <meta name="twitter:title" content="Logic Shell | Intelligent Digital Ecosystems" />
         <meta
           name="twitter:description"
-          content="Logic Shell LLP delivers scalable digital solutions across web, mobile, enterprise systems, and cloud platforms for modern businesses."
+          content="Logic Shell LLP delivers custom software solutions across web, mobile, enterprise systems, and cloud platforms — plus dairy plant machinery manufacturing."
         />
         <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
 
@@ -165,7 +175,6 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         </script>
       </Helmet>
 
-      {/* Local keyframes — kept scoped here so no tailwind.config changes are needed */}
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(24px); }
@@ -242,8 +251,9 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                   transitionDelay: "220ms",
                 }}
               >
-                Logic Shell LLP delivers scalable digital solutions across web,
-                mobile, enterprise systems, and cloud platforms.
+                Logic Shell LLP delivers custom software solutions across web,
+                mobile, enterprise systems, and cloud platforms — and
+                manufactures dairy plant machinery for the dairy industry.
               </p>
 
               <div
@@ -318,9 +328,11 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 </h2>
                 <p className="text-gray-600 leading-relaxed mb-6">
                   Logic Shell LLP is a technology solutions company focused on
-                  building intelligent software ecosystems that power
-                  businesses, automate operations, and enhance digital
-                  transformation.
+                  building custom software ecosystems that power businesses,
+                  automate operations, and enhance digital transformation. We
+                  also manufacture dairy plant machinery, bringing the same
+                  precision engineering to the physical side of the dairy
+                  industry.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {values.map((v) => (
@@ -390,13 +402,19 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 Core Service Offerings
               </h2>
               <p className="text-gray-500 max-w-2xl mx-auto">
-                From bespoke software to enterprise platforms — every solution
-                engineered for precision and scale.
+                From custom software to dairy plant machinery — every
+                solution engineered for precision and scale.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {services.map((service, i) => (
+            <div className="mb-4 flex items-center gap-2">
+              <Code2 size={16} className="text-blue-500" />
+              <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide">
+                Custom Software & Digital Solutions
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+              {softwareServices.map((service, i) => (
                 <div
                   key={i}
                   className={`group bg-white border border-gray-100 rounded-xl p-5 hover:shadow-lg hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 cursor-pointer ${
@@ -423,6 +441,42 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 </div>
               ))}
             </div>
+
+           
+            <div className="mb-4 flex items-center gap-2">
+              <Milk size={16} className="text-indigo-500" />
+              <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide">
+                Machinery Manufacturing — Dairy Industry Only
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {machineryServices.map((service, i) => (
+                <div
+                  key={i}
+                  className={`group bg-linear-to-br from-indigo-50 to-white border border-indigo-100 rounded-xl p-5 hover:shadow-lg hover:border-indigo-300 hover:-translate-y-1 transition-all duration-300 cursor-pointer sm:col-span-2 ${
+                    servicesSection.inView ? "reveal-visible" : "reveal-hidden"
+                  }`}
+                  style={{
+                    animationDelay: servicesSection.inView
+                      ? `${(softwareServices.length + i) * 80}ms`
+                      : undefined,
+                  }}
+                >
+                  <div className="w-11 h-11 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center mb-4 group-hover:bg-indigo-500 group-hover:scale-110 transition-all duration-300">
+                    <service.icon
+                      size={18}
+                      className="text-indigo-500 group-hover:text-white transition-colors duration-300"
+                    />
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    {service.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -434,7 +488,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
             <p className="text-xs font-semibold text-blue-500 uppercase tracking-wider mb-5">
               Trusted By Businesses Worldwide
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-8">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center items-center gap-x-6 gap-y-4 sm:gap-8">
               {[
                 "Tech Corp",
                 "Global Industries",
@@ -444,9 +498,9 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
               ].map((brand, i) => (
                 <span
                   key={i}
-                  className={`text-gray-500 font-semibold text-lg font-syne opacity-50 hover:opacity-90 transition-all duration-300 hover:scale-105 ${
+                  className={`text-gray-500 font-semibold text-base sm:text-lg font-syne opacity-50 hover:opacity-90 transition-all duration-300 hover:scale-105 ${
                     brandsSection.inView ? "reveal-visible" : "reveal-hidden"
-                  }`}
+                  } ${i === 4 ? "col-span-2" : ""}`}
                   style={{
                     animationDelay: brandsSection.inView ? `${i * 90}ms` : undefined,
                   }}

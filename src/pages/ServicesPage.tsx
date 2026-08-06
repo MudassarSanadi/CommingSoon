@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { 
   Sparkles, CheckCircle2, Code, Cloud, Smartphone, 
   Palette, Server, GitMerge, Bot, ChevronDown, ChevronUp, 
-  Clock, Shield, Zap, Users, Briefcase, Calendar, Phone, Award 
+  Clock, Shield, Zap, Users, Briefcase, Calendar, Phone, Award, Milk 
 } from 'lucide-react'
 import type { PageType } from '../App'
 
@@ -58,7 +58,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
   const services = [
     { 
       num: '01', 
-      title: 'Software Development', 
+      title: 'Custom Software Development', 
       shortDesc: 'End-to-end custom software built for performance, maintainability, and long-term scalability.',
       longDesc: 'We build enterprise-grade custom software solutions tailored to your unique business needs. Our development process follows industry best practices including agile methodology, continuous integration, automated testing, and code reviews.',
       icon: Code,
@@ -126,6 +126,16 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
       timeline: '4-10 weeks',
       technologies: ['n8n', 'Zapier', 'Python', 'AI/ML Models']
     },
+    { 
+      num: '08', 
+      title: 'Dairy Plant Machinery Manufacturing', 
+      shortDesc: 'Processing, utility, and reception equipment manufactured exclusively for the dairy industry.',
+      longDesc: 'Beyond software, we manufacture dairy plant machinery — pasteurizers, homogenizers, plate heat exchangers, CIP systems, milk reception docks, storage silos, and by-product processing equipment for ghee, butter, paneer, curd, cheese, and more. Built with the same precision engineering mindset we bring to our software.',
+      icon: Milk,
+      features: ['Milk Pasteurizers & Homogenizers', 'CIP & Utility Automation', 'Reception & Storage Systems', 'By-Product Machinery (Ghee, Butter, Paneer, etc.)'],
+      timeline: 'Project-based',
+      technologies: ['SS304/SS316 Construction', 'PLC Automation', 'IoT Monitoring', 'Mix-proof Valves']
+    },
   ]
 
   const benefits = [
@@ -145,19 +155,19 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
   return (
     <>
       <Helmet>
-        <title>Services - Logic Shell | Software Development & IT Services</title>
-        <meta name="description" content="Logic Shell offers full-spectrum IT services including custom software development, SaaS, mobile apps, UI/UX design, cloud architecture, and business automation." />
+        <title>Services - Logic Shell | Software Development & Dairy Machinery</title>
+        <meta name="description" content="Logic Shell offers full-spectrum IT services including custom software development, SaaS, mobile apps, UI/UX design, cloud architecture, business automation, and dairy plant machinery manufacturing." />
         <link rel="canonical" href="https://thelogicshell.com/services" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Services - Logic Shell | Software Development & IT Services" />
-        <meta property="og:description" content="Full-spectrum IT services including custom software development, SaaS, mobile apps, UI/UX design, cloud architecture, and business automation." />
+        <meta property="og:title" content="Services - Logic Shell | Software Development & Dairy Machinery" />
+        <meta property="og:description" content="Full-spectrum IT services including custom software development, SaaS, mobile apps, UI/UX design, cloud architecture, business automation, and dairy plant machinery manufacturing." />
         <meta property="og:url" content="https://thelogicshell.com/services" />
         <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
         <meta property="og:site_name" content="Logic Shell" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Services - Logic Shell | Software Development & IT Services" />
-        <meta name="twitter:description" content="Full-spectrum IT services including custom software development, SaaS, mobile apps, and cloud architecture." />
+        <meta name="twitter:title" content="Services - Logic Shell | Software Development & Dairy Machinery" />
+        <meta name="twitter:description" content="Full-spectrum IT services including custom software development, SaaS, mobile apps, cloud architecture, and dairy plant machinery manufacturing." />
         <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
 
         <script type="application/ld+json">
@@ -172,7 +182,6 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
         </script>
       </Helmet>
 
-      {/* Scoped keyframes — no tailwind.config changes needed */}
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(24px); }
@@ -247,7 +256,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
                 transitionDelay: '220ms',
               }}
             >
-              Full-spectrum technology services from architecture and design to deployment and integration.
+              Full-spectrum technology services — from custom software architecture to dairy plant machinery manufacturing.
             </p>
           </div>
         </section>
@@ -255,24 +264,39 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
         <section className="py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div ref={servicesSection.ref} className="grid md:grid-cols-2 gap-6">
-              {services.map((service, i) => (
+              {services.map((service, i) => {
+                const isMachinery = service.title === 'Dairy Plant Machinery Manufacturing'
+                return (
                 <div 
                   key={i} 
-                  className={`group bg-white rounded-xl p-6 border border-blue-100 shadow-sm hover:shadow-lg hover:border-blue-300 hover:-translate-y-0.5 transition-all duration-300 ${
+                  className={`group rounded-xl p-6 border shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ${
+                    isMachinery
+                      ? 'bg-linear-to-br from-indigo-50 to-white border-indigo-200 hover:border-indigo-300 md:col-span-2'
+                      : 'bg-white border-blue-100 hover:border-blue-300'
+                  } ${
                     servicesSection.inView ? 'reveal-visible' : 'reveal-hidden'
                   }`}
                   style={{ animationDelay: servicesSection.inView ? `${i * 90}ms` : undefined }}
                 >
                   <div className="flex gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 group-hover:bg-blue-500 group-hover:border-blue-500 group-hover:scale-110 transition-all duration-300">
-                      <service.icon size={20} className="text-blue-500 group-hover:text-white transition-all duration-300" />
+                    <div className={`w-12 h-12 rounded-xl border flex items-center justify-center shrink-0 group-hover:scale-110 transition-all duration-300 ${
+                      isMachinery
+                        ? 'bg-indigo-50 border-indigo-100 group-hover:bg-indigo-500 group-hover:border-indigo-500'
+                        : 'bg-blue-50 border-blue-100 group-hover:bg-blue-500 group-hover:border-blue-500'
+                    }`}>
+                      <service.icon size={20} className={`transition-all duration-300 group-hover:text-white ${isMachinery ? 'text-indigo-500' : 'text-blue-500'}`} />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs font-mono font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded">
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
+                        <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${isMachinery ? 'text-indigo-500 bg-indigo-50' : 'text-blue-500 bg-blue-50'}`}>
                           {service.num}
                         </span>
                         <h3 className="font-syne font-bold text-gray-900 text-lg">{service.title}</h3>
+                        {isMachinery && (
+                          <span className="text-[10px] font-semibold uppercase tracking-wide text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded-full">
+                            Dairy Industry Only
+                          </span>
+                        )}
                       </div>
                       <p className="text-gray-600 text-sm leading-relaxed">
                         {expandedService === i ? service.longDesc : service.shortDesc}
@@ -292,7 +316,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
                                       animation: expandedService === i ? `fadeInUp 0.4s ease-out ${idx * 50}ms both` : undefined,
                                     }}
                                   >
-                                    <CheckCircle2 size={12} className="text-blue-500 shrink-0" />
+                                    <CheckCircle2 size={12} className={`shrink-0 ${isMachinery ? 'text-indigo-500' : 'text-blue-500'}`} />
                                     <span className="text-xs text-gray-600">{feature}</span>
                                   </div>
                                 ))}
@@ -300,7 +324,9 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
                             </div>
                             
                             <div>
-                              <h4 className="font-semibold text-gray-800 text-sm mb-2">Tech Stack:</h4>
+                              <h4 className="font-semibold text-gray-800 text-sm mb-2">
+                                {isMachinery ? 'Build Standards:' : 'Tech Stack:'}
+                              </h4>
                               <div className="flex flex-wrap gap-1.5">
                                 {service.technologies.map((tech, idx) => (
                                   <span
@@ -317,7 +343,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
                             </div>
                             
                             <div className="flex items-center gap-2 pt-1">
-                              <Clock size={14} className="text-blue-500" />
+                              <Clock size={14} className={isMachinery ? 'text-indigo-500' : 'text-blue-500'} />
                               <span className="text-xs text-gray-500">Timeline: <strong className="text-gray-700">{service.timeline}</strong></span>
                             </div>
                           </div>
@@ -326,7 +352,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
 
                       <button
                         onClick={() => setExpandedService(expandedService === i ? null : i)}
-                        className="inline-flex items-center gap-1 text-blue-500 text-sm font-medium mt-3 hover:gap-2 transition-all duration-300"
+                        className={`inline-flex items-center gap-1 text-sm font-medium mt-3 hover:gap-2 transition-all duration-300 ${isMachinery ? 'text-indigo-500' : 'text-blue-500'}`}
                       >
                         {expandedService === i ? (
                           <>Show Less <ChevronUp size={14} className="transition-transform duration-300" /></>
@@ -337,7 +363,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
                     </div>
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
 
             <div

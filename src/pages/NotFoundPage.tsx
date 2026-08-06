@@ -36,7 +36,7 @@ const NotFoundPage: React.FC<NotFoundPageProps> = () => {
 
       <section className="min-h-[80vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16">
         <div className="max-w-2xl w-full text-center">
-          {/* Animated 404 badge */}
+         
           <div className="relative inline-flex items-center justify-center mb-8">
             <div className="absolute inset-0 bg-blue-200/50 blur-3xl rounded-full" />
             <div

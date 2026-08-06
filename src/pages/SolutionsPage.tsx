@@ -156,7 +156,7 @@ const SolutionsPage: React.FC<SolutionsPageProps> = ({ setCurrentPage }) => {
         </script>
       </Helmet>
 
-      {/* Scoped keyframes — no tailwind.config changes needed */}
+     
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(24px); }

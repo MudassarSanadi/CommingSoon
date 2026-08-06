@@ -271,7 +271,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
         </script>
       </Helmet>
 
-      {/* Scoped keyframes — no tailwind.config changes needed */}
+      
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(24px); }
@@ -468,7 +468,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
           </div>
         </section>
 
-        {/* Profile Modal */}
+  
         {selectedMember && (
           <div
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 transition-opacity duration-200"
