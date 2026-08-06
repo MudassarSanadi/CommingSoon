@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Heart, Mail, Phone, MapPin } from "lucide-react";
 import type { PageType } from "../App";
 import LogoIcon from './LogoIcon'
@@ -7,7 +8,9 @@ interface FooterProps {
   setCurrentPage: (page: PageType) => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
+const pageHref = (page: PageType) => (page === "home" ? "/" : `/${page}`);
+
+const Footer: React.FC<FooterProps> = () => {
   const footerLinks = {
     company: [
       { label: "About Us", page: "about" as PageType },
@@ -69,12 +72,12 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.page}>
-                  <button
-                    onClick={() => setCurrentPage(link.page)}
+                  <Link
+                    to={pageHref(link.page)}
                     className="text-sm text-gray-500 hover:text-blue-500 transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -87,12 +90,12 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
             <ul className="space-y-2">
               {footerLinks.solutions.map((link, idx) => (
                 <li key={idx}>
-                  <button
-                    onClick={() => setCurrentPage(link.page)}
+                  <Link
+                    to={pageHref(link.page)}
                     className="text-sm text-gray-500 hover:text-blue-500 transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -105,12 +108,12 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
             <ul className="space-y-2">
               {footerLinks.services.map((link, idx) => (
                 <li key={idx}>
-                  <button
-                    onClick={() => setCurrentPage(link.page)}
+                  <Link
+                    to={pageHref(link.page)}
                     className="text-sm text-gray-500 hover:text-blue-500 transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

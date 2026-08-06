@@ -132,6 +132,28 @@ const SolutionsPage: React.FC<SolutionsPageProps> = ({ setCurrentPage }) => {
         <title>Solutions - Logic Shell | Business Software & ERP Solutions</title>
         <meta name="description" content="Explore Logic Shell's business solutions - Custom software, CRM, and enterprise management systems designed to automate and scale your business operations." />
         <link rel="canonical" href="https://thelogicshell.com/solutions" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Solutions - Logic Shell | Business Software & ERP Solutions" />
+        <meta property="og:description" content="Custom software, CRM, and enterprise management systems designed to automate and scale your business operations." />
+        <meta property="og:url" content="https://thelogicshell.com/solutions" />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Solutions - Logic Shell | Business Software & ERP Solutions" />
+        <meta name="twitter:description" content="Custom software, CRM, and enterprise management systems designed to automate and scale your business." />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Solutions', item: 'https://thelogicshell.com/solutions' },
+            ],
+          })}
+        </script>
       </Helmet>
 
       {/* Scoped keyframes — no tailwind.config changes needed */}

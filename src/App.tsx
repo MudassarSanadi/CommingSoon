@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'  
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -15,6 +15,7 @@ const ServicesPage = lazy(() => import('./pages/ServicesPage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
 const TeamPage = lazy(() => import('./pages/TeamPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
@@ -48,6 +49,34 @@ const AppContent = () => {
         <title>Logic Shell</title>
         <meta name="description" content="Logic Shell - Intelligent Digital Ecosystems" />
         <link rel="canonical" href="https://thelogicshell.com" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Logic Shell',
+            legalName: 'Logic Shell LLP',
+            url: 'https://thelogicshell.com',
+            logo: 'https://thelogicshell.com/favicon.svg',
+            email: 'info@thelogicshell.com',
+            telephone: '+91-9579074450',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Siddhivinayak Apartment, Block No 6, Madhvnagar Road',
+              addressLocality: 'Sangli',
+              addressRegion: 'Maharashtra',
+              addressCountry: 'IN',
+            },
+            sameAs: [],
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'Logic Shell',
+            url: 'https://thelogicshell.com',
+          })}
+        </script>
       </Helmet>
       
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
@@ -55,7 +84,8 @@ const AppContent = () => {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<HomePage setCurrentPage={setCurrentPage} />} />
-            <Route path="/home" element={<HomePage setCurrentPage={setCurrentPage} />} />
+            {/* /home redirects to the canonical / (also enforced server-side via web.config 301) */}
+            <Route path="/home" element={<Navigate to="/" replace />} />
             <Route path="/solutions" element={<SolutionsPage setCurrentPage={setCurrentPage} />} />
             <Route path="/industry" element={<IndustryPage setCurrentPage={setCurrentPage} />} />
             <Route path="/industry/:industryId" element={<IndustryDetailPage setCurrentPage={setCurrentPage} />} />
@@ -63,6 +93,8 @@ const AppContent = () => {
             <Route path="/about" element={<AboutPage setCurrentPage={setCurrentPage} />} />
             <Route path="/team" element={<TeamPage setCurrentPage={setCurrentPage} />} />
             <Route path="/contact" element={<ContactPage setCurrentPage={setCurrentPage} />} />
+            {/* Catch-all: any unmatched route renders the 404 page instead of a blank screen */}
+            <Route path="*" element={<NotFoundPage setCurrentPage={setCurrentPage} />} />
           </Routes>
         </Suspense>
       </main>

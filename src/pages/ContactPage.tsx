@@ -87,6 +87,46 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
         <title>Contact - Logic Shell | Get in Touch</title>
         <meta name="description" content="Contact Logic Shell team for inquiries, support, or collaboration opportunities. We'd love to hear about your project and discuss how we can help." />
         <link rel="canonical" href="https://thelogicshell.com/contact" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Contact - Logic Shell | Get in Touch" />
+        <meta property="og:description" content="Contact Logic Shell team for inquiries, support, or collaboration opportunities." />
+        <meta property="og:url" content="https://thelogicshell.com/contact" />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact - Logic Shell | Get in Touch" />
+        <meta name="twitter:description" content="Contact Logic Shell team for inquiries, support, or collaboration opportunities." />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://thelogicshell.com/contact' },
+            ],
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LocalBusiness',
+            name: 'Logic Shell LLP',
+            image: 'https://thelogicshell.com/favicon.svg',
+            email: 'info@thelogicshell.com',
+            telephone: '+91-9579074450',
+            url: 'https://thelogicshell.com/contact',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Siddhivinayak Apartment, Block No 6, Madhvnagar Road',
+              addressLocality: 'Sangli',
+              addressRegion: 'Maharashtra',
+              addressCountry: 'IN',
+            },
+          })}
+        </script>
       </Helmet>
 
       {/* Scoped keyframes — no tailwind.config changes needed */}

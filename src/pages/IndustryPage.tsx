@@ -142,6 +142,28 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
         <title>Industry - Logic Shell | Industry-Specific Solutions</title>
         <meta name="description" content="Logic Shell provides industry-specific solutions for manufacturing, dairy, retail, healthcare, and milk plant machinery. Explore our specialized digital ecosystems for your industry." />
         <link rel="canonical" href="https://thelogicshell.com/industry" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Industry - Logic Shell | Industry-Specific Solutions" />
+        <meta property="og:description" content="Industry-specific solutions for manufacturing, dairy, retail, healthcare, and milk plant machinery." />
+        <meta property="og:url" content="https://thelogicshell.com/industry" />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Industry - Logic Shell | Industry-Specific Solutions" />
+        <meta name="twitter:description" content="Industry-specific solutions for manufacturing, dairy, retail, healthcare, and milk plant machinery." />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Industry', item: 'https://thelogicshell.com/industry' },
+            ],
+          })}
+        </script>
       </Helmet>
 
       {/* Scoped keyframes — no tailwind.config changes needed */}

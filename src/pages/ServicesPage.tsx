@@ -148,6 +148,28 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ setCurrentPage }) => {
         <title>Services - Logic Shell | Software Development & IT Services</title>
         <meta name="description" content="Logic Shell offers full-spectrum IT services including custom software development, SaaS, mobile apps, UI/UX design, cloud architecture, and business automation." />
         <link rel="canonical" href="https://thelogicshell.com/services" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Services - Logic Shell | Software Development & IT Services" />
+        <meta property="og:description" content="Full-spectrum IT services including custom software development, SaaS, mobile apps, UI/UX design, cloud architecture, and business automation." />
+        <meta property="og:url" content="https://thelogicshell.com/services" />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Services - Logic Shell | Software Development & IT Services" />
+        <meta name="twitter:description" content="Full-spectrum IT services including custom software development, SaaS, mobile apps, and cloud architecture." />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://thelogicshell.com/services' },
+            ],
+          })}
+        </script>
       </Helmet>
 
       {/* Scoped keyframes — no tailwind.config changes needed */}

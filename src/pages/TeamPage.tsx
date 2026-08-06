@@ -247,6 +247,28 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
         <title>Team - Logic Shell | Our Expert Developers</title>
         <meta name="description" content="Meet the Logic Shell team - Full-stack developers and industry experts building enterprise-grade software solutions." />
         <link rel="canonical" href="https://thelogicshell.com/team" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Team - Logic Shell | Our Expert Developers" />
+        <meta property="og:description" content="Meet the Logic Shell team - Full-stack developers and industry experts building enterprise-grade software solutions." />
+        <meta property="og:url" content="https://thelogicshell.com/team" />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Team - Logic Shell | Our Expert Developers" />
+        <meta name="twitter:description" content="Meet the Logic Shell team - Full-stack developers and industry experts." />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Team', item: 'https://thelogicshell.com/team' },
+            ],
+          })}
+        </script>
       </Helmet>
 
       {/* Scoped keyframes — no tailwind.config changes needed */}

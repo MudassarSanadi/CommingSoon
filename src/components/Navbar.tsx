@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import type { PageType } from '../App'
 import LogoIcon from './LogoIcon'
@@ -8,7 +9,9 @@ interface NavbarProps {
   setCurrentPage: (page: PageType) => void
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
+const pageHref = (page: PageType) => (page === 'home' ? '/' : `/${page}`)
+
+const Navbar: React.FC<NavbarProps> = ({ currentPage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navLinks: { id: PageType; label: string }[] = [
@@ -20,30 +23,28 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
     { id: 'team', label: 'Team' },
   ]
 
-  const handleNavClick = (page: PageType) => {
-    setCurrentPage(page)
-    setIsMenuOpen(false)
-  }
+  const closeMenu = () => setIsMenuOpen(false)
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-blue-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             
-            <div onClick={() => handleNavClick('home')} className="flex items-center gap-2.5 cursor-pointer group">
+            <Link to="/" onClick={closeMenu} className="flex items-center gap-2.5 cursor-pointer group">
               <div className="w-14 h-14 rounded-full bg-white border border-blue-200 shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden p-1">
                 <LogoIcon />
               </div>
               <span className="font-syne font-bold text-xl text-gray-800">
                 Logic<span className="text-blue-500">Shell</span>
               </span>
-            </div>
+            </Link>
 
             <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
-                <button
+                <Link
                   key={link.id}
-                  onClick={() => handleNavClick(link.id)}
+                  to={pageHref(link.id)}
+                  onClick={closeMenu}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     currentPage === link.id
                       ? 'text-blue-600 bg-blue-50'
@@ -51,16 +52,17 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
                   }`}
                 >
                   {link.label}
-                </button>
+                </Link>
               ))}
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => handleNavClick('contact')}
+              <Link
+                to="/contact"
+                onClick={closeMenu}
                 className="hidden md:inline-flex px-5 py-2 rounded-lg bg-blue-500 text-white text-sm font-semibold shadow-md shadow-blue-500/30 hover:bg-blue-600 transition-all"
               >
                 Contact Us
-              </button>
+              </Link>
 
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -77,9 +79,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
         <div className="fixed top-16 left-0 right-0 z-40 bg-white border-b border-blue-100 shadow-lg md:hidden">
           <div className="px-4 py-3 flex flex-col gap-1">
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.id}
-                onClick={() => handleNavClick(link.id)}
+                to={pageHref(link.id)}
+                onClick={closeMenu}
                 className={`px-4 py-3 rounded-lg text-sm font-medium text-left transition-all ${
                   currentPage === link.id
                     ? 'text-blue-600 bg-blue-50'
@@ -87,14 +90,15 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
                 }`}
               >
                 {link.label}
-              </button>
+              </Link>
             ))}
-            <button
-              onClick={() => handleNavClick('contact')}
+            <Link
+              to="/contact"
+              onClick={closeMenu}
               className="mt-2 px-4 py-3 rounded-lg bg-blue-500 text-white text-sm font-semibold text-center hover:bg-blue-600 transition-all"
             >
               Contact Us
-            </button>
+            </Link>
           </div>
         </div>
       )}

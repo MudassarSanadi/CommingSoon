@@ -71,6 +71,28 @@ const AboutPage: React.FC<AboutPageProps> = ({ setCurrentPage }) => {
         <title>About - Logic Shell | Our Mission & Vision</title>
         <meta name="description" content="Learn about Logic Shell LLP - A technology company built on precision and innovation. We design, build, and deploy scalable digital solutions for modern businesses." />
         <link rel="canonical" href="https://thelogicshell.com/about" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="About - Logic Shell | Our Mission & Vision" />
+        <meta property="og:description" content="Learn about Logic Shell LLP - A technology company built on precision and innovation. We design, build, and deploy scalable digital solutions for modern businesses." />
+        <meta property="og:url" content="https://thelogicshell.com/about" />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="About - Logic Shell | Our Mission & Vision" />
+        <meta name="twitter:description" content="Learn about Logic Shell LLP - A technology company built on precision and innovation." />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+              { '@type': 'ListItem', position: 2, name: 'About', item: 'https://thelogicshell.com/about' },
+            ],
+          })}
+        </script>
       </Helmet>
 
       {/* Scoped keyframes — no tailwind.config changes needed */}

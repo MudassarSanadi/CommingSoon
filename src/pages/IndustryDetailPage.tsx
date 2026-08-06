@@ -5,9 +5,13 @@ import {
   ArrowLeft, Calendar, Sparkles, Mail, X,
   TrendingUp, Users, Package, Activity, Droplet, Factory, Store,
   Award, Clock, Shield, Zap, BarChart3, Settings, Truck, 
-  ClipboardCheck, Database, Cloud, Smartphone, Cpu, Milk, 
-  Gauge, Warehouse, FlaskConical, 
-  IceCream, Coffee, Sandwich, Wheat,  Croissant
+  ClipboardCheck, Database, Cloud, Smartphone, Cpu, Milk, Thermometer,
+  Waves, GitBranch, Gauge, Warehouse, FlaskConical, CircleDot,
+  Croissant,
+  Sandwich,
+  Coffee,
+  IceCream,
+  Wheat
 } from 'lucide-react';
 import type { PageType } from '../App';
 
@@ -24,6 +28,26 @@ interface MachineItem {
   image: string;
 }
 
+/**
+ * Static color class map.
+ *
+ * IMPORTANT: Tailwind CSS scans your source files for complete class-name
+ * strings at build time. It cannot resolve dynamically constructed class
+ * names like `bg-${color}-500` — that string never appears literally in
+ * the source, so Tailwind's purge step drops it from the final CSS.
+ * This is exactly why the Dairy & Agriculture page (color: 'teal') was
+ * missing its colors/effects while other industries (blue, orange,
+ * purple, etc.) happened to work — likely because those exact class
+ * strings appeared literally elsewhere in the codebase already, so
+ * Tailwind's scanner picked them up "by accident."
+ *
+ * Fix: define every class variant we need as a literal, static string
+ * here, then look it up at runtime via a plain object key access
+ * (`colorClasses[industry.color]`). Because every value in this map is a
+ * complete, literal string written directly in the source, Tailwind's
+ * scanner finds and includes ALL of them in the compiled CSS — regardless
+ * of which industry the user is currently viewing.
+ */
 type ColorKey =
   | 'blue' | 'teal' | 'orange' | 'purple' | 'emerald'
   | 'cyan' | 'indigo' | 'pink' | 'red' | 'amber';
@@ -293,9 +317,10 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
   const statsSection = useInView<HTMLDivElement>();
   const overviewSection = useInView<HTMLDivElement>();
   const processingSection = useInView<HTMLDivElement>();
+  const byProductSection = useInView<HTMLDivElement>();
   const utilitySection = useInView<HTMLDivElement>();
   const receptionSection = useInView<HTMLDivElement>();
- 
+  const processingUtilitySection = useInView<HTMLDivElement>();
   const benefitsSection = useInView<HTMLDivElement>();
   const modulesSection = useInView<HTMLDivElement>();
   const techSection = useInView<HTMLDivElement>();
@@ -319,182 +344,361 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
     'milk-by-product-machinery': 'https://i.pinimg.com/1200x/b9/5e/c5/b95ec5519631ca915f75f3c459136347.jpg',
   };
 
+ 
   const milkMachines: MachineItem[] = [
-   
-  ];
-
-  const byProductMachines: MachineItem[] = [
     {
-      name: 'Ghee Plant Equipment',
-      category: 'By-Product Processing',
-      description: 'Complete Ghee production line with clarification, boiling, and packaging.',
+      name: 'Milk Pasteurizer',
+      category: 'Processing Equipment',
+      description: 'HTST & batch pasteurization, 500–10,000+ LPH capacity for safe, shelf-stable milk.',
       detailedInfo: [
-        'Butter melting & clarification system with automatic temperature control.',
-        'Continuous ghee boiling kettle with steam heating and agitation.',
-        'Ghee filtration system for crystal-clear product quality.',
-        'Automated filling & packaging line with nitrogen flushing.',
-        'Capacity options from 500kg to 10,000kg per day.'
+        'Heats raw milk to a set temperature for a precise duration to destroy harmful bacteria while preserving nutritional value and taste.',
+        'Available in HTST (High Temperature Short Time) and batch pasteurization modes to suit different plant scales.',
+        'Capacity ranges from 500 LPH for small setups to 10,000+ LPH for large commercial dairies.',
+        'Built with food-grade SS316 plate heat exchangers for efficient, hygienic heat transfer.',
+        'PLC-based automatic temperature control ensures consistent pasteurization with minimal manual monitoring.',
+        'Includes a regeneration section that reuses heat energy, reducing overall power consumption.'
       ],
-      icon: Coffee,
-      image: 'https://5.imimg.com/data5/SELLER/Default/2022/2/IA/RZ/GY/680498/ghee-plant-500x500.JPG'
+      icon: Thermometer,
+      image: 'https://i.pinimg.com/736x/77/7f/d8/777fd87dac81d0793e54fd9c19328042.jpg'
     },
     {
-      name: 'Butter Plant Machinery',
-      category: 'By-Product Processing',
-      description: 'Complete butter production line from cream churning to packaging.',
+      name: 'Milk Homogenizer',
+      category: 'Processing Equipment',
+      description: 'High-pressure, two-stage homogenization for uniform fat distribution and smooth texture.',
       detailedInfo: [
-        'Continuous butter churn with cream ripening and churning section.',
-        'Butter working machine with moisture control and salt addition.',
-        'Automatic butter packaging with portioning and wrapping.',
-        'In-line CIP system for hygienic operation between batches.',
-        'Capacity ranges from 1,000kg to 20,000kg per day.'
+        'Breaks down fat globules in milk into smaller, uniform particles so cream does not separate and rise to the top.',
+        'Two-stage high-pressure homogenization (up to 250 bar) delivers a smoother mouthfeel and consistent texture.',
+        'Typically integrated directly with the pasteurization line for a seamless processing flow.',
+        'Stainless steel construction ensures durability and compliance with food safety standards.',
+        'Low-noise, low-vibration operation designed for continuous industrial use.',
+        'Easy to clean and fully compatible with CIP (Clean-in-Place) systems.'
       ],
-      icon: Package,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJLKWNbvQUx_eLz_NWy3mqAs7hhega-jaohf89SddcoXurDtOLAOgKRWc&s=10'
+      icon: Waves,
+      image: 'https://www.dtfoodmachine.com/wp-content/uploads/2025/09/milk-homogenizer.jpg'
     },
     {
-      name: 'Paneer & Chhena Plant',
-      category: 'By-Product Processing',
-      description: 'Paneer and Chhena production line with curd setting and pressing.',
+      name: 'Plate Heat Exchanger',
+      category: 'Processing Equipment',
+      description: 'Chiller, heater & heat recovery system for efficient thermal treatment of milk.',
       detailedInfo: [
-        'Automatic curd setting vats with precise temperature control.',
-        'Hydraulic pressing system for consistent paneer texture.',
-        'Continuous paneer cutting & packaging line.',
-        'Chhena production with specialized curd draining system.',
-        'Capacity from 500kg to 5,000kg per day.'
+        'Transfers heat between milk and a heating/cooling medium through a series of thin stainless steel plates.',
+        'Used for both chilling raw milk and heating it during pasteurization, all in one compact unit.',
+        'Heat recovery function reuses thermal energy from outgoing milk to preheat incoming milk, cutting energy costs.',
+        'Gasketed plate design allows easy disassembly for cleaning and capacity expansion.',
+        'Handles a wide range of flow rates, making it suitable for both small dairies and large processing plants.',
+        'Food-grade construction ensures full compliance with dairy hygiene regulations.'
       ],
-      icon: Sandwich,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD24fmt3ysBxC4MNFnFMfigzE_MlU0FrvsqfjvnS1jKw&s'
+      icon: GitBranch,
+      image: 'https://i.pinimg.com/736x/27/a4/be/27a4be1582ca6c0af4c06f5ff0f3dfab.jpg'
     },
     {
-      name: 'Curd & Yogurt Plant',
-      category: 'By-Product Processing',
-      description: 'Curd and Yogurt production line with incubation and cooling.',
+      name: 'CIP System',
+      category: 'Utility & Automation',
+      description: 'Automated cleaning-in-place system ensuring plant-wide hygiene without disassembly.',
       detailedInfo: [
-        'Milk standardization and heating system with pasteurization.',
-        'Automatic incubation chambers with precise temperature control.',
-        'Continuous cooling and packaging systems for set and stirred curd.',
-        'Yogurt fermentation tanks with culture addition and pH monitoring.',
-        'Capacity from 1,000L to 10,000L per day.'
+        'Automatically cleans and sanitizes tanks, pipelines, and processing equipment without any disassembly.',
+        'Runs a programmed cycle of rinsing, alkali wash, acid wash, and final rinse for thorough hygiene.',
+        'PLC-controlled sequencing ensures consistent, repeatable cleaning every time.',
+        'Chemical dosing system automatically maintains the right concentration for each wash stage.',
+        'Recovery tanks allow cleaning solutions to be reused, reducing water and chemical wastage.',
+        'Critical for meeting food safety compliance and minimizing manual cleaning labor.'
       ],
-      icon: Milk,
-      image: 'https://5.imimg.com/data5/SELLER/Default/2025/9/545845666/NI/BA/OE/142534/curd-yogurt-buttermilk-plant-500x500.jpg'
+      icon: Settings,
+      image: 'https://www.hrs-heatexchangers.com/wp-content/uploads/2016/09/CIP3.jpg'
     },
     {
-      name: 'Lassi Plant',
-      category: 'By-Product Processing',
-      description: 'Lassi production line for sweet and salted varieties.',
+      name: 'Dairy Valve Cluster',
+      category: 'Utility & Automation',
+      description: 'Automatic mix-proof valve battery for contamination-free product routing.',
       detailedInfo: [
-        'Milk standardization and pasteurization system.',
-        'Flavoring and sugar addition with automated mixing.',
-        'Homogenization for smooth, consistent texture.',
-        'Aseptic filling and packaging system.',
-        'Capacity from 1,000L to 8,000L per day.'
+        'A battery of automatic mix-proof valves that routes milk and cleaning fluids through the plant\'s pipelines.',
+        'Prevents cross-contamination between different product lines and cleaning cycles.',
+        'Enables multiple processes (production, cleaning, transfer) to run simultaneously without interference.',
+        'Centralized control allows quick reconfiguration of flow paths for different production needs.',
+        'Reduces manual valve operation, minimizing human error in complex plant layouts.',
+        'Built to hygienic design standards for long-term reliability in dairy environments.'
       ],
-      icon: Droplet,
-      image: 'https://5.imimg.com/data5/SU/DM/NV/SELLER-2051008/curd-lassi-plant-500x500.jpg'
+      icon: CircleDot,
+      image: 'https://i.pinimg.com/736x/fe/ad/2e/fead2ea8a302382e8d59b8cc56b39b72.jpg'
+    },
+    {
+      name: 'Milk Reception Dock (RMRD)',
+      category: 'Reception & Storage',
+      description: 'Weigh, filter, chill and store incoming raw milk at the point of entry.',
+      detailedInfo: [
+        'The first point of contact for incoming raw milk at the dairy plant.',
+        'Weighs each incoming milk consignment accurately for record-keeping and payment processing.',
+        'Filters out physical impurities before the milk enters the processing line.',
+        'Rapidly chills the milk to preserve freshness and slow bacterial growth right at reception.',
+        'Feeds directly into storage tanks or silos for further processing.',
+        'Designed for high-throughput handling during peak collection hours.'
+      ],
+      icon: Truck,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpXfFjdF7yDzHh8eubPCwYJhulTPT0bAmrV_KHxeVTUdjSF4uNzXAz864&s=10'
+    },
+    {
+      name: 'Milk Storage Silo & Tanks',
+      category: 'Reception & Storage',
+      description: 'Insulated storage from 1,000L to 100,000L+ for raw and processed milk.',
+      detailedInfo: [
+        'Provides temperature-controlled bulk storage for raw or processed milk before further handling.',
+        'Available in capacities ranging from 1,000 litres up to 100,000+ litres for large-scale plants.',
+        'Insulated jacket design maintains a consistent internal temperature and reduces energy loss.',
+        'Fitted with level indicators and sensors for real-time monitoring of stock levels.',
+        'Includes agitators in larger tanks to keep milk composition uniform during storage.',
+        'Constructed from SS304/SS316 stainless steel to meet food-grade hygiene standards.'
+      ],
+      icon: Warehouse,
+      image: 'https://i.pinimg.com/1200x/a2/40/af/a240afc72e12736b313db75bfafd7b23.jpg'
     },
     {
       name: 'Cream Separator',
-      category: 'By-Product Processing',
-      description: 'High-speed centrifugal cream separation for fat standardization.',
+      category: 'Processing & Utility',
+      description: 'Fat standardization & clarification through high-speed centrifugal separation.',
       detailedInfo: [
-        'Self-cleaning bowl design for continuous operation.',
-        'Fat standardization from 0.5% to 60% with precision.',
-        'Automatic desludging system reduces downtime.',
-        'Integrated with CIP system for easy cleaning.',
-        'Capacity from 2,000L to 20,000L per hour.'
+        'Separates cream/fat from milk using high-speed centrifugal force, producing skimmed milk and cream.',
+        'Essential for standardizing milk fat content to meet product specifications.',
+        'Also performs clarification, removing fine impurities and improving overall milk quality.',
+        'Automatic self-cleaning (self-desludging) bowl reduces downtime between cleaning cycles.',
+        'Compact footprint makes it suitable for both small and large dairy plant layouts.',
+        'Low maintenance design with long service intervals for continuous operation.'
       ],
       icon: Gauge,
       image: 'https://i.pinimg.com/736x/d1/7f/5b/d17f5b6f98ea920c33c56b39a5973e01.jpg'
     },
     {
-      name: 'Khoya Plant',
-      category: 'By-Product Processing',
-      description: 'Khoya/Mawa production system with continuous cooking and cooling.',
+      name: 'Bulk Milk Cooler (BMC)',
+      category: 'Processing & Utility',
+      description: 'Village-level chilling to 4°C, preserving milk freshness at the collection stage.',
       detailedInfo: [
-        'Continuous khoya boiling kettle with scraping agitation.',
-        'Automatic temperature and moisture control system.',
-        'Cooling conveyor with product shaping and portioning.',
-        'Vacuum packaging for extended shelf life.',
-        'Capacity from 500kg to 5,000kg per day.'
+        'Rapidly cools raw milk down to 4°C right at the village-level collection center.',
+        'Prevents bacterial growth and preserves milk freshness before it reaches the processing plant.',
+        'Uses direct expansion (DX) cooling technology for fast, efficient chilling.',
+        'Built-in agitator ensures uniform cooling throughout the tank.',
+        'Insulated body keeps power consumption low even during extended storage periods.',
+        'Available in capacities from 500 litres up to 20,000 litres depending on collection volume.'
       ],
-      icon: Wheat,
-      image: 'https://5.imimg.com/data5/YF/YZ/DR/SELLER-79448625/steam-operated-khoya-plant-500x500.jpg'
+      icon: Milk,
+      image: 'https://5.imimg.com/data5/SELLER/Default/2021/10/CS/AU/GC/7782392/bulk-milk-cooler-bmc--500x500.jpg'
     },
     {
-      name: 'Ice Cream Plant',
-      category: 'By-Product Processing',
-      description: 'Complete ice cream production line from mix preparation to freezing.',
+      name: 'Milk Chilling Plant',
+      category: 'Processing & Utility',
+      description: 'Central chilling systems for large-scale, plant-wide temperature control.',
       detailedInfo: [
-        'Mix pasteurization and homogenization system.',
-        'Continuous freezer with overrun control and flavor injection.',
-        'Fruit & inclusion feeder for variegated products.',
-        'Harding tunnel with automatic packaging and wrapping.',
-        'Capacity from 1,000L to 15,000L per day.'
+        'A centralized chilling system designed for large-scale, plant-wide temperature control.',
+        'Handles higher milk volumes compared to a standalone Bulk Milk Cooler.',
+        'Maintains consistent cold-chain temperatures across multiple storage and processing points.',
+        'Integrates with plant automation for real-time temperature monitoring and alerts.',
+        'Reduces spoilage risk by ensuring milk stays within safe temperature ranges at every stage.',
+        'Scalable design allows capacity expansion as plant throughput grows.'
       ],
-      icon: IceCream,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2rSXSydwusaT8NdiTANA4HEhFAsPzb6gZPY90Jrrzmf4p_JEczaQEhsPs&s=10'
+      icon: Thermometer,
+      image: 'https://5.imimg.com/data5/LF/BP/MY-5433941/milk-chilling-plant-500x500.jpg'
     },
     {
-      name: 'Flavoured Milk Plant',
-      category: 'By-Product Processing',
-      description: 'Flavoured milk production line with flavoring and packaging.',
+      name: 'Cheese & Paneer Vat',
+      category: 'Processing & Utility',
+      description: 'Cutting & stirring vats designed for consistent curd formation and yield.',
       detailedInfo: [
-        'Milk standardization and pasteurization system.',
-        'Flavor addition tank with automated dosing system.',
-        'Homogenization for uniform texture and mouthfeel.',
-        'Aseptic filling for UHT and ESL products.',
-        'Capacity from 2,000L to 20,000L per day.'
+        'Specialized vats designed for curd formation during cheese and paneer production.',
+        'Built-in cutting and stirring mechanisms ensure uniform curd texture and consistent yield.',
+        'Jacketed design allows precise temperature control during the setting and cutting process.',
+        'Helps standardize production quality across batches, reducing variation.',
+        'Available in different sizes to match small-batch or high-volume production needs.',
+        'Hygienic stainless steel construction suited for continuous food-grade operation.'
       ],
-      icon: Coffee,
-      image: 'https://5.imimg.com/data5/QX/AW/MY-3778663/flavoured-milk-plant.jpeg'
+      icon: FlaskConical,
+      image: 'https://goma.co.in/uploads/equipments/842bd71a0229d9677fcd86f4f86c8093.jpg'
     },
     {
-      name: 'Cheese Plant Equipment',
-      category: 'By-Product Processing',
-      description: 'Complete cheese production line from curd making to aging.',
+      name: 'Butter Churn',
+      category: 'Processing & Utility',
+      description: 'Continuous butter making system for high-throughput, consistent output.',
       detailedInfo: [
-        'Curd setting vats with cutting, stirring & cooking sections.',
-        'Curd draining and matting system with whey recovery.',
-        'Cheddaring and milling equipment for block cheese.',
-        'Pressing, brining, and aging room systems.',
-        'Capacity from 1,000kg to 10,000kg per day.'
+        'Converts cream into butter through a continuous churning and working process.',
+        'Designed for high-throughput operation, suitable for medium to large dairy plants.',
+        'Delivers consistent butter texture and moisture content across every batch.',
+        'Reduces manual labor compared to traditional batch churning methods.',
+        'Integrated working section kneads the butter to the correct consistency after churning.',
+        'Built from food-grade stainless steel for long-term hygienic operation.'
       ],
-      icon: Sandwich,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTrBj5op5ESOi5tBydx75G52bK4RY914TreztAzJSYoWjiviIyc8LjgmQ&s=10'
+      icon: Package,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4yyzulkqB1mpjskly-eFnw0XEXCNl7sj2Xq1FRp9pNk6xgMbCdp3tEmk7&s=10'
     },
-    {
-      name: 'Yogurt Plant System',
-      category: 'By-Product Processing',
-      description: 'Specialized yogurt production with fruit and flavor integration.',
-      detailedInfo: [
-        'Milk standardizing and pasteurizing system with heat treatment.',
-        'Starter culture addition and fermentation tanks with temperature control.',
-        'Fruit prepper and flavoring system for fruit-on-the-bottom.',
-        'Automatic filling and packaging with multi-cup formats.',
-        'Capacity from 1,000L to 8,000L per day.'
-      ],
-      icon: Croissant,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdLzeIOXa4PNWGCeQwjcMnXkzn_L_axncpyqlKyCLs-tIqODwtOvIwFCE&s=10'
-    },
-    {
-      name: 'Dairy Mixing & Blending System',
-      category: 'Utility & Automation',
-      description: 'Centralized blending system for all by-products with recipe management.',
-      detailedInfo: [
-        'Computer controlled recipe management with automated ingredient dosing.',
-        'Precise temperature control for different product requirements.',
-        'In-line homogenization and deaeration for optimal product quality.',
-        'Integrated CIP system for seamless cleaning between batches.',
-        'Supports multiple product changeovers without cross-contamination.'
-      ],
-      icon: Settings,
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8-SikN-7hKQ9tAWiwT4Sb4GhwzqdykD7Ucd2p_yj9cVG_4tSbRGg7nlY&s=10'
-    }
   ];
 
-  const industryData: Record<string, any> = {
+   const byProductMachines: MachineItem[] = [
+      {
+        name: 'Ghee Plant Equipment',
+        category: 'By-Product Processing',
+        description: 'Complete Ghee production line with clarification, boiling, and packaging.',
+        detailedInfo: [
+          'Butter melting & clarification system with automatic temperature control.',
+          'Continuous ghee boiling kettle with steam heating and agitation.',
+          'Ghee filtration system for crystal-clear product quality.',
+          'Automated filling & packaging line with nitrogen flushing.',
+          'Capacity options from 500kg to 10,000kg per day.'
+        ],
+        icon: Coffee,
+        image: 'https://5.imimg.com/data5/SELLER/Default/2022/2/IA/RZ/GY/680498/ghee-plant-500x500.JPG'
+      },
+      {
+        name: 'Butter Plant Machinery',
+        category: 'By-Product Processing',
+        description: 'Complete butter production line from cream churning to packaging.',
+        detailedInfo: [
+          'Continuous butter churn with cream ripening and churning section.',
+          'Butter working machine with moisture control and salt addition.',
+          'Automatic butter packaging with portioning and wrapping.',
+          'In-line CIP system for hygienic operation between batches.',
+          'Capacity ranges from 1,000kg to 20,000kg per day.'
+        ],
+        icon: Package,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJLKWNbvQUx_eLz_NWy3mqAs7hhega-jaohf89SddcoXurDtOLAOgKRWc&s=10'
+      },
+      {
+        name: 'Paneer & Chhena Plant',
+        category: 'By-Product Processing',
+        description: 'Paneer and Chhena production line with curd setting and pressing.',
+        detailedInfo: [
+          'Automatic curd setting vats with precise temperature control.',
+          'Hydraulic pressing system for consistent paneer texture.',
+          'Continuous paneer cutting & packaging line.',
+          'Chhena production with specialized curd draining system.',
+          'Capacity from 500kg to 5,000kg per day.'
+        ],
+        icon: Sandwich,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD24fmt3ysBxC4MNFnFMfigzE_MlU0FrvsqfjvnS1jKw&s'
+      },
+      {
+        name: 'Curd & Yogurt Plant',
+        category: 'By-Product Processing',
+        description: 'Curd and Yogurt production line with incubation and cooling.',
+        detailedInfo: [
+          'Milk standardization and heating system with pasteurization.',
+          'Automatic incubation chambers with precise temperature control.',
+          'Continuous cooling and packaging systems for set and stirred curd.',
+          'Yogurt fermentation tanks with culture addition and pH monitoring.',
+          'Capacity from 1,000L to 10,000L per day.'
+        ],
+        icon: Milk,
+        image: 'https://5.imimg.com/data5/SELLER/Default/2025/9/545845666/NI/BA/OE/142534/curd-yogurt-buttermilk-plant-500x500.jpg'
+      },
+      {
+        name: 'Lassi Plant',
+        category: 'By-Product Processing',
+        description: 'Lassi production line for sweet and salted varieties.',
+        detailedInfo: [
+          'Milk standardization and pasteurization system.',
+          'Flavoring and sugar addition with automated mixing.',
+          'Homogenization for smooth, consistent texture.',
+          'Aseptic filling and packaging system.',
+          'Capacity from 1,000L to 8,000L per day.'
+        ],
+        icon: Droplet,
+        image: 'https://5.imimg.com/data5/SU/DM/NV/SELLER-2051008/curd-lassi-plant-500x500.jpg'
+      },
+      {
+        name: 'Cream Separator',
+        category: 'By-Product Processing',
+        description: 'High-speed centrifugal cream separation for fat standardization.',
+        detailedInfo: [
+          'Self-cleaning bowl design for continuous operation.',
+          'Fat standardization from 0.5% to 60% with precision.',
+          'Automatic desludging system reduces downtime.',
+          'Integrated with CIP system for easy cleaning.',
+          'Capacity from 2,000L to 20,000L per hour.'
+        ],
+        icon: Gauge,
+        image: 'https://i.pinimg.com/736x/d1/7f/5b/d17f5b6f98ea920c33c56b39a5973e01.jpg'
+      },
+      {
+        name: 'Khoya Plant',
+        category: 'By-Product Processing',
+        description: 'Khoya/Mawa production system with continuous cooking and cooling.',
+        detailedInfo: [
+          'Continuous khoya boiling kettle with scraping agitation.',
+          'Automatic temperature and moisture control system.',
+          'Cooling conveyor with product shaping and portioning.',
+          'Vacuum packaging for extended shelf life.',
+          'Capacity from 500kg to 5,000kg per day.'
+        ],
+        icon: Wheat,
+        image: 'https://5.imimg.com/data5/YF/YZ/DR/SELLER-79448625/steam-operated-khoya-plant-500x500.jpg'
+      },
+      {
+        name: 'Ice Cream Plant',
+        category: 'By-Product Processing',
+        description: 'Complete ice cream production line from mix preparation to freezing.',
+        detailedInfo: [
+          'Mix pasteurization and homogenization system.',
+          'Continuous freezer with overrun control and flavor injection.',
+          'Fruit & inclusion feeder for variegated products.',
+          'Harding tunnel with automatic packaging and wrapping.',
+          'Capacity from 1,000L to 15,000L per day.'
+        ],
+        icon: IceCream,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFIPx9JNsbSeePNBkRVM58HwIyvSYaG07jFPUzbgxNs0kNTYiL3TMyL-M&s=10'
+      },
+      {
+        name: 'Flavoured Milk Plant',
+        category: 'By-Product Processing',
+        description: 'Flavoured milk production line with flavoring and packaging.',
+        detailedInfo: [
+          'Milk standardization and pasteurization system.',
+          'Flavor addition tank with automated dosing system.',
+          'Homogenization for uniform texture and mouthfeel.',
+          'Aseptic filling for UHT and ESL products.',
+          'Capacity from 2,000L to 20,000L per day.'
+        ],
+        icon: Coffee,
+        image: 'https://5.imimg.com/data5/QX/AW/MY-3778663/flavoured-milk-plant.jpeg'
+      },
+      {
+        name: 'Cheese Plant Equipment',
+        category: 'By-Product Processing',
+        description: 'Complete cheese production line from curd making to aging.',
+        detailedInfo: [
+          'Curd setting vats with cutting, stirring & cooking sections.',
+          'Curd draining and matting system with whey recovery.',
+          'Cheddaring and milling equipment for block cheese.',
+          'Pressing, brining, and aging room systems.',
+          'Capacity from 1,000kg to 10,000kg per day.'
+        ],
+        icon: Sandwich,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTrBj5op5ESOi5tBydx75G52bK4RY914TreztAzJSYoWjiviIyc8LjgmQ&s=10'
+      },
+      {
+        name: 'Yogurt Plant System',
+        category: 'By-Product Processing',
+        description: 'Specialized yogurt production with fruit and flavor integration.',
+        detailedInfo: [
+          'Milk standardizing and pasteurizing system with heat treatment.',
+          'Starter culture addition and fermentation tanks with temperature control.',
+          'Fruit prepper and flavoring system for fruit-on-the-bottom.',
+          'Automatic filling and packaging with multi-cup formats.',
+          'Capacity from 1,000L to 8,000L per day.'
+        ],
+        icon: Croissant,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdLzeIOXa4PNWGCeQwjcMnXkzn_L_axncpyqlKyCLs-tIqODwtOvIwFCE&s=10'
+      },
+      {
+        name: 'Dairy Mixing & Blending System',
+        category: 'Utility & Automation',
+        description: 'Centralized blending system for all by-products with recipe management.',
+        detailedInfo: [
+          'Computer controlled recipe management with automated ingredient dosing.',
+          'Precise temperature control for different product requirements.',
+          'In-line homogenization and deaeration for optimal product quality.',
+          'Integrated CIP system for seamless cleaning between batches.',
+          'Supports multiple product changeovers without cross-contamination.'
+        ],
+        icon: Settings,
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8-SikN-7hKQ9tAWiwT4Sb4GhwzqdykD7Ucd2p_yj9cVG_4tSbRGg7nlY&s=10'
+      }
+    ];
+ const industryData: Record<string, any> = {
     manufacturing: {
       name: 'Manufacturing',
       tagline: 'Smart Factory Automation & Production Excellence',
@@ -711,6 +915,7 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
     }
   };
 
+
   const industry = industryData[industryId || 'manufacturing'];
   const heroImage = heroImages[industryId || 'manufacturing'];
   const IconComponent = industry?.icon;
@@ -731,12 +936,40 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
 
   const industryTitle = `${industry.name} Solutions - Logic Shell`;
 
+  // Which machine categories actually exist for this industry — used so we
+  // never render an empty heading with no cards underneath it.
+  const hasCategory = (cat: string) =>
+    !!industry.machines && industry.machines.some((m: MachineItem) => m.category === cat);
+
   return (
     <>
       <Helmet>
         <title>{industryTitle}</title>
         <meta name="description" content={`Logic Shell ${industry.name} solutions - ${industry.tagline}. Explore our comprehensive digital solutions for ${industry.name} industry.`} />
         <link rel="canonical" href={`https://thelogicshell.com/industry/${industryId}`} />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={industryTitle} />
+        <meta property="og:description" content={`Logic Shell ${industry.name} solutions - ${industry.tagline}.`} />
+        <meta property="og:url" content={`https://thelogicshell.com/industry/${industryId}`} />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={industryTitle} />
+        <meta name="twitter:description" content={`Logic Shell ${industry.name} solutions - ${industry.tagline}.`} />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Industry', item: 'https://thelogicshell.com/industry' },
+              { '@type': 'ListItem', position: 3, name: industry.name, item: `https://thelogicshell.com/industry/${industryId}` },
+            ],
+          })}
+        </script>
       </Helmet>
 
       {/* Scoped keyframes — no tailwind.config changes needed */}
@@ -869,44 +1102,85 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({ setCurrentPage 
               </div>
             </section>
 
-            <section className="py-6 md:py-8">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-4">
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">Processing Equipment</h2>
+            {/* Processing Equipment — used by milk-plant-machinery */}
+            {hasCategory('Processing Equipment') && (
+              <section className="py-6 md:py-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">Processing Equipment</h2>
+                  </div>
+                  <div ref={processingSection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {industry.machines.filter((m: MachineItem) => m.category === 'Processing Equipment').map((machine: MachineItem, i: number) => (
+                      <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={processingSection.inView} />
+                    ))}
+                  </div>
                 </div>
-                <div ref={processingSection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {industry.machines.filter((m: MachineItem) => m.category === 'Processing Equipment').map((machine: MachineItem, i: number) => (
-                    <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={processingSection.inView} />
-                  ))}
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
 
-            <section className="py-6 md:py-8 bg-gray-50/50">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-4">
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">By-Product Processing</h2>
+            {/* By-Product Processing — used by milk-by-product-machinery (this was missing before) */}
+            {hasCategory('By-Product Processing') && (
+              <section className="py-6 md:py-8 bg-gray-50/50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">By-Product Processing</h2>
+                  </div>
+                  <div ref={byProductSection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {industry.machines.filter((m: MachineItem) => m.category === 'By-Product Processing').map((machine: MachineItem, i: number) => (
+                      <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={byProductSection.inView} />
+                    ))}
+                  </div>
                 </div>
-                <div ref={utilitySection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {industry.machines.filter((m: MachineItem) => m.category === 'By-Product Processing').map((machine: MachineItem, i: number) => (
-                    <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={utilitySection.inView} />
-                  ))}
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
 
-            <section className="py-6 md:py-8 bg-white">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-4">
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">Utility & Automation</h2>
+            {/* Utility & Automation — used by both machinery pages */}
+            {hasCategory('Utility & Automation') && (
+              <section className="py-6 md:py-8 bg-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">Utility & Automation</h2>
+                  </div>
+                  <div ref={utilitySection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {industry.machines.filter((m: MachineItem) => m.category === 'Utility & Automation').map((machine: MachineItem, i: number) => (
+                      <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={utilitySection.inView} />
+                    ))}
+                  </div>
                 </div>
-                <div ref={receptionSection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {industry.machines.filter((m: MachineItem) => m.category === 'Utility & Automation').map((machine: MachineItem, i: number) => (
-                    <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={receptionSection.inView} />
-                  ))}
+              </section>
+            )}
+
+            {/* Reception & Storage — used by milk-plant-machinery */}
+            {hasCategory('Reception & Storage') && (
+              <section className="py-6 md:py-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">Reception & Storage</h2>
+                  </div>
+                  <div ref={receptionSection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {industry.machines.filter((m: MachineItem) => m.category === 'Reception & Storage').map((machine: MachineItem, i: number) => (
+                      <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 100} visible={receptionSection.inView} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
+
+            {/* Processing & Utility — used by milk-plant-machinery */}
+            {hasCategory('Processing & Utility') && (
+              <section className="py-6 md:py-12 bg-gray-50/50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">Processing & Utility Equipment</h2>
+                  </div>
+                  <div ref={processingUtilitySection.ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {industry.machines.filter((m: MachineItem) => m.category === 'Processing & Utility').map((machine: MachineItem, i: number) => (
+                      <MachineCard key={i} machine={machine} color={industry.color} onClick={() => setActiveMachine(machine)} delay={i * 80} visible={processingUtilitySection.inView} />
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
           </>
         ) : (
           <section className="py-10 md:py-16">

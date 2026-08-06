@@ -136,6 +136,33 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
           content="Logic Shell LLP delivers scalable digital solutions across web, mobile, enterprise systems, and cloud platforms for modern businesses."
         />
         <link rel="canonical" href="https://thelogicshell.com/" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Logic Shell | Intelligent Digital Ecosystems" />
+        <meta
+          property="og:description"
+          content="Logic Shell LLP delivers scalable digital solutions across web, mobile, enterprise systems, and cloud platforms for modern businesses."
+        />
+        <meta property="og:url" content="https://thelogicshell.com/" />
+        <meta property="og:image" content="https://thelogicshell.com/favicon.svg" />
+        <meta property="og:site_name" content="Logic Shell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Logic Shell | Intelligent Digital Ecosystems" />
+        <meta
+          name="twitter:description"
+          content="Logic Shell LLP delivers scalable digital solutions across web, mobile, enterprise systems, and cloud platforms for modern businesses."
+        />
+        <meta name="twitter:image" content="https://thelogicshell.com/favicon.svg" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thelogicshell.com/' },
+            ],
+          })}
+        </script>
       </Helmet>
 
       {/* Local keyframes — kept scoped here so no tailwind.config changes are needed */}
