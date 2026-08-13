@@ -13,13 +13,25 @@ import {
   ArrowRight,
   CheckCircle2,
   Code2,
+  Droplet,
+  FlaskConical,
+  Gauge,
+  Monitor,
+  Wifi,
+  Link,
+  Factory,
+  Award,
+  TrendingUp,
+  Eye,
 } from "lucide-react";
 import type { PageType } from "../App";
+import EcosystemDiagram, { ecosystemNodes } from "../components/EcosystemDiagram";
+import ServiceOrbitDiagram from "../components/ServiceOrbitDiagram";
+import HeroSlider from "../components/HeroSlider";
 
 interface HomePageProps {
   setCurrentPage: (page: PageType) => void;
 }
-
 
 function useInView<T extends HTMLElement>(threshold = 0.15) {
   const ref = useRef<T | null>(null);
@@ -51,19 +63,23 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
 
   const aboutSection = useInView<HTMLElement>();
   const servicesSection = useInView<HTMLElement>();
+  const serviceOrbitSection = useInView<HTMLElement>();
   const brandsSection = useInView<HTMLElement>();
+  const dairyHeroSection = useInView<HTMLElement>();
+  const ecosystemSection = useInView<HTMLElement>();
+  const dairySolutionsSection = useInView<HTMLElement>();
+  const whyChooseSection = useInView<HTMLElement>();
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-   
+
     const t = requestAnimationFrame(() => setHeroLoaded(true));
     return () => cancelAnimationFrame(t);
   }, []);
 
-  
   const softwareServices = [
     {
       icon: Code2,
@@ -117,6 +133,87 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
       icon: Milk,
       title: "Dairy Plant Machinery",
       desc: "Processing, utility, reception & storage equipment for dairy plants — pasteurizers, homogenizers, CIP systems & more.",
+    },
+  ];
+
+  const dairySolutions = [
+    {
+      icon: Droplet,
+      title: "Milk Collection Systems",
+      desc: "Automated milk collection solutions for accurate measurement of milk quantity, Fat, SNF and other quality parameters, with seamless data capture and digital records.",
+    },
+    {
+      icon: FlaskConical,
+      title: "Milk Testing & Quality Solutions",
+      desc: "Reliable milk testing and quality measurement solutions that help dairies monitor milk quality and maintain transparency throughout procurement.",
+    },
+    {
+      icon: Gauge,
+      title: "Weighing & Measurement Solutions",
+      desc: "Smart weighing and measurement systems designed for accurate milk quantity recording and integration with milk collection software.",
+    },
+    {
+      icon: Monitor,
+      title: "Dairy Management Software",
+      desc: "Powerful software solutions for milk procurement, farmer management, collection management, rate management, billing, payments, deductions, accounting and reporting.",
+    },
+    {
+      icon: Smartphone,
+      title: "Mobile & Digital Solutions",
+      desc: "Mobile and web applications that connect farmers, collection centers, field staff and dairy management with real-time information.",
+    },
+    {
+      icon: Wifi,
+      title: "Monitoring & Automation",
+      desc: "Connected solutions for monitoring dairy operations, equipment, milk collection and critical processes—helping reduce manual work and improve operational visibility.",
+    },
+    {
+      icon: Link,
+      title: "Hardware & Software Integration",
+      desc: "We integrate dairy equipment such as milk analyzers, weighing systems, collection devices, printers and other field equipment with software platforms for a seamless digital workflow.",
+    },
+    {
+      icon: Factory,
+      title: "Dairy Enterprise Solutions",
+      desc: "Integrated solutions for dairy organizations covering procurement, collection, processing, inventory, sales, finance, farmer payments and management reporting.",
+    },
+  ];
+
+  const whyChooseItems = [
+    {
+      icon: Milk,
+      title: "Dairy-Focused Technology",
+      desc: "Our solutions are designed around the specific operational requirements of the dairy industry.",
+    },
+    {
+      icon: Link,
+      title: "Equipment + Software",
+      desc: "We bring together dairy equipment, software and digital automation to create connected solutions rather than isolated systems.",
+    },
+    {
+      icon: Database,
+      title: "Accurate Data",
+      desc: "Automated data capture reduces manual entry, improves accuracy and provides reliable information for decision-making.",
+    },
+    {
+      icon: Wifi,
+      title: "End-to-End Connectivity",
+      desc: "Connect milk collection centers, farmers, analyzers, weighing systems and management software through a unified digital ecosystem.",
+    },
+    {
+      icon: TrendingUp,
+      title: "Scalable Solutions",
+      desc: "Our technology can support individual milk collection centers as well as growing dairy cooperatives, milk unions and larger dairy operations.",
+    },
+    {
+      icon: Eye,
+      title: "Better Transparency",
+      desc: "Digital records, automated calculations and real-time information help improve transparency in milk procurement, farmer payments and dairy operations.",
+    },
+    {
+      icon: Shield,
+      title: "Reliable Support",
+      desc: "We provide implementation, integration and technical support to help dairy organizations operate their systems effectively.",
     },
   ];
 
@@ -191,6 +288,22 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         @keyframes growBar {
           from { width: 0%; }
         }
+        @keyframes pulseGlow {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+        }
+        @keyframes flowDash {
+          to { stroke-dashoffset: -24; }
+        }
+        @keyframes coreMsgShine {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        @keyframes hubRing {
+          0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.45); }
+          70% { box-shadow: 0 0 0 12px rgba(99,102,241,0); }
+          100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+        }
         .reveal-hidden {
           opacity: 0;
           transform: translateY(24px);
@@ -198,9 +311,38 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
         .reveal-visible {
           animation: fadeInUp 0.7s ease-out forwards;
         }
+        .core-msg-shine {
+          background: linear-gradient(
+            110deg,
+            #1e3a8a 0%,
+            #1e3a8a 35%,
+            #60a5fa 45%,
+            #ffffff 50%,
+            #60a5fa 55%,
+            #1e3a8a 65%,
+            #1e3a8a 100%
+          );
+          background-size: 220% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          animation: coreMsgShine 5s ease-in-out infinite;
+        }
+        .flow-connector {
+          stroke-dasharray: 6 6;
+          animation: flowDash 1.4s linear infinite;
+        }
+        .flow-connector-vert {
+          stroke-dasharray: 6 6;
+          animation: flowDash 1.4s linear infinite;
+        }
+        .hub-icon-ring {
+          animation: hubRing 2.2s ease-out infinite;
+        }
       `}</style>
 
       <div>
+ <HeroSlider/>
         <section className="relative min-h-[calc(100vh-64px)] flex items-center overflow-hidden bg-linear-to-br from-blue-50 via-white to-indigo-50">
           <div
             className="absolute top-20 right-10 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"
@@ -224,6 +366,21 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
                 <span className="text-xs font-semibold text-blue-600 tracking-wide">
                   where precision meets perfection
                 </span>
+              </div>
+
+
+              <div
+                className="relative flex items-start gap-3 mb-6 pl-4 border-l-2 border-blue-400 transition-all duration-700 ease-out"
+                style={{
+                  opacity: heroLoaded ? 1 : 0,
+                  transform: heroLoaded ? "translateX(0)" : "translateX(-16px)",
+                  transitionDelay: "60ms",
+                }}
+              >
+                <Link size={18} className="text-blue-500 mt-1 shrink-0" />
+                <p className="font-syne font-bold text-lg sm:text-xl leading-snug core-msg-shine">
+                  Integrated Dairy Technology Solutions — Equipment, Software &amp; Automation.
+                </p>
               </div>
 
               <h1
@@ -385,6 +542,7 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
           </div>
         </section>
 
+
         <section ref={servicesSection.ref} className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
@@ -442,7 +600,6 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
               ))}
             </div>
 
-           
             <div className="mb-4 flex items-center gap-2">
               <Milk size={16} className="text-indigo-500" />
               <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide">
@@ -480,9 +637,246 @@ const HomePage: React.FC<HomePageProps> = ({ setCurrentPage }) => {
           </div>
         </section>
 
+        {/* ================= SERVICE ORBIT DIAGRAM ================= */}
+        <section
+          ref={serviceOrbitSection.ref}
+          className="py-16 bg-gray-50/50 border-y border-gray-100 overflow-hidden"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              className={`text-center mb-10 ${
+                serviceOrbitSection.inView ? "reveal-visible" : "reveal-hidden"
+              }`}
+            >
+              <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 rounded-full px-3 py-1 mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span className="text-xs font-bold text-blue-600 uppercase tracking-wide">
+                  Our Ecosystem
+                </span>
+              </div>
+              <h2 className="font-syne font-bold text-3xl text-gray-900 mb-3">
+                Everything We Build, Connected
+              </h2>
+              <p className="text-gray-500 max-w-2xl mx-auto">
+                A single ecosystem powering software, cloud, and dairy
+                machinery — all engineered under one roof.
+              </p>
+            </div>
+
+            <div
+              className={
+                serviceOrbitSection.inView ? "reveal-visible" : "reveal-hidden"
+              }
+              style={{
+                animationDelay: serviceOrbitSection.inView ? "80ms" : undefined,
+              }}
+            >
+              <ServiceOrbitDiagram />
+            </div>
+          </div>
+        </section>
+        {/* ================= END SERVICE ORBIT DIAGRAM ================= */}
+
+        <section
+          ref={dairyHeroSection.ref}
+          className="py-16 bg-linear-to-br from-blue-50 via-white to-indigo-50 border-y border-blue-100"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              className={`text-center max-w-4xl mx-auto ${
+                dairyHeroSection.inView ? "reveal-visible" : "reveal-hidden"
+              }`}
+            >
+              <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 rounded-full px-3 py-1 mb-4">
+                <Milk size={14} className="text-blue-500" />
+                <span className="text-xs font-bold text-blue-600 uppercase tracking-wide">
+                  Dairy Technology
+                </span>
+              </div>
+              <h2 className="font-syne font-bold text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-4">
+                Smart Technology for a <span className="text-blue-600">Smarter Dairy Industry</span>
+              </h2>
+              <p className="text-lg text-gray-600 mb-3">
+                Dairy Equipment • Software • Automation • Digital Solutions
+              </p>
+              <p className="text-gray-500 max-w-3xl mx-auto leading-relaxed">
+                We provide innovative <strong>dairy technology solutions that connect equipment, software, and automation</strong> to simplify dairy operations—from milk collection and testing to procurement, farmer management, billing, monitoring, and dairy management.
+              </p>
+              <p className="text-gray-500 max-w-3xl mx-auto leading-relaxed mt-3">
+                Our solutions are designed for <strong>Dairy Cooperatives, Milk Unions, Milk Collection Centers, Chilling Centers, Dairy Farms, and Dairy Processing Units</strong>, helping organizations improve accuracy, transparency, efficiency, and control across the dairy supply chain.
+              </p>
+              <p className="text-blue-600 font-semibold mt-4 text-lg">
+                Technology that connects the dairy ecosystem.
+              </p>
+              <div className="flex flex-wrap gap-3 justify-center mt-6">
+                <button
+                  onClick={() => setCurrentPage("industry")}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 text-white font-semibold shadow-md shadow-blue-500/30 hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+                >
+                  Explore Our Solutions <ArrowRight size={16} />
+                </button>
+                <button
+                  onClick={() => setCurrentPage("contact")}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white border border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+                >
+                  Contact Us
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= ECOSYSTEM SECTION — Farm / Collection Centre / Dairy tiers ================= */}
+        <section
+          ref={ecosystemSection.ref}
+          className="py-16 bg-white overflow-hidden"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              className={`text-center mb-10 ${
+                ecosystemSection.inView ? "reveal-visible" : "reveal-hidden"
+              }`}
+            >
+              <div className="inline-flex items-center gap-2 bg-indigo-100 border border-indigo-200 rounded-full px-3 py-1 mb-4">
+                <Link size={14} className="text-indigo-500" />
+                <span className="text-xs font-bold text-indigo-600 uppercase tracking-wide">
+                  The Dairy Ecosystem
+                </span>
+              </div>
+              <h2 className="font-syne font-bold text-3xl md:text-4xl text-gray-900 mb-3">
+                One Connected Journey, From Farm to Ledger
+              </h2>
+              <p className="text-gray-500 max-w-2xl mx-auto">
+                Every stage of the dairy supply chain, linked by a single
+                digital thread — from the farm, through the collection
+                centre, to the dairy plant.
+              </p>
+            </div>
+
+            {/* Illustrated single-row diagram lives in its own file: EcosystemDiagram.tsx
+                Tier labels (FARM / COLLECTION CENTRE / DAIRY LEVEL) are rendered
+                inside the SVG itself — no separate HTML label row needed here. */}
+            <div
+              className={ecosystemSection.inView ? "reveal-visible" : "reveal-hidden"}
+              style={{ animationDelay: ecosystemSection.inView ? "60ms" : undefined }}
+            >
+              <EcosystemDiagram nodes={ecosystemNodes} />
+            </div>
+          </div>
+        </section>
+        {/* ================= END ECOSYSTEM SECTION ================= */}
+
+        {/* Dairy Solutions Section */}
+        <section
+          ref={dairySolutionsSection.ref}
+          className="py-16 bg-white"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              className={`text-center mb-10 ${
+                dairySolutionsSection.inView ? "reveal-visible" : "reveal-hidden"
+              }`}
+            >
+              <h2 className="font-syne font-bold text-3xl md:text-4xl text-gray-900 mb-3">
+                Complete Dairy Technology Solutions
+              </h2>
+              <p className="text-gray-500 max-w-2xl mx-auto">
+                From the village-level milk collection center to the dairy plant, we provide integrated technology solutions designed specifically for the dairy industry.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {dairySolutions.map((solution, i) => (
+                <div
+                  key={i}
+                  className={`group bg-white border border-blue-100 rounded-xl p-5 hover:shadow-lg hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 ${
+                    dairySolutionsSection.inView ? "reveal-visible" : "reveal-hidden"
+                  }`}
+                  style={{
+                    animationDelay: dairySolutionsSection.inView
+                      ? `${i * 80}ms`
+                      : undefined,
+                  }}
+                >
+                  <div className="w-11 h-11 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+                    <solution.icon
+                      size={18}
+                      className="text-blue-500 group-hover:text-white transition-colors duration-300"
+                    />
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2 text-sm">
+                    {solution.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    {solution.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose Section */}
+        <section
+          ref={whyChooseSection.ref}
+          className="py-16 bg-gray-50/50 border-y border-gray-100"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              className={`text-center mb-10 ${
+                whyChooseSection.inView ? "reveal-visible" : "reveal-hidden"
+              }`}
+            >
+              <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 rounded-full px-3 py-1 mb-4">
+                <Award size={14} className="text-blue-500" />
+                <span className="text-xs font-bold text-blue-600 uppercase tracking-wide">
+                  Why Choose Us
+                </span>
+              </div>
+              <h2 className="font-syne font-bold text-3xl md:text-4xl text-gray-900 mb-3">
+                Why Choose The Logic Shell?
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {whyChooseItems.map((item, i) => (
+                <div
+                  key={i}
+                  className={`group bg-white border border-gray-100 rounded-xl p-5 hover:shadow-lg hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 ${
+                    whyChooseSection.inView ? "reveal-visible" : "reveal-hidden"
+                  }`}
+                  style={{
+                    animationDelay: whyChooseSection.inView
+                      ? `${i * 80}ms`
+                      : undefined,
+                  }}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+                      <item.icon
+                        size={18}
+                        className="text-blue-500 group-hover:text-white transition-colors duration-300"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-800 mb-1 text-sm">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs text-gray-500 leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Brands Section */}
         <section
           ref={brandsSection.ref}
-          className="py-10 bg-gray-50/50 border-y border-gray-100"
+          className="py-10 bg-white border-y border-gray-100"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-xs font-semibold text-blue-500 uppercase tracking-wider mb-5">

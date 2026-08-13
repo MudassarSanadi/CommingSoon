@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Mail, Phone, MapPin, Send, Clock, Building2, User, MessageSquare, Sparkles, CheckCircle2 } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, Clock, Building2, User, MessageSquare, Sparkles, AlertTriangle } from 'lucide-react'
 import type { PageType } from '../App'
 
 interface ContactPageProps {
@@ -40,6 +40,12 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
     phone: '',
     message: ''
   })
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [heroLoaded, setHeroLoaded] = useState(false)
@@ -48,7 +54,6 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
   const infoSection = useInView<HTMLDivElement>()
   const ctaSection = useInView<HTMLDivElement>()
 
- 
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -58,14 +63,133 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
     return () => cancelAnimationFrame(t)
   }, [])
 
+ 
+  const validateName = (value: string) => {
+    if (!value.trim()) {
+      return 'Name is required'
+    }
+    if (!/^[A-Za-z\s]+$/.test(value)) {
+      return 'Name can only contain letters and spaces'
+    }
+    return ''
+  }
+
+  
+  const validateEmail = (value: string) => {
+    if (!value) {
+      return 'Email is required'
+    }
+    if (!/^[a-z][a-z0-9._%+-]*@[a-z0-9.-]+\.com$/.test(value)) {
+      return 'Email must be in lowercase and end with .com (e.g., name@domain.com)'
+    }
+    return ''
+  }
+
+
+  const validatePhone = (value: string) => {
+    if (value && !/^[0-9]{10}$/.test(value)) {
+      return 'Phone number must be exactly 10 digits'
+    }
+    return ''
+  }
+
+
+  const validateMessage = (value: string) => {
+    if (!value.trim()) {
+      return 'Message is required'
+    }
+    return ''
+  }
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value
+    
+    value = value.replace(/[^A-Za-z\s]/g, '')
+ 
+    value = value.replace(/\b\w/g, (char) => char.toUpperCase())
+    setFormData({ ...formData, name: value })
+    const error = validateName(value)
+    setErrors({ ...errors, name: error })
+  }
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value
+
+    value = value.toLowerCase()
+    setFormData({ ...formData, email: value })
+    const error = validateEmail(value)
+    setErrors({ ...errors, email: error })
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value
+  
+    value = value.replace(/\D/g, '')
+ 
+    if (value.length <= 10) {
+      setFormData({ ...formData, phone: value })
+      const error = validatePhone(value)
+      setErrors({ ...errors, phone: error })
+    }
+  }
+
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value
+    setFormData({ ...formData, message: value })
+    const error = validateMessage(value)
+    setErrors({ ...errors, message: error })
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+   
+    const nameError = validateName(formData.name)
+    const emailError = validateEmail(formData.email)
+    const phoneError = validatePhone(formData.phone)
+    const messageError = validateMessage(formData.message)
+    
+    setErrors({
+      name: nameError,
+      email: emailError,
+      phone: phoneError,
+      message: messageError
+    })
+
+   
+    if (nameError || emailError || phoneError || messageError) {
+      return
+    }
+
     setIsSubmitting(true)
     await new Promise(resolve => setTimeout(resolve, 1000))
+
+    try {
+      const STORAGE_KEY = 'contactSubmissions'
+      const existingRaw = localStorage.getItem(STORAGE_KEY)
+      const existingSubmissions = existingRaw ? JSON.parse(existingRaw) : []
+
+      const newSubmission = {
+        id: Date.now(),
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        submittedAt: new Date().toISOString()
+      }
+
+      existingSubmissions.push(newSubmission)
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(existingSubmissions))
+    } catch (err) {
+      console.error('Failed to save submission to localStorage:', err)
+    }
+
     setIsSubmitting(false)
     setShowSuccess(true)
     setFormData({ name: '', company: '', email: '', phone: '', message: '' })
-    setTimeout(() => setShowSuccess(false), 4000)
+    setErrors({ name: '', email: '', phone: '', message: '' })
+    setTimeout(() => setShowSuccess(false), 8000)
   }
 
   const contactInfo = [
@@ -129,15 +253,14 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
         </script>
       </Helmet>
 
-     
       <style>{`
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes popIn {
-          from { opacity: 0; transform: scale(0.9); }
-          to { opacity: 1; transform: scale(1); }
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         .reveal-hidden {
           opacity: 0;
@@ -199,22 +322,50 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
                   </div>
                   <h2 className="text-xl font-bold text-gray-800">Send us a message</h2>
                 </div>
+
+                {showSuccess && (
+                  <div
+                    className="mb-4 p-4 rounded-lg bg-red-50 border border-red-200 flex items-start gap-3"
+                    style={{ animation: 'slideDown 0.35s ease-out' }}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-red-100 shrink-0 flex items-center justify-center">
+                      <AlertTriangle size={20} className="text-red-500" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-red-600 text-sm">We couldn't deliver your message right now</p>
+                      <p className="text-sm text-gray-600 mt-1">
+                        Your details were saved, but our online form isn't fully connected yet. Please call us directly at{' '}
+                        <a href="tel:+919579074450" className="text-red-600 font-medium hover:text-red-700 underline">
+                          +91 9579074450
+                        </a>{' '}
+                        so we can help you right away.
+                      </p>
+                    </div>
+                  </div>
+                )}
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Full Name <span className="text-red-500">*</span>
+                      </label>
                       <div className="relative">
                         <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                           type="text"
                           value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-all duration-300"
+                          onChange={handleNameChange}
+                          className={`w-full pl-9 pr-3 py-2 rounded-lg border ${
+                            errors.name ? 'border-red-400' : 'border-gray-200'
+                          } text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-all duration-300`}
                           placeholder="John Doe"
                           required
                         />
                       </div>
+                      {errors.name && (
+                        <p className="text-xs text-red-500 mt-1">{errors.name}</p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
@@ -233,44 +384,68 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
                   
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email Address <span className="text-red-500">*</span>
+                      </label>
                       <div className="relative">
                         <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                           type="email"
                           value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-all duration-300"
-                          placeholder="hello@company.com"
+                          onChange={handleEmailChange}
+                          className={`w-full pl-9 pr-3 py-2 rounded-lg border ${
+                            errors.email ? 'border-red-400' : 'border-gray-200'
+                          } text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-all duration-300`}
+                          placeholder="name@domain.com"
                           required
                         />
                       </div>
+                      {errors.email && (
+                        <p className="text-xs text-red-500 mt-1">{errors.email}</p>
+                      )}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number <span className="text-red-500">*</span>
+                      </label>
                       <div className="relative">
                         <Phone size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                           type="tel"
                           value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-all duration-300"
-                          placeholder="+91 95790 74450"
+                          onChange={handlePhoneChange}
+                          className={`w-full pl-9 pr-3 py-2 rounded-lg border ${
+                            errors.phone ? 'border-red-400' : 'border-gray-200'
+                          } text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-all duration-300`}
+                          placeholder="9876543210"
+                          required
+                          maxLength={10}
                         />
                       </div>
+                      {errors.phone && (
+                        <p className="text-xs text-red-500 mt-1">{errors.phone}</p>
+                      )}
+                      <p className="text-xs text-gray-400 mt-1">Enter exactly 10 digits (e.g., 9876543210)</p>
                     </div>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Project Description *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Project Description <span className="text-red-500">*</span>
+                    </label>
                     <textarea
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onChange={handleMessageChange}
                       rows={4}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 resize-none transition-all duration-300"
+                      className={`w-full px-3 py-2 rounded-lg border ${
+                        errors.message ? 'border-red-400' : 'border-gray-200'
+                      } text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 resize-none transition-all duration-300`}
                       placeholder="Tell us about your project, requirements, and timeline..."
                       required
                     />
+                    {errors.message && (
+                      <p className="text-xs text-red-500 mt-1">{errors.message}</p>
+                    )}
                   </div>
                   
                   <button
@@ -288,19 +463,6 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage: _setCurrentPa
                     )}
                   </button>
                 </form>
-
-                {showSuccess && (
-                  <div
-                    className="absolute inset-0 bg-white/95 flex flex-col items-center justify-center gap-3 rounded-xl"
-                    style={{ animation: 'popIn 0.35s ease-out' }}
-                  >
-                    <div className="w-14 h-14 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
-                      <CheckCircle2 size={28} className="text-green-500" />
-                    </div>
-                    <p className="font-semibold text-gray-800">Message sent successfully!</p>
-                    <p className="text-sm text-gray-500">We'll be in touch within 24 hours.</p>
-                  </div>
-                )}
               </div>
 
               <div ref={infoSection.ref} className="space-y-6">

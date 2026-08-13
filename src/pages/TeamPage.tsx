@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Sparkles, Users, Award, Briefcase, Calendar, Mail, MapPin, Code } from 'lucide-react'
+import { Sparkles, Users, Award, Briefcase, Calendar, Mail, MapPin, Code, Link, GitBranch, MessageCircle } from 'lucide-react'
 import type { PageType } from '../App'
 
 export interface TeamMember {
@@ -62,28 +62,22 @@ const teamMembers: TeamMember[] = [
     initials: 'AN',
     role: 'Full Stack Developer',
     bio: 'Passionate full-stack developer with expertise in building scalable web applications and enterprise solutions.',
-    skills: ['React', 'Node.js', 'TypeScript', 'Python', 'MongoDB', 'AWS', 'Next.js', 'Express.js', 'PostgreSQL', 'Socket.IO', 'REST APIs', 'Docker', 'Git', 'Jest', 'Spring boot'],
-    email: 'asgar@logicshell.in',
+    skills: ['Java', 'JavaScript', 'TypeScript', 'Python', 'React', 'React Router', 'Angular', 'Next.js', 'Node.js', 'Express.js', 'Spring Boot', 'MongoDB', 'PostgreSQL', 'MySQL', 'REST APIs'],
+    email: 'asgar@logicshell.com',
     phone: '+91 9075566776',
     location: 'Terani, India',
     experience: '2+ years',
     education: 'Master Of Computer Application, DYP University',
-    achievements: [
-      'Built 15+ production-grade applications',
-      'Microsoft Certified: Full Stack Developer',
-      'Open source contributor',
-      'Hackathon Winner 2023'
-    ],
+    achievements: [],
     projects: [
-      'Manufacturing ERP System - Built a complete ERP solution for a manufacturing company with 500+ daily users using React, Node.js, and PostgreSQL',
-      'Dairy Supply Chain Platform - Developed end-to-end dairy management system with real-time tracking using Socket.IO and MongoDB',
-      'Healthcare Portal - Created telemedicine platform with video consultation and EHR integration using WebRTC and React',
-      'E-commerce Analytics Dashboard - Built real-time analytics dashboard processing 100K+ events/day using Next.js and Express.js'
+      'School Management System - Built a complete school management platform covering admissions, attendance, and fee tracking using React, Node.js, and PostgreSQL',
+      'Dairy Supply Chain Platform - Developed an end-to-end dairy management system with real-time tracking using Socket.IO and MongoDB',
+      'Task Management App - Created a team task and project tracking tool with real-time updates using React and Express.js',
+      'E-Commerce Admin Dashboard - Built an analytics and order management dashboard with role-based access using React and Spring Boot'
     ],
     social: {
-      github: 'https://github.com/asgar',
-      linkedin: 'https://linkedin.com/in/asgar',
-     
+      github: 'https://github.com/Asgar-Nesari',
+      linkedin: 'https://www.linkedin.com/in/asgar-nesari/',
     }
   },
   {
@@ -92,28 +86,22 @@ const teamMembers: TeamMember[] = [
     initials: 'MM',
     role: 'Full Stack Developer',
     bio: 'Creative full-stack developer specializing in modern web technologies and delightful user experiences.',
-    skills: ['React', 'Node.js', 'TypeScript', 'Python', 'MongoDB', 'AWS', 'Next.js', 'Express.js', 'PostgreSQL', 'Socket.IO', 'REST APIs', 'Docker', 'Git', 'Jest','Spring boot'],
-    email: 'muskan@logicshell.in',
+    skills: ['Java', 'JavaScript', 'TypeScript', 'Python', 'React', 'React Router', 'Angular', 'Next.js', 'Node.js', 'Express.js', 'Spring Boot', 'MongoDB', 'PostgreSQL', 'MySQL', 'REST APIs'],
+    email: 'muskan@logicshell.com',
     phone: '+91 9156070412',
     location: 'Ashta, India',
     experience: '2+ years',
     education: 'Master Of Computer Application, DYP University',
-    achievements: [
-      'Women in Tech Award 2024',
-      'Google Cloud Certified',
-      'Published 3 technical blogs',
-      'Open Source Contributor - Next.js'
-    ],
+    achievements: [],
     projects: [
-      'Retail POS System - Built modern POS solution for a retail chain with 50+ stores using Next.js, Node.js, and PostgreSQL',
-      'E-learning Platform - Developed online learning platform with live classes and assessments using WebRTC and GraphQL',
-      'Inventory Management System - Created real-time inventory tracking for warehouse management using Redis and Socket.IO',
-      'Social Media Dashboard - Built analytics dashboard for social media management using Next.js and Prisma'
+      'School Management System - Developed a student and staff management portal with attendance and result modules using Next.js and PostgreSQL',
+      'Inventory Management System - Created a real-time inventory tracking tool for small warehouses using Node.js and MongoDB',
+      'Portfolio Builder Platform - Built a drag-and-drop portfolio website builder using Next.js and Prisma',
+      'Event Booking System - Developed a ticket booking and event management platform using React and Spring Boot'
     ],
     social: {
-      github: 'https://github.com/muskan',
-      linkedin: 'https://linkedin.com/in/muskan',
-    
+      github: 'https://github.com/muskanm22',
+      linkedin: 'https://www.linkedin.com/in/muskan-mujawar-5723342bb/',
     }
   },
   {
@@ -122,32 +110,63 @@ const teamMembers: TeamMember[] = [
     initials: 'GP',
     role: 'Full Stack Developer',
     bio: 'Results-driven full-stack developer focused on building robust backend systems and intuitive frontend interfaces.',
-    skills: ['React', 'Node.js', 'TypeScript', 'Python', 'MongoDB', 'AWS', 'Next.js', 'Express.js', 'PostgreSQL', 'Socket.IO', 'REST APIs', 'Docker', 'Git', 'Jest','Spring boot'],
-    email: 'gayatri@logicshell.in',
+    skills: ['Java', 'JavaScript', 'TypeScript', 'Python', 'React', 'React Router', 'Angular', 'Next.js', 'Node.js', 'Express.js', 'Spring Boot', 'MongoDB', 'PostgreSQL', 'MySQL', 'REST APIs'],
+    email: 'gayatri@logicshell.com',
     phone: '+91 7841981102',
     location: 'Kolhapur, India',
     experience: '2+ years',
     education: 'Master Of Computer Application, DYP University',
-    achievements: [
-      'Java Champion Award',
-      'Microsoft Certified: Full Stack Developer',
-      'Mentored 50+ junior developers',
-      'Published 2 research papers'
-    ],
+    achievements: [],
     projects: [
-      'Banking Software Suite - Developed secure banking platform with transaction processing using Spring Boot and Angular',
-      'Healthcare Management System - Built hospital management system with 10,000+ patient records using Java and React',
-      'Logistics Platform - Created shipment tracking and fleet management solution using Microservices architecture',
-      'Payment Gateway Integration - Built scalable payment processing system handling 10K+ transactions/day'
+      'School Management System - Built a school administration system for attendance, timetables, and grading using Java and React',
+      'Hospital Appointment System - Developed an appointment booking and patient record module using Spring Boot and React',
+      'Expense Tracker App - Created a personal finance and expense tracking application using Node.js and MongoDB',
+      'Real Estate Listing Platform - Built a property listing and search platform with filters using Next.js and PostgreSQL'
     ],
     social: {
-      github: 'https://github.com/gayatri',
-      linkedin: 'https://linkedin.com/in/gayatri',
-     
+      github: 'https://github.com/Gayu-Patil-77',
+      linkedin: 'https://www.linkedin.com/in/gayatri-patil-0148142b2?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
     }
   },
-   
-  
+  {
+    id: 4,
+    name: 'Vijay Shinde',
+    initials: 'VS',
+    role: 'Technical Director',
+    bio: 'Dairy industry professional with 15+ years of experience in milk procurement, dairy production operations, plant management and project execution, along with 4+ years of experience in dairy engineering, equipment installation, project sales and after-sales service.',
+    skills: [
+      'Dairy Plant Project Planning',
+      'Feasibility Study',
+      'Milk Reception & Chilling Plant Planning',
+      'Pasteurization Systems',
+      'PHE & Homogenizer Selection',
+      'CIP System Planning',
+      'Equipment Technical Evaluation',
+      'Project Cost Estimation',
+      'Installation & Commissioning',
+      'Plant Troubleshooting',
+      'Production Guidance',
+      'Technical Documentation'
+    ],
+    email: 'vijay@thelogicshell.com',
+    phone: '+91 9404317242',
+    location: "Flat No. 603 'C' Wing, Pavilian Residency, near Mhalunge, Baner, Pune - 411045, India",
+    experience: '15+ years',
+    education: '',
+    achievements: [
+      '15+ years in milk procurement, production operations and plant management',
+      '4+ years in dairy engineering, equipment installation and project sales',
+      'Consulted for dairy farmers, milk unions, private dairy companies and investors',
+      'Coordinated equipment suppliers, contractors and technical teams for smooth project execution'
+    ],
+    projects: [
+      'Dairy Plant Layout & Process Planning - Planned complete plant layouts covering milk reception, chilling, pasteurization and processing flow',
+      'Milk Processing Systems - Guided selection of PHE, pasteurizer, homogenizer and processing equipment for multiple dairy plants',
+      'Product Line Planning - Advised on curd, buttermilk, lassi and other dairy product plant setups',
+      'Project Execution Support - Provided installation, commissioning and after-sales technical support for new and expanding dairy projects'
+    ],
+    social: {}
+  },
 ]
 
 const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
@@ -182,6 +201,11 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
     setTimeout(() => setSelectedMember(null), 200)
   }
 
+  const goToContact = () => {
+    closeModal()
+    setCurrentPage('contact')
+  }
+
   const roles = ['all', ...new Set(teamMembers.map(member => member.role))]
 
   const filteredMembers = filter === 'all' 
@@ -193,6 +217,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
       AN: 'from-blue-500 to-indigo-500',
       MM: 'from-purple-500 to-pink-500',
       GP: 'from-green-500 to-teal-500',
+      VS: 'from-teal-500 to-cyan-600',
       AS: 'from-blue-600 to-blue-800',
       PS: 'from-indigo-500 to-indigo-700',
       KM: 'from-cyan-500 to-blue-600',
@@ -206,6 +231,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
       AN: 'from-blue-50 via-indigo-50 to-blue-50',
       MM: 'from-purple-50 via-pink-50 to-purple-50',
       GP: 'from-green-50 via-teal-50 to-green-50',
+      VS: 'from-teal-50 via-cyan-50 to-teal-50',
       AS: 'from-blue-50 via-sky-50 to-blue-50',
       PS: 'from-indigo-50 via-purple-50 to-indigo-50',
       KM: 'from-cyan-50 via-blue-50 to-cyan-50',
@@ -216,16 +242,16 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
 
   const categorizeSkills = (skills: string[]) => {
     const frontend = skills.filter(skill => 
-      ['React', 'Next.js', 'Angular', 'Vue', 'Tailwind CSS', 'HTML5', 'CSS3', 'Figma', 'WebRTC'].includes(skill)
+      ['React', 'React Router', 'Next.js', 'Angular', 'Vue', 'Tailwind CSS', 'HTML5', 'CSS3', 'Figma', 'WebRTC'].includes(skill)
     )
     const backend = skills.filter(skill => 
-      ['Node.js', 'Express.js', 'Python', 'Java', 'Spring Boot', 'C#', 'PHP', 'Go'].includes(skill)
+      ['Node.js', 'Express.js', 'Python', 'Java', 'Spring Boot', 'C#', 'PHP', 'Go', 'JavaScript', 'TypeScript'].includes(skill)
     )
     const database = skills.filter(skill => 
       ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Prisma', 'Hibernate', 'GraphQL'].includes(skill)
     )
     const devops = skills.filter(skill => 
-      ['Docker', 'Kubernetes', 'AWS', 'Jenkins', 'Terraform', 'Git', 'CI/CD'].includes(skill)
+      ['Docker', 'Kubernetes', 'AWS', 'Jenkins', 'Terraform', 'CI/CD', 'REST APIs'].includes(skill)
     )
     const other = skills.filter(skill => 
       !frontend.includes(skill) && !backend.includes(skill) && !database.includes(skill) && !devops.includes(skill)
@@ -486,7 +512,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <div className="flex items-center gap-3">
-                    <div className={`w-16 h-16 rounded-full bg-linear-to-br ${getAvatarGradient(selectedMember.initials)} flex items-center justify-center text-white text-2xl font-bold`}>
+                    <div className={`w-16 h-16 rounded-full bg-linear-to-br ${getAvatarGradient(selectedMember.initials)} flex items-center justify-center text-white text-2xl font-bold shrink-0`}>
                       {selectedMember.initials}
                     </div>
                     <div>
@@ -495,11 +521,23 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
                     </div>
                   </div>
                 </div>
-                <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 text-2xl  duration-200 hover:rotate-90 transition-transform">✕</button>
+                <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 text-2xl shrink-0 duration-200 hover:rotate-90 transition-transform">✕</button>
               </div>
               
               <div className="space-y-4 text-sm mt-4">
                 <p className="text-gray-600 leading-relaxed">{selectedMember.bio}</p>
+
+             
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="flex items-start gap-2 text-gray-500">
+                    <MapPin size={14} className="text-blue-500 shrink-0 mt-0.5" />
+                    <span className="text-xs">{selectedMember.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-500">
+                    <Briefcase size={14} className="text-blue-500 shrink-0" />
+                    <span className="text-xs">{selectedMember.experience}</span>
+                  </div>
+                </div>
                 
                 {selectedMember.role === 'Full Stack Developer' && (() => {
                   const { frontend, backend, database, devops, other } = categorizeSkills(selectedMember.skills)
@@ -572,7 +610,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
                 {selectedMember.role !== 'Full Stack Developer' && selectedMember.skills.length > 0 && (
                   <div>
                     <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                      <Code size={14} className="text-blue-500" />
+                      <Code size={14} className="text-blue-500 shrink-0" />
                       Skills & Expertise
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
@@ -585,7 +623,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
 
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                    <Briefcase size={14} className="text-blue-500" />
+                    <Briefcase size={14} className="text-blue-500 shrink-0" />
                     Key Projects
                   </h4>
                   <div className="space-y-2">
@@ -597,49 +635,47 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
                   </div>
                 </div>
                 
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                    <Award size={14} className="text-blue-500" />
-                    Achievements
-                  </h4>
-                  <div className="flex flex-wrap gap-1.5">
-                    {selectedMember.achievements.map((achievement, i) => (
-                      <span key={i} className="px-2 py-1 bg-green-50 rounded-full text-xs text-green-600">
-                        🏆 {achievement}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <Mail size={14} className="text-blue-500" />
-                    <span className="text-xs break-all">{selectedMember.email}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <span className="text-blue-500">📱</span>
-                    <span className="text-xs">{selectedMember.phone}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <MapPin size={14} className="text-blue-500" />
-                    <span className="text-xs">{selectedMember.location}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <Briefcase size={14} className="text-blue-500" />
-                    <span className="text-xs">{selectedMember.experience}</span>
-                  </div>
-                </div>
 
-                {selectedMember.social && (
+                {selectedMember.achievements.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                      <Award size={14} className="text-blue-500 shrink-0" />
+                      Achievements
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedMember.achievements.map((achievement, i) => (
+                        <span key={i} className="px-2 py-1 bg-green-50 rounded-full text-xs text-green-600">
+                          🏆 {achievement}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {selectedMember.role !== 'Full Stack Developer' && (
+                  <div className="grid grid-cols-2 gap-3 pt-2 border-t border-gray-100">
+                    <div className="flex items-center gap-2 text-gray-500 col-span-2">
+                      <Mail size={14} className="text-blue-500 shrink-0" />
+                      <span className="text-xs break-all">{selectedMember.email}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-500 col-span-2">
+                      <span className="text-blue-500 shrink-0">📱</span>
+                      <span className="text-xs">{selectedMember.phone}</span>
+                    </div>
+                  </div>
+                )}
+
+           
+                {selectedMember.role !== 'Full Stack Developer' && selectedMember.social && (
                   <div className="flex gap-3 pt-2">
                     {selectedMember.social.github && (
                       <a href={selectedMember.social.github} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-700 transition-colors duration-300">
-                        <Mail size={18} />
+                        <GitBranch size={18} />
                       </a>
                     )}
                     {selectedMember.social.linkedin && (
                       <a href={selectedMember.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-600 transition-colors duration-300">
-                        <Mail size={18} />
+                        <Link size={18} />
                       </a>
                     )}
                     {selectedMember.social.twitter && (
@@ -649,15 +685,20 @@ const TeamPage: React.FC<TeamPageProps> = ({ setCurrentPage, showProfile }) => {
                     )}
                   </div>
                 )}
+
+                {selectedMember.role !== 'Full Stack Developer' && (
+                  <div className="pt-3 border-t border-gray-100">
+                    <button
+                      onClick={goToContact}
+                      className="w-full py-2.5 rounded-lg bg-blue-500 text-white text-sm font-semibold shadow-sm hover:bg-blue-600 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      <MessageCircle size={16} />
+                      Contact {selectedMember.name.split(' ')[0]}
+                    </button>
+                  </div>
+                )}
               </div>
-              
-              <button 
-                onClick={() => setCurrentPage('contact')}
-                className="w-full mt-5 py-2.5 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <Mail size={16} />
-                Contact {selectedMember.name.split(' ')[0]}
-              </button>
+        
             </div>
           </div>
         )}

@@ -71,7 +71,7 @@ const SolutionsPage: React.FC<SolutionsPageProps> = ({ setCurrentPage }) => {
         'Business workflow automation and process optimization'
       ],
       benefits: ['Reduce manual errors by 90%', 'Real-time financial insights', 'Automated tax calculations'],
-      technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe API'],
+      technologies: ['React', 'Node.js', 'PostgreSQL'],
       timeline: '4-8 weeks'
     },
     {
@@ -88,7 +88,7 @@ const SolutionsPage: React.FC<SolutionsPageProps> = ({ setCurrentPage }) => {
         'Sales pipeline monitoring with conversion analytics'
       ],
       benefits: ['Increase sales conversion by 35%', 'Improve customer retention', 'Reduce response time by 50%'],
-      technologies: ['React', 'Node.js', 'MongoDB', 'SendGrid'],
+      technologies: ['React', 'Node.js', 'MongoDB'],
       timeline: '6-10 weeks'
     },
     {
@@ -105,7 +105,7 @@ const SolutionsPage: React.FC<SolutionsPageProps> = ({ setCurrentPage }) => {
         'Role-based access control and permission management'
       ],
       benefits: ['Centralized operations', '30% reduction in operational costs', 'Real-time inventory tracking'],
-      technologies: ['Python', 'Django', 'PostgreSQL', 'Redis'],
+      technologies: ['Python', 'Django', 'PostgreSQL'],
       timeline: '10-16 weeks'
     }
   ]

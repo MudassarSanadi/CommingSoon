@@ -39,8 +39,13 @@ import {
   Coffee,
   IceCream,
   Wheat,
+  Filter,
+  Bot,
 } from "lucide-react";
 import type { PageType } from "../App";
+
+
+import ekoMilkUltraPro from "../assets/ekoMilkUltraPro.png";
 
 interface IndustryDetailPageProps {
   setCurrentPage: (page: PageType) => void;
@@ -289,7 +294,7 @@ const MachineModal: React.FC<{
       onClick={handleClose}
     >
       <div
-        className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl transition-all duration-250 ease-out"
+        className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transition-all duration-250 ease-out"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible
@@ -298,33 +303,33 @@ const MachineModal: React.FC<{
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative h-64 md:h-80 bg-gray-100">
+        <div className="relative h-[45vh] md:h-[50vh] lg:h-[55vh] min-h-75 bg-gray-100">
           <img
             src={machine.image}
             alt={machine.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain bg-gray-50 p-4"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
           <button
             onClick={handleClose}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/60 hover:rotate-90 transition-all duration-300"
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/60 hover:rotate-90 transition-all duration-300 z-10"
             aria-label="Close"
           >
             <X size={18} />
           </button>
-          <div className="absolute bottom-4 left-5 flex items-center gap-3">
+          <div className="absolute bottom-4 left-5 right-5 flex items-center gap-3">
             <div
-              className={`w-10 h-10 rounded-xl ${c.bg500} flex items-center justify-center shadow-md`}
+              className={`w-10 h-10 rounded-xl ${c.bg500} flex items-center justify-center shadow-md shrink-0`}
             >
               <machine.icon size={20} className="text-white" />
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <span
                 className={`block text-[10px] font-semibold uppercase tracking-wide text-white/80`}
               >
                 {machine.category}
               </span>
-              <h3 className="text-xl md:text-2xl font-bold text-white">
+              <h3 className="text-xl md:text-2xl font-bold text-white truncate">
                 {machine.name}
               </h3>
             </div>
@@ -405,7 +410,61 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({
       "https://i.pinimg.com/736x/c5/97/c4/c597c4708f5c84e3068bea03a1e51e7a.jpg",
     "milk-by-product-machinery":
       "https://i.pinimg.com/1200x/b9/5e/c5/b95ec5519631ca915f75f3c459136347.jpg",
+    "dairy-automation":
+      "https://dairyautomation.com/wp-content/uploads/2025/04/service-bg.png",
   };
+
+  const dairyAutomationMachines: MachineItem[] = [
+    {
+      name: "Eko Milk Ultra",
+      category: "Dairy Automation",
+      description:
+        "Energy-efficient milk processing unit combining chilling and pasteurization in a compact footprint.",
+      detailedInfo: [
+        "Combines chilling and pasteurization functions in a single compact, energy-efficient unit.",
+        "Reduces overall power consumption through an optimized heat regeneration cycle.",
+        "Ideal for small to mid-sized dairy plants looking to save floor space without compromising output.",
+        "PLC-based controls allow precise monitoring of temperature and flow in real time.",
+        "Food-grade stainless steel construction ensures long-term hygienic performance.",
+        "Modular design allows easy capacity upgrades as production needs grow.",
+      ],
+      icon: Thermometer,
+      image: "https://bennyimpex.in/assets/img/products/amcu-ma-ultra-mb.jpg",
+    },
+    {
+      name: "Eko Milk Ultra Pro",
+      category: "Dairy Automation",
+      description:
+        "Advanced version of Eko Milk Ultra with higher throughput and smart automation for large-scale plants.",
+      detailedInfo: [
+        "Builds on the Eko Milk Ultra platform with higher throughput for large-scale dairy operations.",
+        "Smart automation with real-time data logging for temperature, flow, and energy usage.",
+        "Advanced heat recovery system further lowers energy costs compared to standard units.",
+        "Touchscreen HMI interface for simplified operation and quick fault diagnostics.",
+        "Remote monitoring capability allows plant managers to track performance off-site.",
+        "Built to handle continuous, high-volume production with minimal downtime.",
+      ],
+      icon: Cpu,
+      image: ekoMilkUltraPro,
+    },
+    {
+      name: "Eko Milk Spectra",
+      category: "Dairy Automation",
+      description:
+        "Membrane-based ultrafiltration system for protein concentration and improved milk quality.",
+      detailedInfo: [
+        "Uses membrane-based ultrafiltration technology to separate and concentrate milk proteins.",
+        "Improves product quality and yield for cheese, paneer, and other protein-rich dairy products.",
+        "Reduces reliance on additives by naturally increasing solid content through filtration.",
+        "Helps detect and prevent adulteration by maintaining natural milk solid consistency during processing.",
+        "Automated cleaning cycles keep membranes performing at peak efficiency.",
+        "Energy-efficient cross-flow design minimizes processing time and operational costs.",
+        "Scalable membrane modules allow capacity expansion as plant demand increases.",
+      ],
+      icon: Filter,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSKa4o6VRCd_esaL2e1cWqNWtVoFffzkiotHDDQVZ7jibXRp5KYHgErmM_&s=10",
+    },
+  ];
 
   const milkMachines: MachineItem[] = [
     {
@@ -806,6 +865,7 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8-SikN-7hKQ9tAWiwT4Sb4GhwzqdykD7Ucd2p_yj9cVG_4tSbRGg7nlY&s=10",
     },
   ];
+
   const industryData: Record<string, any> = {
     manufacturing: {
       name: "Manufacturing",
@@ -1216,6 +1276,44 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({
         { name: "Cheese Module", status: "Advanced", features: 5 },
       ],
     },
+    "dairy-automation": {
+      name: "Dairy Automation",
+      tagline: "Smart, Automated Systems For Modern Dairy Processing",
+      icon: Bot,
+      color: "blue",
+      gradient: "from-blue-500 to-indigo-500",
+      description:
+        "Advanced automated milk analysis and processing units — Eko Milk Ultra, Ultra Pro, and Spectra.",
+      longDescription:
+        "Our Dairy Automation line brings smart, connected control to everyday dairy processing. From compact combined chilling-and-pasteurization units to advanced membrane-based filtration systems, these machines cut manual monitoring, lower energy use, and give plant managers real-time visibility into every batch.",
+      stats: [
+        { value: "3", label: "Automation Units", icon: Package },
+        { value: "PLC", label: "Smart Controls", icon: Cpu },
+        { value: "24/7", label: "Real-time Monitoring", icon: Clock },
+        { value: "100%", label: "Hygienic Design", icon: Shield },
+      ],
+      isMachineryPage: true,
+      machines: dairyAutomationMachines,
+      benefits: [
+        { metric: "30%", label: "Lower Energy Use", color: "blue" },
+        { metric: "99%", label: "Monitoring Accuracy", color: "indigo" },
+        { metric: "40%", label: "Less Manual Labor", color: "blue" },
+        { metric: "100%", label: "Remote Visibility", color: "indigo" },
+      ],
+      technologies: [
+        "PLC Automation",
+        "Touchscreen HMI",
+        "Remote Monitoring",
+        "Heat Recovery",
+        "Membrane Filtration",
+        "SS316 Construction",
+      ],
+      modules: [
+        { name: "Chilling & Pasteurization", status: "Core", features: 3 },
+        { name: "Smart Automation", status: "Core", features: 3 },
+        { name: "Ultrafiltration Module", status: "Advanced", features: 4 },
+      ],
+    },
   };
 
   const industry = industryData[industryId || "manufacturing"];
@@ -1490,6 +1588,37 @@ const IndustryDetailPage: React.FC<IndustryDetailPageProps> = ({
                       .filter(
                         (m: MachineItem) =>
                           m.category === "Processing Equipment",
+                      )
+                      .map((machine: MachineItem, i: number) => (
+                        <MachineCard
+                          key={i}
+                          machine={machine}
+                          color={industry.color}
+                          onClick={() => setActiveMachine(machine)}
+                          delay={i * 100}
+                          visible={processingSection.inView}
+                        />
+                      ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {hasCategory("Dairy Automation") && (
+              <section className="py-6 md:py-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">
+                      Dairy Automation
+                    </h2>
+                  </div>
+                  <div
+                    ref={processingSection.ref}
+                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+                  >
+                    {industry.machines
+                      .filter(
+                        (m: MachineItem) => m.category === "Dairy Automation",
                       )
                       .map((machine: MachineItem, i: number) => (
                         <MachineCard

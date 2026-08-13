@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
-import { Database, Cloud, Smartphone, Cpu, CheckCircle2, Calendar, Sparkles, Factory, Droplet, Store, Activity, ArrowRight, Milk, FlaskConical} from 'lucide-react'
+import { Database, Cloud, Smartphone, Cpu, CheckCircle2, Calendar, Sparkles, Factory, Droplet, Store, Activity, ArrowRight, Milk, FlaskConical, Bot } from 'lucide-react'
 import type { PageType } from '../App'
 
 interface IndustryPageProps {
@@ -105,6 +105,12 @@ const IndustryPage: React.FC<IndustryPageProps> = ({ setCurrentPage }) => {
       icon: Droplet, 
       name: 'Dairy & Agriculture', 
       shortDesc: 'Farm management, testing, billing, supply chain'
+    },
+    { 
+      id: 'dairy-automation',
+      icon: Bot, 
+      name: 'Dairy Automation', 
+      shortDesc: 'Smart automated systems for modern dairy processing'
     },
     { 
       id: 'retail',
